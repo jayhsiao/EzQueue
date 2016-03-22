@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>[%date][%thread][%-5level][%logger{0}:%line] : %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="rolling_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>c:/logs/HelloCatchPlay_LOG/helloCatchPlay.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">        
+	        <!-- daily rollover -->
+	        <fileNamePattern>c:/logs/HelloCatchPlay_LOG/helloCatchPlay_%d{yyyy-MM-dd-HH-mm}.log</fileNamePattern>
+	        <maxHistory>30</maxHistory>
+	    </rollingPolicy>
+
+		<encoder>
+			<pattern>[%date][%thread][%-5level][%logger{0}:%line] : %msg%n</pattern>
+		</encoder>
+	</appender>
+
+    <logger name="java.sql.DatabaseMetaData" level="ERROR" />
+    
+	<logger name="org.apache" level="ERROR" />
+
+    <logger name="org.jboss" level="ERROR" />
+    
+	<logger name="org.springframework" level="INFO" />
+
+    <logger name="org.springframework.security" level="DEBUG" />
+
+	<logger name="org.hibernate" level="ERROR" />
+
+    <logger name="org.thymeleaf" level="ERROR" />
+    
+    <logger name="com.mangofactory.swagger" level="ERROR" />
+    
+    <logger name="org.hibernate.SQL" level="DEBUG" />
+
+    <logger name="org.quartz" level="ERROR" />
+
+    <!-- log4jdbc log level -->
+    <logger name="log4jdbc.debug" level="ERROR" />
+    <logger name="jdbc.connection" level="ERROR" />
+    <logger name="jdbc.resultset" level="ERROR" />
+    <logger name="jdbc.audit" level="ERROR" />
+    <logger name="jdbc.sqlonly" level="ERROR" />
+    <logger name="jdbc.sqltiming" level="DEBUG" />
+    
+	<root level="DEBUG">
+		<appender-ref ref="console" />
+		<appender-ref ref="rolling_file" />
+	</root>
+</configuration>
