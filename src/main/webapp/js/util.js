@@ -8,8 +8,9 @@ var utilObj = {
 			data: body,
 			contentType: "application/json",
             dataType: "json",
-			async : true,
+			async : false,
 			success : function(httpResponse) {
+				console.log(httpResponse);
 				response = httpResponse;
 			}
 		});

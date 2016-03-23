@@ -10,7 +10,7 @@ public interface QueueService {
 	
 	public List<Queue> getMyQueues(Integer userId) throws Exception;
 	
-	public void createQueue(Queue queue) throws Exception;
+	public void addQueue(Queue queue) throws Exception;
 	
-	public void deleteQueue(Integer queueId) throws Exception;
+	public void removeQueue(Integer queueId) throws Exception;
 }

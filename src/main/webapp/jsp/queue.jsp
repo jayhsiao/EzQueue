@@ -20,7 +20,7 @@
 </head>
 <body>
 <div class="container">
-<form id="submitForm" action="/ezQueue/init/5" method="GET" style="font-family: 微軟正黑體;">
+<form id="submitForm" action="/init/5" method="get" style="font-family: 微軟正黑體;">
 	<div id="div_login" align="center">
 		<br/>
 		<br/>

@@ -2,7 +2,6 @@ package com.ezqueue.controller;
 
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,46 +12,26 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ezqueue.model.Queue;
-import com.ezqueue.model.User;
-import com.ezqueue.service.QueueService;
+import com.ezqueue.model.Queuing;
+import com.ezqueue.service.QueuingService;
 import com.ezqueue.util.ResponseObject;
 
 @RestController
-@RequestMapping(value = "/queue")
-public class QueueController extends BaseController {
+@RequestMapping(value = "/queuing")
+public class QueuingController extends BaseController {
 	
 	private final Logger logger = Logger.getLogger(this.getClass());
 	
 	@Autowired
-	private QueueService queueService;
+	private QueuingService userQueueService;
 	
-	@RequestMapping(value = "/promotions", method = RequestMethod.GET)
-	public ResponseEntity<Object> getPromotionsQueues(){
+	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
+	public ResponseEntity<Object> getQueuing(@PathVariable Integer userId){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			List<Queue> queues = queueService.getPromotionQueues();
+			List<Queuing> queuings = userQueueService.getQueuing(userId);
 			responseObject.setSuccess(true);
-			responseObject.setReturnObject(queues);
-		} 
-		catch (Exception e) {
-			logger.error(e, e);
-			responseObject.setSuccess(false);
-			responseObject.setReturnMessage(e.getMessage());
-		}
-		return this.getResponse(responseObject);
-	}
-	
-	@RequestMapping(value = "/my/{userId}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getMyQueues(@PathVariable Integer userId){
-		ResponseObject responseObject = new ResponseObject();
-		try {
-			User user = new User();
-			user.setUserId(userId);
-			
-			List<Queue> queues = queueService.getMyQueues(userId);
-			responseObject.setSuccess(true);
-			responseObject.setReturnObject(queues);
+			responseObject.setReturnObject(queuings);
 		} 
 		catch (Exception e) {
 			logger.error(e, e);
@@ -63,15 +42,10 @@ public class QueueController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ResponseEntity<Object> addQueue(@RequestBody Map<String, Object> map){
+	public ResponseEntity<Object> addQueuing(@RequestBody Queuing queuing){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			Queue queue = new Queue();
-			queue.setUserId(Integer.valueOf((String) map.get("userId")));
-			queue.setDscr((String) map.get("dscr"));
-			queue.setEnable(Boolean.valueOf((String) map.get("enable")));
-			
-			queueService.addQueue(queue);
+			userQueueService.addQueuing(queuing);
 			responseObject.setSuccess(true);
 		} 
 		catch (Exception e) {
@@ -83,10 +57,10 @@ public class QueueController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/remove", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> removeQueue(@RequestBody Map<String, Object> map){
+	public ResponseEntity<Object> removeQueuing(@RequestBody Queuing queuing){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			queueService.removeQueue(Integer.valueOf((String) map.get("queueId")));
+			userQueueService.removeQueuing(queuing.getQueuingId());
 			responseObject.setSuccess(true);
 		} 
 		catch (Exception e) {
@@ -97,12 +71,11 @@ public class QueueController extends BaseController {
 		return this.getResponse(responseObject);
 	}
 	
-	@RequestMapping(value = "/close", method = RequestMethod.PATCH)
-	public ResponseEntity<Object> closeQueue(@RequestBody Queue queue){
+	@RequestMapping(value = "/updateStatus", method = RequestMethod.PATCH)
+	public ResponseEntity<Object> updateStatus(@RequestBody Queuing queuing){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			queue.setEnable(false);
-			queueService.addQueue(queue);
+			userQueueService.addQueuing(queuing);
 			responseObject.setSuccess(true);
 		} 
 		catch (Exception e) {

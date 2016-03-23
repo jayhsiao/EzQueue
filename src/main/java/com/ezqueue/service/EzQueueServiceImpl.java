@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ezqueue.model.User;
 
 @Service
-public class EzQueueServiceImpl implements EzQueueService{
+public class EzQueueServiceImpl implements EzQueueService {
 	
 	private final Logger logger = Logger.getLogger(this.getClass());
 	
@@ -18,6 +18,16 @@ public class EzQueueServiceImpl implements EzQueueService{
 	private UserService userService;
 	
 	public Map<String, Object> init(Integer userId) throws Exception {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		User user = userService.getUser(userId);
+		
+		resultMap.put("user", user);
+		
+		return resultMap;
+	}
+	
+	public Map<String, Object> createQueue(Integer userId) throws Exception {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
 		User user = userService.getUser(userId);

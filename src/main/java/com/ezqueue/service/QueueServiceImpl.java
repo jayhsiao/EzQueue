@@ -33,11 +33,11 @@ public class QueueServiceImpl implements QueueService {
 		return queueRepository.findByUserIdOrderByCreateDateDesc(userId);
 	}
 	
-	public void createQueue(Queue queue) throws Exception {
+	public void addQueue(Queue queue) throws Exception {
 		queueRepository.save(queue);
 	}
 	
-	public void deleteQueue(Integer queueId) throws Exception {
+	public void removeQueue(Integer queueId) throws Exception {
 		queueRepository.delete(queueId);
 	}
 }

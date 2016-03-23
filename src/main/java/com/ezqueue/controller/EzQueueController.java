@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.ezqueue.service.EzQueueService;
 
 @Controller
+@RequestMapping(value = "/ezQueue")
 public class EzQueueController extends BaseController {
 	
 	private final Logger logger = Logger.getLogger(this.getClass());
@@ -30,5 +31,12 @@ public class EzQueueController extends BaseController {
 		Map<String, Object> responseMap = ezQueueService.init(userId);
 		model.addAttribute("RESPONSE_MAP", responseMap);
         return "main";
+	}
+	
+	@RequestMapping(value = "/createQueue/{userId}", method = RequestMethod.GET)
+	public String createQueue(Model model, @PathVariable Integer userId) throws Exception{
+		Map<String, Object> responseMap = ezQueueService.createQueue(userId);
+		model.addAttribute("RESPONSE_MAP", responseMap);
+        return "createQueue";
 	}
 }

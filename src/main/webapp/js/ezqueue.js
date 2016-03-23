@@ -15,11 +15,11 @@ var ezqueueObj = {
 			$(this).addClass("active");
 		});
 		
-		$("#label_promotions").on("click", function(){
+		$("#a_promotions").on("click", function(){
 			ezqueueObj.getPromotions();
 		});
 		
-		$("#label_create").on("click", function(){
+		$("#a_create").on("click", function(){
 			ezqueueObj.createQueueHtml();
 		});
 		
@@ -30,6 +30,7 @@ var ezqueueObj = {
 	
 	// 初始化
 	init: function(){
+		$('#mainFrame').css('height', $(window).height()+'px');
 		// 自動觸發強力推薦
 //		$("#label_promotions").click();
 	},
@@ -93,28 +94,10 @@ var ezqueueObj = {
 	},
 	
 	createQueueHtml: function(){
-		var panelBody = "";
-		panelBody += "<input type='checkbox' id='startDate' name='enable' value='true' checked>開啟 ";
-		panelBody += "<input type='checkbox' id='endDate' name='enable' value='false'>暫時關閉";
-		panelBody += "<br/><br/>";
-		panelBody += "排隊描述<br/>";
-		panelBody += "<textarea id='textarea_dscr' name='dscr' rows='5' cols='40' maxlength='200'></textarea>";
-		panelBody += "<br/><br/>";
-		panelBody += "<button type='button' id='btn_create' class='btn btn-default'>開啟排隊</button>";
-		
-		var templateData = {
-			id: "create",
-			isCreate: true,
-			panelTitle: $("#name").val(),
-			panelBody:  panelBody
-		};
-		
-		var divHtml = ezqueueObj.getQueueTemplate(templateData);
-		
-		$("#div_result").empty();
-		$("#div_result").append(divHtml);
+		$("#submitForm").prop("method", "GET");
+		$("#submitForm").prop("action", "/ezQueue/createQueue/"+$("#userId").val());
+		$("#submitForm").submit();
 	},
-	
 	
 	createQueue: function(){
 		console.log("test");

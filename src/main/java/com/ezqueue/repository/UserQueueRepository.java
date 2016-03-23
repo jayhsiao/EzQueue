@@ -8,12 +8,12 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import com.ezqueue.model.User;
-import com.ezqueue.model.UserQueueMap;
+import com.ezqueue.model.Queuing;
 
-public interface UserQueueRepository extends CrudRepository<UserQueueMap, Integer>{
+public interface UserQueueRepository extends CrudRepository<Queuing, Integer>{
 	
-	@Query("select AVG(u.waittingTime) from UserQueueMap u where u.queue.queueId = :queueId")
+	@Query("select AVG(q.waittingTime) from Queuing q where q.queue.queueId = :queueId")
 	public double getAvgWaittingTime(@Param("queueId") Integer queueId);
 	
-	public List<UserQueueMap> findByUser(User user);
+	public List<Queuing> findByUser(User user);
 }

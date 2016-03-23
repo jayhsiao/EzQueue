@@ -16,15 +16,15 @@ import com.ezqueue.util.StringUtil;
 
 
 @Entity
-@Table(name = "user_queue_map")
-public class UserQueueMap implements Serializable{
+@Table(name = "queuing")
+public class Queuing implements Serializable{
 
 	private static final long serialVersionUID = -8609517864321196790L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "user_queue_id")
-	private Integer userQueueId;
+	@Column(name = "queuing_id")
+	private Integer queuingId;
 	@OneToOne
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -36,17 +36,19 @@ public class UserQueueMap implements Serializable{
 	@Column(name = "end_date", insertable = false)
 	private Date endDate;
 	@Column(name = "waitting_time", insertable = false)
-	private Date waittingTime;
+	private Integer waittingTime;
+	@Column(name = "status")
+	private String status;
 	
 	@Override
 	public String toString() {
 		return StringUtil.reflectionToString(this);
 	}
-	public Integer getUserQueueId() {
-		return userQueueId;
+	public Integer getQueuingId() {
+		return queuingId;
 	}
-	public void setUserQueueId(Integer userQueueId) {
-		this.userQueueId = userQueueId;
+	public void setQueuingId(Integer queuingId) {
+		this.queuingId = queuingId;
 	}
 	public User getUser() {
 		return user;
@@ -72,10 +74,16 @@ public class UserQueueMap implements Serializable{
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	public Date getWaittingTime() {
+	public Integer getWaittingTime() {
 		return waittingTime;
 	}
-	public void setWaittingTime(Date waittingTime) {
+	public void setWaittingTime(Integer waittingTime) {
 		this.waittingTime = waittingTime;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

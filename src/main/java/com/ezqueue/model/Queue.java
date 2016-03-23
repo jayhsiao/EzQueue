@@ -40,7 +40,7 @@ public class Queue implements Serializable{
 	
 	@OneToMany
 	@JoinColumn(name = "queue_id")
-	private List<UserQueueMap> userQueueMaps;
+	private List<Queuing> userQueueMaps;
 	
 	@Transient
 	private double avgWaittingTime;
@@ -73,10 +73,10 @@ public class Queue implements Serializable{
 	public void setPromotionPriority(Integer promotionPriority) {
 		this.promotionPriority = promotionPriority;
 	}
-	public List<UserQueueMap> getUserQueueMaps() {
+	public List<Queuing> getUserQueueMaps() {
 		return userQueueMaps;
 	}
-	public void setUserQueueMaps(List<UserQueueMap> userQueueMaps) {
+	public void setUserQueueMaps(List<Queuing> userQueueMaps) {
 		this.userQueueMaps = userQueueMaps;
 	}
 	public double getAvgWaittingTime() {
