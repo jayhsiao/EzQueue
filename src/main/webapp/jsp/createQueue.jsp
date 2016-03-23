@@ -19,7 +19,7 @@
 <body style="background-color: gray;">
 <div class="container">
 <form style="font-family: 微軟正黑體;">
-	<div class='row' style='width: 300px; height: 300px'>
+	<div class='row' style='width: 100%; height: 300px'>
 		<div class='panel panel-primary'>
 			<div class='panel-heading'>
 				<table>
@@ -31,14 +31,14 @@
 			<div class='panel-body'>
 				<div class="btn-group" data-toggle="buttons">
 					<label class="btn btn-default active">
-						<input type="radio" name="enable" id="startDate" autocomplete="off" value="true" checked> 開啟 
+						<input type="radio" name="enable" id="enable_0" autocomplete="off" value="0" checked> 開啟 
 					</label>
 					<label class="btn btn-default">
-						<input type="radio" name="enable" id="endDate" autocomplete="off" value="false"> 暫時關閉
+						<input type="radio" name="enable" id="enable_1" autocomplete="off" value="1"> 暫時關閉
 					</label>
 				</div>
 				<br/><br/>
-				排隊描述<br/>
+				簡介<br/>
 				<textarea id='textarea_dscr' name='dscr' rows='3' cols='33' maxlength='150'></textarea>
 				<br/><br/>
 				<button type='button' id='btn_create' class='btn btn-default'>開啟排隊</button>

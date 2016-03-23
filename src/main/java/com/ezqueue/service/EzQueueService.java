@@ -7,4 +7,6 @@ public interface EzQueueService {
 	public Map<String, Object> init(Integer UserId) throws Exception;
 	
 	public Map<String, Object> createQueue(Integer userId) throws Exception;
+	
+	public Map<String, Object> getMyQueues(Integer userId) throws Exception;
 }

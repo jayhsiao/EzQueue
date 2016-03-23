@@ -28,7 +28,7 @@
 					<a class="list-group-item" id="a_favorite"><i class="fa fa-heart"></i>我的最愛</a>
 					<a class="list-group-item" id="a_myQueue"><i class="fa fa-user"></i>我的排隊</a>
 					<a class="list-group-item" id="a_queueing"><i class="fa fa-clock-o"></i>正在排隊</a>
-					<a class="list-group-item" id="a_create"><i class="fa fa-play"></i>開啟排隊</a>
+					<a class="list-group-item" id="a_create"><i class="fa fa-play"></i>創造排隊</a>
 					<a class="list-group-item" id="a_setting"><i class="fa fa-cog"></i>系統設定</a>
 				</div>
 			</td>

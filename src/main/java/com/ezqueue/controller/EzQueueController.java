@@ -39,4 +39,11 @@ public class EzQueueController extends BaseController {
 		model.addAttribute("RESPONSE_MAP", responseMap);
         return "createQueue";
 	}
+	
+	@RequestMapping(value = "/myQueues/{userId}", method = RequestMethod.GET)
+	public String getMyQueues(Model model, @PathVariable Integer userId) throws Exception{
+		Map<String, Object> responseMap = ezQueueService.getMyQueues(userId);
+		model.addAttribute("RESPONSE_MAP", responseMap);
+        return "createQueue";
+	}
 }
