@@ -19,31 +19,39 @@
 <body style="background-color: gray;">
 <div class="container">
 <form style="font-family: 微軟正黑體;">
-	<div class='row' style='width: 100%; height: 300px'>
+	<div class='row' style='width: 80%;'>
 		<div class='panel panel-primary'>
 			<div class='panel-heading'>
 				<table>
 				<tr>
-					<td width='100%' nowrap><h2 class='panel-title'><c:out value="${RESPONSE_MAP.user.name}"/></h2></td>
+					<td width='100%' nowrap>
+						<div class='panel-heading'>
+							<div class='panel-title'>
+								<h1><c:out value="${RESPONSE_MAP.user.name}"/></h1>
+							</div>
+						</div>
+					</td>
 				</tr>
 				</table>
 			</div>
 			<div class='panel-body'>
-				<div class="btn-group" data-toggle="buttons">
-					<label class="btn btn-default active">
-						<input type="radio" name="enable" id="enable_0" autocomplete="off" value="0" checked> 開啟 
-					</label>
-					<label class="btn btn-default">
-						<input type="radio" name="enable" id="enable_1" autocomplete="off" value="1"> 暫時關閉
-					</label>
+				<div style='height: 200px'>
+					<div class="btn-group" data-toggle="buttons">
+						<label class="btn btn-default active">
+							<input type="radio" name="enable" id="enable_0" autocomplete="off" value="true"> 開啟 
+						</label>
+						<label class="btn btn-default">
+							<input type="radio" name="enable" id="enable_1" autocomplete="off" value="false"> 暫時關閉
+						</label>
+					</div>
+					<br/><br/>
+					簡介<br/>
+					<textarea id='textarea_dscr' name='dscr' rows='3' cols='33' maxlength='150'></textarea>
+					<br/><br/>
+					<button type='button' id='btn_create' class='btn btn-default'>開啟排隊</button>
+					<br/>
+					</div>
 				</div>
-				<br/><br/>
-				簡介<br/>
-				<textarea id='textarea_dscr' name='dscr' rows='3' cols='33' maxlength='150'></textarea>
-				<br/><br/>
-				<button type='button' id='btn_create' class='btn btn-default'>開啟排隊</button>
-				<br/>
-			</div>
 		</div>
 	</div>
 	

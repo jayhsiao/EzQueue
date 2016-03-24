@@ -7,8 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ezqueue.model.Queue;
+import com.ezqueue.model.User;
 import com.ezqueue.repository.QueueRepository;
-import com.ezqueue.repository.UserQueueRepository;
+import com.ezqueue.repository.QueuingRepository;
 
 @Service
 public class QueueServiceImpl implements QueueService {
@@ -19,18 +20,22 @@ public class QueueServiceImpl implements QueueService {
 	private QueueRepository queueRepository;
 	
 	@Autowired
-	private UserQueueRepository userQueueRepository;
+	private QueuingRepository queuingRepository;
 	
 	public List<Queue> getPromotionQueues() throws Exception {
 		List<Queue> queues = queueRepository.findByPromotionPriorityNotNullOrderByPromotionPriorityAsc();
 		for(Queue queue: queues){
-			queue.setAvgWaittingTime(userQueueRepository.getAvgWaittingTime(queue.getQueueId()));
+			Double avgWaittingTime = null;
+			if(queue.getQueueId() != null){
+				avgWaittingTime = queuingRepository.getAvgWaittingTime(queue.getQueueId());
+			}
+			queue.setAvgWaittingTime(avgWaittingTime == null? 0.0: avgWaittingTime);
 		}
 		return queues;
 	}
 	
-	public List<Queue> getMyQueues(Integer userId) throws Exception {
-		return queueRepository.findByUserIdOrderByCreateDateDesc(userId);
+	public List<Queue> getMyQueues(User user) throws Exception {
+		return queueRepository.findByUserOrderByCreateDateDesc(user);
 	}
 	
 	public void addQueue(Queue queue) throws Exception {

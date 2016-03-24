@@ -26,13 +26,13 @@ var ezqueueObj = {
 		var httpResponse = utilObj.callAJAX("POST", actionUrl, JSON.stringify(body));
 		if(!httpResponse.success){
 			$(".panel-primary").addClass("panel-danger");
-			$(".panel-primary").removeClass();
-			$(".panel-title").text(httpResponse.returnMessage);
+			$(".panel-body").empty();
+			$(".panel-body").append(httpResponse.returnMessage);
 			return;
 		}
 		
 		$(".panel-primary").addClass("panel-success");
 		$(".panel-body").empty();
-		$(".panel-body").append("Success");
+		$(".panel-body").append("創造成功");
 	}
 }

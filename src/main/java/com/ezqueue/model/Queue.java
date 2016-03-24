@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -27,8 +28,9 @@ public class Queue implements Serializable{
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "queue_id")
 	private Integer queueId;
-	@Column(name = "user_id")
-	private Integer userId;
+	@OneToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 	@Column(name = "dscr")
 	private String dscr;
 	@Column(name = "promotion_priority")
@@ -40,7 +42,7 @@ public class Queue implements Serializable{
 	
 	@OneToMany
 	@JoinColumn(name = "queue_id")
-	private List<Queuing> userQueueMaps;
+	private List<Queuing> queuings;
 	
 	@Transient
 	private double avgWaittingTime;
@@ -49,52 +51,69 @@ public class Queue implements Serializable{
 	public String toString() {
 		return StringUtil.reflectionToString(this);
 	}
+
 	public Integer getQueueId() {
 		return queueId;
 	}
+
 	public void setQueueId(Integer queueId) {
 		this.queueId = queueId;
 	}
-	public Integer getUserId() {
-		return userId;
+
+	public User getUser() {
+		return user;
 	}
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+
+	public void setUser(User user) {
+		this.user = user;
 	}
+
 	public String getDscr() {
 		return dscr;
 	}
+
 	public void setDscr(String dscr) {
 		this.dscr = dscr;
 	}
+
 	public Integer getPromotionPriority() {
 		return promotionPriority;
 	}
+
 	public void setPromotionPriority(Integer promotionPriority) {
 		this.promotionPriority = promotionPriority;
 	}
-	public List<Queuing> getUserQueueMaps() {
-		return userQueueMaps;
-	}
-	public void setUserQueueMaps(List<Queuing> userQueueMaps) {
-		this.userQueueMaps = userQueueMaps;
-	}
-	public double getAvgWaittingTime() {
-		return avgWaittingTime;
-	}
-	public void setAvgWaittingTime(double avgWaittingTime) {
-		this.avgWaittingTime = avgWaittingTime;
-	}
+
 	public Date getCreateDate() {
 		return createDate;
 	}
+
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
+
 	public boolean isEnable() {
 		return enable;
 	}
+
 	public void setEnable(boolean enable) {
 		this.enable = enable;
 	}
+
+	public List<Queuing> getQueuings() {
+		return queuings;
+	}
+
+	public void setQueuings(List<Queuing> queuings) {
+		this.queuings = queuings;
+	}
+
+	public double getAvgWaittingTime() {
+		return avgWaittingTime;
+	}
+
+	public void setAvgWaittingTime(double avgWaittingTime) {
+		this.avgWaittingTime = avgWaittingTime;
+	}
+	
 }

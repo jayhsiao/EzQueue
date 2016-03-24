@@ -50,7 +50,7 @@ public class QueueController extends BaseController {
 			User user = new User();
 			user.setUserId(userId);
 			
-			List<Queue> queues = queueService.getMyQueues(userId);
+			List<Queue> queues = queueService.getMyQueues(user);
 			responseObject.setSuccess(true);
 			responseObject.setReturnObject(queues);
 		} 
@@ -66,8 +66,11 @@ public class QueueController extends BaseController {
 	public ResponseEntity<Object> addQueue(@RequestBody Map<String, Object> map){
 		ResponseObject responseObject = new ResponseObject();
 		try {
+			User user = new User();
+			user.setUserId(Integer.valueOf((String) map.get("userId")));
+			
 			Queue queue = new Queue();
-			queue.setUserId(Integer.valueOf((String) map.get("userId")));
+			queue.setUser(user);
 			queue.setDscr((String) map.get("dscr"));
 			queue.setEnable(Boolean.valueOf((String) map.get("enable")));
 			

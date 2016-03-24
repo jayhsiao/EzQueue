@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.ezqueue.model.User;
 import com.ezqueue.service.EzQueueService;
 
 @Controller
@@ -42,8 +43,20 @@ public class EzQueueController extends BaseController {
 	
 	@RequestMapping(value = "/myQueues/{userId}", method = RequestMethod.GET)
 	public String getMyQueues(Model model, @PathVariable Integer userId) throws Exception{
-		Map<String, Object> responseMap = ezQueueService.getMyQueues(userId);
+		User user = new User();
+		user.setUserId(userId);
+		
+		Map<String, Object> responseMap = ezQueueService.getMyQueues(user);
+		System.out.println(responseMap.entrySet());
 		model.addAttribute("RESPONSE_MAP", responseMap);
-        return "createQueue";
+        return "queue";
+	}
+	
+	@RequestMapping(value = "/promotionQueues", method = RequestMethod.GET)
+	public String getPromotionsQueues(Model model) throws Exception{
+		Map<String, Object> responseMap = ezQueueService.getPromotionQueues();
+		System.out.println(responseMap.entrySet());
+		model.addAttribute("RESPONSE_MAP", responseMap);
+        return "queue";
 	}
 }

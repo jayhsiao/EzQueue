@@ -2,12 +2,10 @@ spring:
     view:
         prefix: /jsp/
         suffix: .jsp
-    ezqueue:
-        env: http://ezqueue-dev.ap-northeast-1.elasticbeanstalk.com
     datasource:
-        url: jdbc:log4jdbc:mysql://aavqunix3vdiso.cuo6cy8ytavy.ap-northeast-1.rds.amazonaws.com:3306/ezqueue?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
-        username: ezqueue
-        password: ezqueue0311
+        url: jdbc:log4jdbc:mysql://jj.cuo6cy8ytavy.ap-northeast-1.rds.amazonaws.com:3306/ezqueue?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
+        username: root
+        password: root0324
         driver-class-name: net.sf.log4jdbc.DriverSpy
         initial-size: 1
         max-active: 10

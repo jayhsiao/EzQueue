@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.ezqueue.model.User;
 import com.ezqueue.model.Queuing;
-import com.ezqueue.repository.UserQueueRepository;
+import com.ezqueue.repository.QueuingRepository;
 
 @Service
 public class QueuingServiceImpl implements QueuingService {
@@ -16,19 +16,19 @@ public class QueuingServiceImpl implements QueuingService {
 	private final Logger logger = Logger.getLogger(this.getClass());
 	
 	@Autowired
-	private UserQueueRepository userQueueRepository;
+	private QueuingRepository queuingRepository;
 	
 	public List<Queuing> getQueuing(Integer userId) throws Exception {
 		User user = new User();
 		user.setUserId(userId);
-		return userQueueRepository.findByUser(user);
+		return queuingRepository.findByUser(user);
 	}
 	
 	public void addQueuing(Queuing userQueueMap) throws Exception {
-		userQueueRepository.save(userQueueMap);
+		queuingRepository.save(userQueueMap);
 	}
 	
 	public void removeQueuing(Integer userQueueMapId) throws Exception {
-		userQueueRepository.delete(userQueueMapId);
+		queuingRepository.delete(userQueueMapId);
 	}
 }

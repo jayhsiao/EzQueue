@@ -42,12 +42,24 @@ public class EzQueueServiceImpl implements EzQueueService {
 		return resultMap;
 	}
 	
-	public Map<String, Object> getMyQueues(Integer userId) throws Exception {
+	public Map<String, Object> getMyQueues(User user) throws Exception {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		
-		List<Queue> queues= queueService.getMyQueues(userId);
+		List<Queue> queues= queueService.getMyQueues(user);
 		
 		resultMap.put("queues", queues);
+		resultMap.put("isMyQueue", true);
+		
+		return resultMap;
+	}
+	
+	public Map<String, Object> getPromotionQueues() throws Exception {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		
+		List<Queue> queues= queueService.getPromotionQueues();
+		
+		resultMap.put("queues", queues);
+		resultMap.put("isPromotion", true);
 		
 		return resultMap;
 	}
