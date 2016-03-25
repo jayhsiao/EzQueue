@@ -44,7 +44,7 @@ public class QueueController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/my/{userId}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getMyQueues(@PathVariable Integer userId){
+	public ResponseEntity<Object> getMyQueues(@PathVariable String userId){
 		ResponseObject responseObject = new ResponseObject();
 		try {
 			User user = new User();
@@ -67,7 +67,7 @@ public class QueueController extends BaseController {
 		ResponseObject responseObject = new ResponseObject();
 		try {
 			User user = new User();
-			user.setUserId(Integer.valueOf((String) map.get("userId")));
+			user.setUserId((String) map.get("userId"));
 			
 			Queue queue = new Queue();
 			queue.setUser(user);
@@ -89,7 +89,7 @@ public class QueueController extends BaseController {
 	public ResponseEntity<Object> removeQueue(@RequestBody Map<String, Object> map){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			queueService.removeQueue(Integer.valueOf((String) map.get("queueId")));
+			queueService.removeQueue((String) map.get("queueId"));
 			responseObject.setSuccess(true);
 		} 
 		catch (Exception e) {

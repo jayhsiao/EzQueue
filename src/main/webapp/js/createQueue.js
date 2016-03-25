@@ -13,12 +13,12 @@ var ezqueueObj = {
 	},
 	
 	init: function(){
-		
+		$("#span_name").text($("#name", window.parent.document).val());
 	},
 	
 	createQueue: function(){
 		var body = {
-			userId: $("#userId").val(),
+			userId: $("#userId", window.parent.document).val(),
 			dscr: $("#textarea_dscr").val(),
 			enable: $("input[name=enable]:checked").val()
 		};

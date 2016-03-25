@@ -24,7 +24,7 @@ public class Queuing implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "queuing_id")
-	private Integer queuingId;
+	private String queuingId;
 	@OneToOne
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -44,10 +44,10 @@ public class Queuing implements Serializable{
 	public String toString() {
 		return StringUtil.reflectionToString(this);
 	}
-	public Integer getQueuingId() {
+	public String getQueuingId() {
 		return queuingId;
 	}
-	public void setQueuingId(Integer queuingId) {
+	public void setQueuingId(String queuingId) {
 		this.queuingId = queuingId;
 	}
 	public User getUser() {

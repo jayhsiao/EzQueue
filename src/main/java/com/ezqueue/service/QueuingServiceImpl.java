@@ -18,7 +18,7 @@ public class QueuingServiceImpl implements QueuingService {
 	@Autowired
 	private QueuingRepository queuingRepository;
 	
-	public List<Queuing> getQueuing(Integer userId) throws Exception {
+	public List<Queuing> getQueuing(String userId) throws Exception {
 		User user = new User();
 		user.setUserId(userId);
 		return queuingRepository.findByUser(user);
@@ -28,7 +28,7 @@ public class QueuingServiceImpl implements QueuingService {
 		queuingRepository.save(userQueueMap);
 	}
 	
-	public void removeQueuing(Integer userQueueMapId) throws Exception {
-		queuingRepository.delete(userQueueMapId);
+	public void removeQueuing(String queuingId) throws Exception {
+		queuingRepository.delete(queuingId);
 	}
 }

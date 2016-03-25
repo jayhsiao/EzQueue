@@ -29,7 +29,7 @@ public class FavoriteController extends BaseController {
 	private FavoriteService favoriteService;
 	
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getFavorite(@PathVariable Integer userId){
+	public ResponseEntity<Object> getFavorite(@PathVariable String userId){
 		ResponseObject responseObject = new ResponseObject();
 		try {
 			List<Favorite> favorites = favoriteService.getFavorite(userId);
@@ -51,10 +51,10 @@ public class FavoriteController extends BaseController {
 			Favorite favorite = new Favorite();
 			
 			User user = new User();
-			user.setUserId((Integer) map.get("userId"));
+			user.setUserId((String) map.get("userId"));
 			
 			Queue queue = new Queue();
-			queue.setQueueId((Integer) map.get("queueId"));
+			queue.setQueueId((String) map.get("queueId"));
 			
 			favorite.setUser(user);
 			favorite.setQueue(queue);
@@ -74,7 +74,7 @@ public class FavoriteController extends BaseController {
 	public ResponseEntity<Object> removeFavorite(@RequestBody Map<String, Object> map){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			favoriteService.removeFavorite((Integer) map.get("favoriteId"));
+			favoriteService.removeFavorite((String) map.get("favoriteId"));
 			responseObject.setSuccess(true);
 		} 
 		catch (Exception e) {

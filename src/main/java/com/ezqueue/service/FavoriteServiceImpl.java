@@ -17,7 +17,7 @@ public class FavoriteServiceImpl implements FavoriteService {
 	@Autowired
 	private FavoriteRepository favoriteRepository;
 	
-	public List<Favorite> getFavorite(Integer userId) throws Exception {
+	public List<Favorite> getFavorite(String userId) throws Exception {
 		return favoriteRepository.findByUser(userId);
 	}
 	
@@ -25,7 +25,7 @@ public class FavoriteServiceImpl implements FavoriteService {
 		favoriteRepository.save(favorite);
 	}
 	
-	public void removeFavorite(Integer favoriteId) throws Exception {
+	public void removeFavorite(String favoriteId) throws Exception {
 		favoriteRepository.delete(favoriteId);
 	}
 }

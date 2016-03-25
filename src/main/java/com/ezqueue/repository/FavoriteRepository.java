@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.ezqueue.model.Favorite;
 
-public interface FavoriteRepository extends CrudRepository<Favorite, Integer>{
+public interface FavoriteRepository extends CrudRepository<Favorite, String>{
 	
-	public List<Favorite> findByUser(Integer userId);
+	public List<Favorite> findByUser(String userId);
 }

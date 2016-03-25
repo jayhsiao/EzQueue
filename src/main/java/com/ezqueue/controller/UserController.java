@@ -24,7 +24,7 @@ public class UserController extends BaseController {
 	private UserService userService;
 	
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getStore(@PathVariable Integer userId) throws Exception{
+	public ResponseEntity<Object> getStore(@PathVariable String userId) throws Exception{
 		ResponseObject responseObject = new ResponseObject();
 		try {
 			User user = userService.getUser(userId);

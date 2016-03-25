@@ -5,12 +5,12 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>ezQueue</title>
+<title>signin</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <LINK type="text/css" rel="stylesheet" href="../css/test.css">
 <script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="../js/fb.js"></script>
-<script type="text/javascript" src="../js/home.js"></script>
+<script type="text/javascript" src="../js/signin.js"></script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -18,20 +18,12 @@
 </head>
 <body>
 <div class="container">
-<form id="submitForm" action="/ezQueue/init/1" method="GET" style="font-family: 微軟正黑體;">
-	<div id="div_login" align="center">
-		<br/>
-		<br/>
-		<br/>
-		<br/>
-		<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>
-		<br/>
-		<br/>
-		<br/>
-		<br/>
-		<button type="button" id="btn_signup" class="btn btn-lg btn-default">註冊</button>
-		<button type="button" id="btn_signin" class="btn btn-lg btn-default">登入</button>
-	</div>
+<form id="submitForm" style="font-family: 微軟正黑體;">
+	<input type="text" id="userId" name="userId" class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+	<br/>
+	<input type="text" id="name"   name="name"   class="form-control" placeholder="Username" aria-describedby="basic-addon1">
+	
+	<button type="button" id="btn_signin" class='btn btn-default'>Sign In</button>
 </form>
 </div>
 </body>

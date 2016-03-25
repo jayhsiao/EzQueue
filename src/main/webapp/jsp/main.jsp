@@ -19,28 +19,30 @@
 <body>
 <div class="container" style="background-color: gray;">
 <form id="submitForm" style="font-family: 微軟正黑體;" target="mainFrame">
-<div align="center">
-	<table style="width: 100%;">
-		<tr>
-			<td width="10%" valign="top">
-				<div id="div_menu" class="list-group">
-					<a class="list-group-item" id="a_promotions"><i class="fa fa-thumbs-up"></i>強力推薦</a>
-					<a class="list-group-item" id="a_favorite"><i class="fa fa-heart"></i>我的最愛</a>
-					<a class="list-group-item" id="a_myQueue"><i class="fa fa-user"></i>我的排隊</a>
-					<a class="list-group-item" id="a_queueing"><i class="fa fa-clock-o"></i>正在排隊</a>
-					<a class="list-group-item" id="a_create"><i class="fa fa-play"></i>創造排隊</a>
-					<a class="list-group-item" id="a_setting"><i class="fa fa-cog"></i>系統設定</a>
-				</div>
-			</td>
-			<td  width="90%" valign="top">
-				<iframe id="mainFrame" name="mainFrame" src="" width="100%" scrolling="auto" frameborder="0"></iframe>
-			</td>
-		</tr>
-	</table>
-</div>	
-	<input type="hidden" id="name"   name="name"   value="<c:out value="${RESPONSE_MAP.user.name}"/>">
-	<input type="hidden" id="userId" name="userId" value="<c:out value="${RESPONSE_MAP.user.userId}"/>">
+	<div align="center">
+		<table style="width: 100%;">
+			<tr>
+				<td width="10%" valign="top">
+					<div id="div_menu" class="list-group">
+						<a class="list-group-item" id="a_promotions"><i class="fa fa-thumbs-up"></i>強力推薦</a>
+						<a class="list-group-item" id="a_favorite"><i class="fa fa-heart"></i>我的最愛</a>
+						<a class="list-group-item" id="a_myQueue"><i class="fa fa-user"></i>我的排隊</a>
+						<a class="list-group-item" id="a_queueing"><i class="fa fa-clock-o"></i>正在排隊</a>
+						<a class="list-group-item" id="a_create"><i class="fa fa-play"></i>創造排隊</a>
+						<a class="list-group-item" id="a_setting"><i class="fa fa-cog"></i>系統設定</a>
+					</div>
+				</td>
+				<td  width="90%" valign="top">
+					<iframe id="mainFrame" name="mainFrame" src="" width="100%" scrolling="auto" frameborder="0"></iframe>
+				</td>
+			</tr>
+		</table>
+	</div>	
 </form>
+
+<input type="hidden" id="name"   name="name"   value="<c:out value="${RESPONSE_MAP.user.name}"/>">
+<input type="hidden" id="userId" name="userId" value="<c:out value="${RESPONSE_MAP.user.userId}"/>">
+	
 </div>
 </body>
 </html>

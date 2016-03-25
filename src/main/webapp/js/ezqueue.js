@@ -48,7 +48,7 @@ var ezqueueObj = {
 	
 	createQueue: function(){
 		$("#submitForm").prop("method", "GET");
-		$("#submitForm").prop("action", "/ezQueue/createQueue/"+$("#userId").val());
+		$("#submitForm").prop("action", "/ezQueue/createQueue");
 		$("#submitForm").submit();
 	}
 }

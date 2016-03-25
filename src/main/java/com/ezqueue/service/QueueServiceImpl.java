@@ -42,7 +42,7 @@ public class QueueServiceImpl implements QueueService {
 		queueRepository.save(queue);
 	}
 	
-	public void removeQueue(Integer queueId) throws Exception {
+	public void removeQueue(String queueId) throws Exception {
 		queueRepository.delete(queueId);
 	}
 }

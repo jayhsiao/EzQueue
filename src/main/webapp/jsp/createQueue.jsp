@@ -27,7 +27,7 @@
 					<td width='100%' nowrap>
 						<div class='panel-heading'>
 							<div class='panel-title'>
-								<h1><c:out value="${RESPONSE_MAP.user.name}"/></h1>
+								<h3><span id="span_name"></span></h3>
 							</div>
 						</div>
 					</td>
@@ -50,12 +50,10 @@
 					<br/><br/>
 					<button type='button' id='btn_create' class='btn btn-default'>開啟排隊</button>
 					<br/>
-					</div>
 				</div>
+			</div>
 		</div>
 	</div>
-	
-	<input type="hidden" id="userId" name="userId" value="<c:out value="${RESPONSE_MAP.user.userId}"/>">
 </form>
 </div>
 </body>

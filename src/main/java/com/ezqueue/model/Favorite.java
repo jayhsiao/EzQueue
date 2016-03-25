@@ -24,7 +24,7 @@ public class Favorite implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "favorite_id")
-	private Integer favoriteId;
+	private String favoriteId;
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -36,10 +36,10 @@ public class Favorite implements Serializable{
 	public String toString() {
 		return StringUtil.reflectionToString(this);
 	}
-	public Integer getFavoriteId() {
+	public String getFavoriteId() {
 		return favoriteId;
 	}
-	public void setFavoriteId(Integer favoriteId) {
+	public void setFavoriteId(String favoriteId) {
 		this.favoriteId = favoriteId;
 	}
 	public User getUser() {

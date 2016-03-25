@@ -26,7 +26,7 @@ public class QueuingController extends BaseController {
 	private QueuingService userQueueService;
 	
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getQueuing(@PathVariable Integer userId){
+	public ResponseEntity<Object> getQueuing(@PathVariable String userId){
 		ResponseObject responseObject = new ResponseObject();
 		try {
 			List<Queuing> queuings = userQueueService.getQueuing(userId);

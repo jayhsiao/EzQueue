@@ -27,7 +27,7 @@ public class Queue implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "queue_id")
-	private Integer queueId;
+	private String queueId;
 	@OneToOne
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -45,18 +45,18 @@ public class Queue implements Serializable{
 	private List<Queuing> queuings;
 	
 	@Transient
-	private double avgWaittingTime;
+	private Double avgWaittingTime;
 	
 	@Override
 	public String toString() {
 		return StringUtil.reflectionToString(this);
 	}
 
-	public Integer getQueueId() {
+	public String getQueueId() {
 		return queueId;
 	}
 
-	public void setQueueId(Integer queueId) {
+	public void setQueueId(String queueId) {
 		this.queueId = queueId;
 	}
 
@@ -108,11 +108,11 @@ public class Queue implements Serializable{
 		this.queuings = queuings;
 	}
 
-	public double getAvgWaittingTime() {
+	public Double getAvgWaittingTime() {
 		return avgWaittingTime;
 	}
 
-	public void setAvgWaittingTime(double avgWaittingTime) {
+	public void setAvgWaittingTime(Double avgWaittingTime) {
 		this.avgWaittingTime = avgWaittingTime;
 	}
 	
