@@ -4,9 +4,9 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ezqueue.exception.EzQueueException;
 import com.ezqueue.model.User;
 import com.ezqueue.repository.UserRepository;
+import com.ezqueue.util.StringUtil;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -17,15 +17,12 @@ public class UserServiceImpl implements UserService {
 	private UserRepository userRepository;
 	
 	public User addUser(User user) throws Exception {
-		return userRepository.save(user);
-	}
-	
-	public User verifyUser(String userId, String password) throws Exception {
-		User user = userRepository.findByUserIdAndPassword(userId, password);
-		if(user == null){
-			throw new EzQueueException("使用者帳號或密碼錯誤");
+		User oldUser = userRepository.findByFbId(user.getFbId());
+		if(oldUser == null){
+			user.setUserId(StringUtil.getUUID());
+			oldUser = userRepository.save(user);
 		}
-		return user;
+		return oldUser;
 	}
 	
 	public User getUser(String userId) throws Exception {

@@ -20,18 +20,6 @@ public class EzQueueServiceImpl implements EzQueueService {
 	@Autowired
 	private QueueService queueService;
 	
-	public Map<String, Object> signup(User user) throws Exception {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("user", userService.addUser(user));
-		return resultMap;
-	}
-	
-	public Map<String, Object> signin(String userId, String password) throws Exception {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("user", userService.verifyUser(userId, password));
-		return resultMap;
-	}
-	
 	public Map<String, Object> init(String userId) throws Exception {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("user", userService.getUser(userId));

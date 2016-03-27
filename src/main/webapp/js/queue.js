@@ -25,13 +25,36 @@ var ezqueueObj = {
 	},
 	
 	init: function(){
-		if($("#isPromotion").val() == "true"){
+		if($("#isCreate").val() == "true"){
+			$("button[name=btn_create]").show();
+		}
+		else if($("#isPromotion").val() == "true"){
 			$("button[name=btn_queuing]").show();
 		}
 		else if($("#isMyQueues").val() == "true"){
 			$("button[name=btn_edit]").show();
 			$("button[name=btn_delete]").show();
 		}
+	},
+	
+	createQueue: function(){
+		var body = {
+			userId: $("#userId", window.parent.document).val(),
+			dscr: $("#textarea_dscr").val(),
+			enable: $("input[name=enable]:checked").val()
+		};
+		var actionUrl = "/queue/add";
+		var httpResponse = utilObj.callAJAX("POST", actionUrl, JSON.stringify(body));
+		if(!httpResponse.success){
+			$(".panel-primary").addClass("panel-danger");
+			$(".panel-body").empty();
+			$(".panel-body").append(httpResponse.returnMessage);
+			return;
+		}
+		
+		$(".panel-primary").addClass("panel-success");
+		$(".panel-body").empty();
+		$(".panel-body").append("創造成功");
 	},
 	
 	queuing: function(btnObj){

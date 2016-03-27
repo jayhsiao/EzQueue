@@ -1,5 +1,6 @@
 package com.ezqueue.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -7,13 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.ezqueue.model.User;
 import com.ezqueue.service.EzQueueService;
-import com.ezqueue.util.StringUtil;
 
 @Controller
 @RequestMapping(value = "/ezQueue")
@@ -29,42 +28,22 @@ public class EzQueueController extends BaseController {
         return "home";
 	}
 	
-	@RequestMapping(value = "/signup", method = RequestMethod.GET)
-	public String signup() throws Exception{
-        return "signup";
-	}
-	
-	@RequestMapping(value = "/doSignup", method = RequestMethod.POST)
-	public String doSignup(Model model, @RequestBody Map<String, Object> map) throws Exception{
-		User user = new User();
-		user.setId(StringUtil.getUUID());
-		user.setUserId((String) map.get("userId"));
-		user.setName((String) map.get("name"));
-		user.setPassword((String) map.get("password"));
-		
-		Map<String, Object> responseMap = ezQueueService.signup(user);
+	@RequestMapping(value = "/init/{userId}", method = RequestMethod.GET)
+	public String init(Model model, @PathVariable String userId) throws Exception{
+		Map<String, Object> responseMap = ezQueueService.init(userId);
 		model.addAttribute("RESPONSE_MAP", responseMap);
-        return "main";
-	}
-	
-	@RequestMapping(value = "/signin", method = RequestMethod.GET)
-	public String signin() throws Exception{
-		return "signin";
-	}
-	
-	@RequestMapping(value = "/doSignin", method = RequestMethod.POST)
-	public String doSignin(Model model, @RequestBody User user) throws Exception{
-		Map<String, Object> responseMap = ezQueueService.signin(user.getUserId(), user.getPassword());
-		model.addAttribute("RESPONSE_MAP", responseMap);
-        return "main";
+		return "main";
 	}
 	
 	@RequestMapping(value = "/createQueue", method = RequestMethod.GET)
 	public String createQueue(Model model) throws Exception{
-        return "createQueue";
+		Map<String, Object> responseMap = new HashMap<String, Object>();
+		responseMap.put("isCreate", true);
+		model.addAttribute("RESPONSE_MAP", responseMap);
+        return "queue";
 	}
 	
-	@RequestMapping(value = "/myQueues/{userId}", method = RequestMethod.GET)
+	@RequestMapping(value = "/myQueues/{id}", method = RequestMethod.GET)
 	public String getMyQueues(Model model, @PathVariable String userId) throws Exception{
 		User user = new User();
 		user.setUserId(userId);

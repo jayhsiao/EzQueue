@@ -11,14 +11,16 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <script type="text/javascript" src="<c:url value="/js/jquery-1.11.3.min.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/js/fb.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/ezqueue.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/js/util.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/ajax_util.js"/>"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container" style="background-color: gray;">
+<div class="container" style="background-color: Silver;">
 <form id="submitForm" style="font-family: 微軟正黑體;" target="mainFrame">
+	<div class="page-header">
+		<h1>排排 <small>Subtext for header</small></h1>
+	</div>
 	<div align="center">
 		<table style="width: 100%;">
 			<tr>

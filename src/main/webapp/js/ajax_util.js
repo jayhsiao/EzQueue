@@ -1,19 +1,23 @@
-var utilObj = {
+var ajaxUtilObj = {
 		
-	callAJAX: function(method, url, body){
-		var response = null;
+	GET:    "GET",	
+	POST:   "POST",
+	DELETE: "DELETE",
+	PUT:    "PUT",
+	PATCH:  "PATCH",
+	
+	callAJAX: function(method, url, body, returnMethod){
 		$.ajax({
 			type : method,
 			url : url,
 			data: body,
 			contentType: "application/json",
             dataType: "json",
-			async : false,
+			async : true,
 			success : function(httpResponse) {
 				console.log(httpResponse);
-				response = httpResponse;
+				returnMethod(httpResponse);
 			}
 		});
-		return response;
 	}
 }
