@@ -21,13 +21,13 @@ var queueObj = {
 	},
 	
 	init: function(){
-		if($("#span_isPromotion").text() == "true"){
+		if($("#input_isPromotion").val() == "true"){
 			$("button[name=btn_queuing]").show();
 		}
-		else if($("#span_isFavorite").text() == "true"){
+		else if($("#input_isFavorite").val() == "true"){
 			$("button[name=btn_queuing]").show();
 		}
-		else if($("#span_isQueuing").text() == "true"){
+		else if($("#input_isQueuing").val() == "true"){
 			$("button[name=btn_cancel]").show();
 		}
 	},
@@ -52,10 +52,8 @@ var queueObj = {
 	
 	cancel: function(btnObj){
 		var body = {
-			queuingId: $("#div_"+$(btnObj).val()+" #span_queuingId").text()
+			queuingId: $("#div_"+$(btnObj).val()+" #input_queuingId").val()
 		};
-		console.log($("#span_queuingId").text());
-		console.log(JSON.stringify(body));
 		var actionUrl = "/queuing/remove";
 		ajaxUtilObj.callAJAX(ajaxUtilObj.DELETE, actionUrl, JSON.stringify(body), function(httpResponse){
 			if(!httpResponse.success){
@@ -65,8 +63,8 @@ var queueObj = {
 			
 			$("#div_"+$(btnObj).val()).removeClass("panel-primary").addClass("panel-default")
 			$("#div_"+$(btnObj).val()+" #span_result").addClass("label").addClass("label-success").text("取消成功");
-			$(btnObj).attr("disabled", true);
-			$(btnObj).addClass("disabled");
+			$("#div_"+$(btnObj).val()+" button").attr("disabled", true);
+			$("#div_"+$(btnObj).val()+" button").addClass("disabled");
 		});
 	},
 	

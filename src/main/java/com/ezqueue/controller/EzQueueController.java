@@ -74,7 +74,7 @@ public class EzQueueController extends BaseController {
 		User user = new User();
 		user.setUserId(userId);
 		
-		Map<String, Object> responseMap = ezQueueService.getQueuing(user);
+		Map<String, Object> responseMap = ezQueueService.getFavorite(user);
 		responseMap.put("isFavorite", true);
 		model.addAttribute("RESPONSE_MAP", responseMap);
         return "queue";

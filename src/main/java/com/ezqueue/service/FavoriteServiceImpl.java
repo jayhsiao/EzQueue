@@ -24,6 +24,7 @@ public class FavoriteServiceImpl implements FavoriteService {
 		
 		List<Favorite> favorites = favoriteRepository.findByUser(userId);
 		for(Favorite favorite: favorites){
+			favorite.getQueue().setFavoriteId(favorite.getFavoriteId());
 			queues.add(favorite.getQueue());
 		}
 		return queues;

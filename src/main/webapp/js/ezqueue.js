@@ -19,6 +19,10 @@ var ezqueueObj = {
 			ezqueueObj.getPromotionQueues();
 		});
 		
+		$("#a_favorite").on("click", function(){
+			ezqueueObj.getFavorite();
+		});
+		
 		$("#a_myQueue").on("click", function(){
 			ezqueueObj.getMyQueues();
 		});
@@ -41,6 +45,12 @@ var ezqueueObj = {
 	getPromotionQueues: function(){
 		$("#submitForm").prop("method", "GET");
 		$("#submitForm").prop("action", "/ezQueue/promotionQueues");
+		$("#submitForm").submit();
+	},
+	
+	getFavorite: function(){
+		$("#submitForm").prop("method", "GET");
+		$("#submitForm").prop("action", "/ezQueue/favorite/"+$("#userId").val());
 		$("#submitForm").submit();
 	},
 	

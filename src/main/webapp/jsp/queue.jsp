@@ -35,8 +35,15 @@
 			<div class='panel-body' style='height: 250px'>
 				
 				<div>
-					<button type="button" id="btn_favorite" name="btn_favorite" class="btn btn-danger btn-xs"  value="<c:out value="${queue.queueId}"/>"><i id="i_heart" class="fa fa-heart-o"></i>我的最愛</button>
-					<button type="button" id="btn_comment"  name="btn_comment"  class="btn btn-warning btn-xs" value="<c:out value="${queue.queueId}"/>" data-toggle="modal" data-target="#div_comments_<c:out value="${queue.queueId}"/>"><i class="fa fa-comment"></i>網友評論</button>
+					<button 
+						type="button" 
+						id="btn_favorite" 
+						name="btn_favorite" 
+						class="btn btn-danger btn-xs"
+						value="<c:out value="${queue.queueId}"/>">
+						<i id="i_heart" class="fa"></i>我的最愛
+					</button>
+					<button type="button" id="btn_comment"  name="btn_comment"  class="btn btn-warning btn-xs" data-toggle="modal" data-target="#div_comments_<c:out value="${queue.queueId}"/>"><i class="fa fa-comment"></i>網友評論</button>
 					<br/><br/>
 				</div>
 				
@@ -56,7 +63,9 @@
 					<br/>
 				</div>
 				
-				<span id="span_queuingId" style="display: none;"><c:out value="${queue.queuingId}"/></span>
+				<input type="hidden" id="input_queueId"    value="<c:out value="${queue.queueId}"/>">
+				<input type="hidden" id="input_queuingId"  value="<c:out value="${queue.queuingId}"/>">
+				<input type="hidden" id="input_favoriteId" value="<c:out value="${queue.favoriteId}"/>">
 				
 				<div id="div_comments_<c:out value="${queue.queueId}"/>" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 					<div class="modal-dialog modal-lg">
@@ -79,9 +88,9 @@
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
 
-<span id="span_isPromotion" style="display: none;"><c:out value="${RESPONSE_MAP.isPromotion}"/></span>
-<span id="span_isFavorite"  style="display: none;"><c:out value="${RESPONSE_MAP.isFavorite}"/></span>
-<span id="span_isQueuing"   style="display: none;"><c:out value="${RESPONSE_MAP.isQueuing}"/></span>
+<input type="hidden" id="input_isPromotion" value="<c:out value="${RESPONSE_MAP.isPromotion}"/>">
+<input type="hidden" id="input_isFavorite"  value="<c:out value="${RESPONSE_MAP.isFavorite}"/>">
+<input type="hidden" id="input_isQueuing"   value="<c:out value="${RESPONSE_MAP.isQueuing}"/>">
 
 </div>
 </body>

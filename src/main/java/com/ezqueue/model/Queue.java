@@ -2,13 +2,11 @@ package com.ezqueue.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -37,15 +35,14 @@ public class Queue implements Serializable{
 	@Column(name = "enable")
 	private boolean enable;
 	
-	@OneToMany
-	@JoinColumn(name = "queue_id")
-	private List<Queuing> queuings;
+	@Transient
+	private String queuingId;
+	
+	@Transient
+	private String favoriteId;
 	
 	@Transient
 	private Double avgWaittingTime;
-	
-	@Transient
-	private String queuingId;
 	
 	@Override
 	public String toString() {
@@ -100,12 +97,20 @@ public class Queue implements Serializable{
 		this.enable = enable;
 	}
 
-	public List<Queuing> getQueuings() {
-		return queuings;
+	public String getQueuingId() {
+		return queuingId;
 	}
 
-	public void setQueuings(List<Queuing> queuings) {
-		this.queuings = queuings;
+	public void setQueuingId(String queuingId) {
+		this.queuingId = queuingId;
+	}
+
+	public String getFavoriteId() {
+		return favoriteId;
+	}
+
+	public void setFavoriteId(String favoriteId) {
+		this.favoriteId = favoriteId;
 	}
 
 	public Double getAvgWaittingTime() {
@@ -116,12 +121,4 @@ public class Queue implements Serializable{
 		this.avgWaittingTime = avgWaittingTime;
 	}
 
-	public String getQueuingId() {
-		return queuingId;
-	}
-
-	public void setQueuingId(String queuingId) {
-		this.queuingId = queuingId;
-	}
-	
 }
