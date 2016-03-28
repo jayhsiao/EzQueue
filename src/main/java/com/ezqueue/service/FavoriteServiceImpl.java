@@ -1,5 +1,6 @@
 package com.ezqueue.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ezqueue.model.Favorite;
+import com.ezqueue.model.Queue;
 import com.ezqueue.repository.FavoriteRepository;
 
 @Service
@@ -17,8 +19,14 @@ public class FavoriteServiceImpl implements FavoriteService {
 	@Autowired
 	private FavoriteRepository favoriteRepository;
 	
-	public List<Favorite> getFavorite(String userId) throws Exception {
-		return favoriteRepository.findByUser(userId);
+	public List<Queue> getFavorite(String userId) throws Exception {
+		List<Queue> queues = new ArrayList<Queue>();
+		
+		List<Favorite> favorites = favoriteRepository.findByUser(userId);
+		for(Favorite favorite: favorites){
+			queues.add(favorite.getQueue());
+		}
+		return queues;
 	}
 	
 	public void addFavorite(Favorite favorite) throws Exception {

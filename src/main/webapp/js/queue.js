@@ -1,60 +1,35 @@
 $(document).ready(function(){
-	ezqueueObj.registerEvent();
-	ezqueueObj.init();
+	queueObj.registerEvent();
+	queueObj.init();
 });
 
-var ezqueueObj = {
+var queueObj = {
 	
 	registerEvent: function(){
 		
-		$("#btn_create").on("click", function(){
-			ezqueueObj.createQueue();
-		});
-		
 		$("button[name=btn_queuing]").on("click", function(){
-			ezqueueObj.queuing($(this));
+			queueObj.queuing($(this));
 		});
 		
-		$("button[name=btn_edit]").on("click", function(){
-			ezqueueObj.edit($(this));
+		$("button[name=btn_cancel]").on("click", function(){
+			queueObj.cancel($(this));
 		});
 		
-		$("button[name=btn_save]").on("click", function(){
-			ezqueueObj.save($(this));
+		$("button[name=btn_favorite]").on("click", function(){
+			queueObj.favorite($(this));
 		});
 	},
 	
 	init: function(){
-		if($("#isCreate").val() == "true"){
-			$("button[name=btn_create]").show();
-		}
-		else if($("#isPromotion").val() == "true"){
+		if($("#span_isPromotion").text() == "true"){
 			$("button[name=btn_queuing]").show();
 		}
-		else if($("#isMyQueues").val() == "true"){
-			$("button[name=btn_edit]").show();
-			$("button[name=btn_delete]").show();
+		else if($("#span_isFavorite").text() == "true"){
+			$("button[name=btn_queuing]").show();
 		}
-	},
-	
-	createQueue: function(){
-		var body = {
-			userId: $("#userId", window.parent.document).val(),
-			dscr: $("#textarea_dscr").val(),
-			enable: $("input[name=enable]:checked").val()
-		};
-		var actionUrl = "/queue/add";
-		var httpResponse = utilObj.callAJAX("POST", actionUrl, JSON.stringify(body));
-		if(!httpResponse.success){
-			$(".panel-primary").addClass("panel-danger");
-			$(".panel-body").empty();
-			$(".panel-body").append(httpResponse.returnMessage);
-			return;
+		else if($("#span_isQueuing").text() == "true"){
+			$("button[name=btn_cancel]").show();
 		}
-		
-		$(".panel-primary").addClass("panel-success");
-		$(".panel-body").empty();
-		$(".panel-body").append("創造成功");
 	},
 	
 	queuing: function(btnObj){
@@ -63,30 +38,52 @@ var ezqueueObj = {
 			queueId: $(btnObj).val()
 		};
 		var actionUrl = "/queuing/add";
-		var httpResponse = utilObj.callAJAX("POST", actionUrl, JSON.stringify(body));
-		if(!httpResponse.success){
-			$("#div_"+$(btnObj).val()+" .panel-primary").addClass("panel-danger");
-			$(".panel-primary").removeClass();
-			$(".panel-title").text(httpResponse.returnMessage);
-			return;
-		}
-		
-		$(".panel-primary").addClass("panel-success");
-		$(".panel-body").empty();
-		$(".panel-body").append("Success");
+		ajaxUtilObj.callAJAX(ajaxUtilObj.POST, actionUrl, JSON.stringify(body), function(httpResponse){
+			if(!httpResponse.success){
+				$("#div_"+$(btnObj).val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
+				return;
+			}
+			
+			$("#div_"+$(btnObj).val()+" #span_result").addClass("label").addClass("label-success").text("排隊成功");
+			$(btnObj).attr("disabled", true);
+			$(btnObj).addClass("disabled");
+		});
 	},
 	
-	edit: function(btnObj){
-		var queueId = $(btnObj).val();
-		
-		$("#div_"+queueId+" #textarea_dscr").val($("#div_"+queueId+" #div_dscr").text());
-		
-		$("#div_"+queueId+" #div_textarea").show();
-		$("#div_"+queueId+" #div_btn-group").show();
-		$("#div_"+queueId+" #div_avgWaittingTime").hide();
-		
-		$("#div_"+queueId+" #btn_save").show();
-		$("#div_"+queueId+" #btn_edit").hide();
-		$("#div_"+queueId+" #btn_delete").hide();
+	cancel: function(btnObj){
+		var body = {
+			queuingId: $("#div_"+$(btnObj).val()+" #span_queuingId").text()
+		};
+		console.log($("#span_queuingId").text());
+		console.log(JSON.stringify(body));
+		var actionUrl = "/queuing/remove";
+		ajaxUtilObj.callAJAX(ajaxUtilObj.DELETE, actionUrl, JSON.stringify(body), function(httpResponse){
+			if(!httpResponse.success){
+				$("#div_"+$(btnObj).val()+" #span_result").append("<div class='label label-danger'>"+httpResponse.returnMessage+"</div>");
+				return;
+			}
+			
+			$("#div_"+$(btnObj).val()).removeClass("panel-primary").addClass("panel-default")
+			$("#div_"+$(btnObj).val()+" #span_result").addClass("label").addClass("label-success").text("取消成功");
+			$(btnObj).attr("disabled", true);
+			$(btnObj).addClass("disabled");
+		});
+	},
+	
+	favorite: function(btnObj){
+		var body = {
+			userId: $("#userId", window.parent.document).val(),
+			queueId: $(btnObj).val()
+		};
+		var actionUrl = "/favorite/add";
+		ajaxUtilObj.callAJAX(ajaxUtilObj.POST, actionUrl, JSON.stringify(body), function(httpResponse){
+			if(!httpResponse.success){
+				$("#div_"+$(btnObj).val()+" #span_result").append("<div class='label label-danger'>"+httpResponse.returnMessage+"</div>");
+				return;
+			}
+			
+			$("#div_"+$(btnObj).val()+" #i_heart").removeClass("fa-heart-o").addClass("fa-heart");
+			$("#div_"+$(btnObj).val()+" #span_result").addClass("label").addClass("label-success").text("加入成功");
+		});
 	}
 }

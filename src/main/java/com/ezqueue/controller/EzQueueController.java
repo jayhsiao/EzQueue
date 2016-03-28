@@ -36,20 +36,16 @@ public class EzQueueController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/createQueue", method = RequestMethod.GET)
-	public String createQueue(Model model) throws Exception{
-		Map<String, Object> responseMap = new HashMap<String, Object>();
-		responseMap.put("isCreate", true);
-		model.addAttribute("RESPONSE_MAP", responseMap);
-        return "queue";
+	public String createQueue() throws Exception{
+        return "create";
 	}
 	
-	@RequestMapping(value = "/myQueues/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/myQueues/{userId}", method = RequestMethod.GET)
 	public String getMyQueues(Model model, @PathVariable String userId) throws Exception{
 		User user = new User();
 		user.setUserId(userId);
 		
 		Map<String, Object> responseMap = ezQueueService.getMyQueues(user);
-		responseMap.put("isMyQueues", true);
 		model.addAttribute("RESPONSE_MAP", responseMap);
         return "queue";
 	}
@@ -58,6 +54,28 @@ public class EzQueueController extends BaseController {
 	public String getPromotionsQueues(Model model) throws Exception{
 		Map<String, Object> responseMap = ezQueueService.getPromotionQueues();
 		responseMap.put("isPromotion", true);
+		model.addAttribute("RESPONSE_MAP", responseMap);
+        return "queue";
+	}
+	
+	@RequestMapping(value = "/queuing/{userId}", method = RequestMethod.GET)
+	public String getQueuing(Model model, @PathVariable String userId) throws Exception{
+		User user = new User();
+		user.setUserId(userId);
+		
+		Map<String, Object> responseMap = ezQueueService.getQueuing(user);
+		responseMap.put("isQueuing", true);
+		model.addAttribute("RESPONSE_MAP", responseMap);
+        return "queue";
+	}
+	
+	@RequestMapping(value = "/favorite/{userId}", method = RequestMethod.GET)
+	public String getFavorite(Model model, @PathVariable String userId) throws Exception{
+		User user = new User();
+		user.setUserId(userId);
+		
+		Map<String, Object> responseMap = ezQueueService.getQueuing(user);
+		responseMap.put("isFavorite", true);
 		model.addAttribute("RESPONSE_MAP", responseMap);
         return "queue";
 	}

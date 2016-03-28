@@ -23,6 +23,10 @@ var ezqueueObj = {
 			ezqueueObj.getMyQueues();
 		});
 		
+		$("#a_queueing").on("click", function(){
+			ezqueueObj.getQueuing();
+		});
+		
 		$("#a_create").on("click", function(){
 			ezqueueObj.createQueue();
 		});
@@ -31,7 +35,7 @@ var ezqueueObj = {
 	// 初始化
 	init: function(){
 		$('#mainFrame').css('height', $(window).height()+'px');
-		$("#a_create").click();
+		$("#a_promotions").click();
 	},
 	
 	getPromotionQueues: function(){
@@ -43,6 +47,12 @@ var ezqueueObj = {
 	getMyQueues: function(){
 		$("#submitForm").prop("method", "GET");
 		$("#submitForm").prop("action", "/ezQueue/myQueues/"+$("#userId").val());
+		$("#submitForm").submit();
+	},
+	
+	getQueuing: function(){
+		$("#submitForm").prop("method", "GET");
+		$("#submitForm").prop("action", "/ezQueue/queuing/"+$("#userId").val());
 		$("#submitForm").submit();
 	},
 	

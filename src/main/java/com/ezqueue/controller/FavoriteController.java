@@ -1,13 +1,11 @@
 package com.ezqueue.controller;
 
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,6 +16,7 @@ import com.ezqueue.model.Queue;
 import com.ezqueue.model.User;
 import com.ezqueue.service.FavoriteService;
 import com.ezqueue.util.ResponseObject;
+import com.ezqueue.util.StringUtil;
 
 @RestController
 @RequestMapping(value = "/favorite")
@@ -28,34 +27,18 @@ public class FavoriteController extends BaseController {
 	@Autowired
 	private FavoriteService favoriteService;
 	
-	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getFavorite(@PathVariable String userId){
-		ResponseObject responseObject = new ResponseObject();
-		try {
-			List<Favorite> favorites = favoriteService.getFavorite(userId);
-			responseObject.setSuccess(true);
-			responseObject.setReturnObject(favorites);
-		} 
-		catch (Exception e) {
-			logger.error(e, e);
-			responseObject.setSuccess(false);
-			responseObject.setReturnMessage(e.getMessage());
-		}
-		return this.getResponse(responseObject);
-	}
-	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<Object> addFavorite(@RequestBody Map<String, Object> map){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			Favorite favorite = new Favorite();
-			
 			User user = new User();
 			user.setUserId((String) map.get("userId"));
 			
 			Queue queue = new Queue();
 			queue.setQueueId((String) map.get("queueId"));
 			
+			Favorite favorite = new Favorite();
+			favorite.setFavoriteId(StringUtil.getUUID());
 			favorite.setUser(user);
 			favorite.setQueue(queue);
 			

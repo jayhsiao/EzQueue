@@ -4,8 +4,9 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>ezQueue</title>
+<title>home</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="<c:url value="/css/ezqueue.css"/>">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -15,13 +16,14 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container" style="background-color: Silver;">
-<div id="div_login" align="center">
+<div class="container" style="background-color: silver;">
+<div id="div_login" align="center" style="font-family: 微軟正黑體;">
 	<br/>
 	<br/>
 	<br/>
 	<br/>
 	<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>
+	<br/>
 	<div id="div_result"></div>
 	<br/>
 	<br/>

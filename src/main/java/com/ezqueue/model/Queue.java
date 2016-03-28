@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -25,7 +23,6 @@ public class Queue implements Serializable{
 	private static final long serialVersionUID = -8609517864321196790L;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "queue_id")
 	private String queueId;
 	@OneToOne
@@ -46,6 +43,9 @@ public class Queue implements Serializable{
 	
 	@Transient
 	private Double avgWaittingTime;
+	
+	@Transient
+	private String queuingId;
 	
 	@Override
 	public String toString() {
@@ -114,6 +114,14 @@ public class Queue implements Serializable{
 
 	public void setAvgWaittingTime(Double avgWaittingTime) {
 		this.avgWaittingTime = avgWaittingTime;
+	}
+
+	public String getQueuingId() {
+		return queuingId;
+	}
+
+	public void setQueuingId(String queuingId) {
+		this.queuingId = queuingId;
 	}
 	
 }

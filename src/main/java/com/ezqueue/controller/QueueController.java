@@ -17,6 +17,7 @@ import com.ezqueue.model.Queue;
 import com.ezqueue.model.User;
 import com.ezqueue.service.QueueService;
 import com.ezqueue.util.ResponseObject;
+import com.ezqueue.util.StringUtil;
 
 @RestController
 @RequestMapping(value = "/queue")
@@ -70,6 +71,7 @@ public class QueueController extends BaseController {
 			user.setUserId((String) map.get("userId"));
 			
 			Queue queue = new Queue();
+			queue.setQueueId(StringUtil.getUUID());
 			queue.setUser(user);
 			queue.setDscr((String) map.get("dscr"));
 			queue.setEnable(Boolean.valueOf((String) map.get("enable")));

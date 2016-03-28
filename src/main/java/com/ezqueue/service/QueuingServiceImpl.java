@@ -1,5 +1,6 @@
 package com.ezqueue.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ezqueue.model.User;
+import com.ezqueue.model.Queue;
 import com.ezqueue.model.Queuing;
 import com.ezqueue.repository.QueuingRepository;
 
@@ -18,10 +20,19 @@ public class QueuingServiceImpl implements QueuingService {
 	@Autowired
 	private QueuingRepository queuingRepository;
 	
-	public List<Queuing> getQueuing(String userId) throws Exception {
+	public List<Queue> getQueuing(String userId) throws Exception {
+		List<Queue> queues = new ArrayList<Queue>();
+		
 		User user = new User();
 		user.setUserId(userId);
-		return queuingRepository.findByUser(user);
+		
+		List<Queuing> queuings = queuingRepository.findByUser(user);
+		for(Queuing queuing: queuings){
+			queuing.getQueue().setQueuingId(queuing.getQueuingId());
+			queues.add(queuing.getQueue());
+		}
+		
+		return queues;
 	}
 	
 	public void addQueuing(Queuing userQueueMap) throws Exception {

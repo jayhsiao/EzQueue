@@ -5,8 +5,9 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>ezQueue</title>
+<title>main</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" href="<c:url value="/css/ezqueue.css"/>">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -16,10 +17,34 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container" style="background-color: Silver;">
-<form id="submitForm" style="font-family: 微軟正黑體;" target="mainFrame">
+<div class="container" style="background-color: silver;">
+<form id="submitForm" target="mainFrame" style="font-family: 微軟正黑體;">
 	<div class="page-header">
-		<h1>排排 <small>Subtext for header</small></h1>
+		<h1>排排 
+			<small>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+				<i class="fa fa-male"></i>
+			</small>
+		</h1>
 	</div>
 	<div align="center">
 		<table style="width: 100%;">
@@ -30,7 +55,7 @@
 						<a class="list-group-item" id="a_favorite"><i class="fa fa-heart"></i>我的最愛</a>
 						<a class="list-group-item" id="a_myQueue"><i class="fa fa-user"></i>我的排隊</a>
 						<a class="list-group-item" id="a_queueing"><i class="fa fa-clock-o"></i>正在排隊</a>
-						<a class="list-group-item" id="a_create"><i class="fa fa-play"></i>創造排隊</a>
+						<a class="list-group-item" id="a_create"><i class="fa fa-play"></i>建立排隊</a>
 						<a class="list-group-item" id="a_setting"><i class="fa fa-cog"></i>系統設定</a>
 					</div>
 				</td>

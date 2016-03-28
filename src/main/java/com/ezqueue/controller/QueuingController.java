@@ -2,6 +2,7 @@ package com.ezqueue.controller;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ezqueue.model.Queue;
 import com.ezqueue.model.Queuing;
+import com.ezqueue.model.User;
 import com.ezqueue.service.QueuingService;
+import com.ezqueue.util.QueuingStatus;
 import com.ezqueue.util.ResponseObject;
+import com.ezqueue.util.StringUtil;
 
 @RestController
 @RequestMapping(value = "/queuing")
@@ -29,7 +34,7 @@ public class QueuingController extends BaseController {
 	public ResponseEntity<Object> getQueuing(@PathVariable String userId){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			List<Queuing> queuings = userQueueService.getQueuing(userId);
+			List<Queue> queuings = userQueueService.getQueuing(userId);
 			responseObject.setSuccess(true);
 			responseObject.setReturnObject(queuings);
 		} 
@@ -42,9 +47,21 @@ public class QueuingController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ResponseEntity<Object> addQueuing(@RequestBody Queuing queuing){
+	public ResponseEntity<Object> addQueuing(@RequestBody Map<String, Object> map){
 		ResponseObject responseObject = new ResponseObject();
 		try {
+			User user = new User();
+			user.setUserId((String) map.get("userId"));
+			
+			Queue queue = new Queue();
+			queue.setQueueId((String) map.get("queueId"));
+			
+			Queuing queuing = new Queuing();
+			queuing.setQueuingId(StringUtil.getUUID());
+			queuing.setUser(user);
+			queuing.setQueue(queue);
+			queuing.setStatus(QueuingStatus.WAITTING);
+			
 			userQueueService.addQueuing(queuing);
 			responseObject.setSuccess(true);
 		} 
@@ -57,10 +74,10 @@ public class QueuingController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/remove", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> removeQueuing(@RequestBody Queuing queuing){
+	public ResponseEntity<Object> removeQueuing(@RequestBody Map<String, Object> map){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			userQueueService.removeQueuing(queuing.getQueuingId());
+			userQueueService.removeQueuing((String) map.get("queuingId"));
 			responseObject.setSuccess(true);
 		} 
 		catch (Exception e) {
