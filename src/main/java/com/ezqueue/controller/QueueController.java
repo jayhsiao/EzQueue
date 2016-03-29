@@ -28,11 +28,11 @@ public class QueueController extends BaseController {
 	@Autowired
 	private QueueService queueService;
 	
-	@RequestMapping(value = "/promotions", method = RequestMethod.GET)
-	public ResponseEntity<Object> getPromotionsQueues(){
+	@RequestMapping(value = "/promotion/{userId}", method = RequestMethod.GET)
+	public ResponseEntity<Object> getPromotionsQueues(@PathVariable String userId){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			List<Queue> queues = queueService.getPromotionQueues();
+			List<Map<String, Object>> queues = queueService.getPromotionQueues(userId);
 			responseObject.setSuccess(true);
 			responseObject.setReturnObject(queues);
 		} 

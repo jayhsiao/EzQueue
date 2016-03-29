@@ -44,7 +44,7 @@ var ezqueueObj = {
 	
 	getPromotionQueues: function(){
 		$("#submitForm").prop("method", "GET");
-		$("#submitForm").prop("action", "/ezQueue/promotionQueues");
+		$("#submitForm").prop("action", "/ezQueue/promotion/"+$("#userId").val());
 		$("#submitForm").submit();
 	},
 	

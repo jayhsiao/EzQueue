@@ -1,12 +1,13 @@
 package com.ezqueue.model;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -16,7 +17,7 @@ import com.ezqueue.util.StringUtil;
 
 @Entity
 @Table(name = "queue")
-public class Queue implements Serializable{
+public class Queue extends ModelBase implements Serializable{
 
 	private static final long serialVersionUID = -8609517864321196790L;
 
@@ -28,18 +29,12 @@ public class Queue implements Serializable{
 	private User user;
 	@Column(name = "dscr")
 	private String dscr;
-	@Column(name = "promotion_priority")
-	private Integer promotionPriority;
-	@Column(name = "create_date", insertable = false)
-	private Date createDate;
 	@Column(name = "enable")
 	private boolean enable;
 	
-	@Transient
-	private String queuingId;
-	
-	@Transient
-	private String favoriteId;
+	@OneToMany
+	@JoinColumn(name = "queue_id")
+	private List<Queuing> queuings;
 	
 	@Transient
 	private Double avgWaittingTime;
@@ -73,22 +68,6 @@ public class Queue implements Serializable{
 		this.dscr = dscr;
 	}
 
-	public Integer getPromotionPriority() {
-		return promotionPriority;
-	}
-
-	public void setPromotionPriority(Integer promotionPriority) {
-		this.promotionPriority = promotionPriority;
-	}
-
-	public Date getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-
 	public boolean isEnable() {
 		return enable;
 	}
@@ -97,20 +76,12 @@ public class Queue implements Serializable{
 		this.enable = enable;
 	}
 
-	public String getQueuingId() {
-		return queuingId;
+	public List<Queuing> getQueuings() {
+		return queuings;
 	}
 
-	public void setQueuingId(String queuingId) {
-		this.queuingId = queuingId;
-	}
-
-	public String getFavoriteId() {
-		return favoriteId;
-	}
-
-	public void setFavoriteId(String favoriteId) {
-		this.favoriteId = favoriteId;
+	public void setQueuings(List<Queuing> queuings) {
+		this.queuings = queuings;
 	}
 
 	public Double getAvgWaittingTime() {

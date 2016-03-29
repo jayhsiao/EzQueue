@@ -1,6 +1,7 @@
 package com.ezqueue.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -20,12 +21,6 @@ public class EzQueueServiceImpl implements EzQueueService {
 	@Autowired
 	private QueueService queueService;
 	
-	@Autowired
-	private QueuingService queuingService;
-	
-	@Autowired
-	private FavoriteService favoriteService;
-	
 	public Map<String, Object> init(String userId) throws Exception {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("user", userService.getUser(userId));
@@ -38,21 +33,15 @@ public class EzQueueServiceImpl implements EzQueueService {
 		return resultMap;
 	}
 	
-	public Map<String, Object> getPromotionQueues() throws Exception {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("queues", queueService.getPromotionQueues());
-		return resultMap;
+	public List<Map<String, Object>> getPromotionQueues(String userId) throws Exception {
+		return queueService.getPromotionQueues(userId);
 	}
 	
-	public Map<String, Object> getQueuing(User user) throws Exception {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("queues", queuingService.getQueuing(user.getUserId()));
-		return resultMap;
+	public List<Map<String, Object>> getQueuingQueues(String userId) throws Exception {
+		return queueService.getQueuingQueues(userId);
 	}
 	
-	public Map<String, Object> getFavorite(User user) throws Exception {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("queues", favoriteService.getFavorite(user.getUserId()));
-		return resultMap;
+	public List<Map<String, Object>> getFavoriteQueues(String userId) throws Exception {
+		return queueService.getFavoriteQueues(userId);
 	}
 }

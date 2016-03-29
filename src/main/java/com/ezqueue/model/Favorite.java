@@ -14,7 +14,7 @@ import com.ezqueue.util.StringUtil;
 
 @Entity
 @Table(name = "favorite")
-public class Favorite implements Serializable{
+public class Favorite extends ModelBase implements Serializable{
 
 	private static final long serialVersionUID = -8609517864321196790L;
 

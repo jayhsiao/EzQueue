@@ -50,33 +50,21 @@ public class EzQueueController extends BaseController {
         return "queue";
 	}
 	
-	@RequestMapping(value = "/promotionQueues", method = RequestMethod.GET)
-	public String getPromotionsQueues(Model model) throws Exception{
-		Map<String, Object> responseMap = ezQueueService.getPromotionQueues();
-		responseMap.put("isPromotion", true);
-		model.addAttribute("RESPONSE_MAP", responseMap);
+	@RequestMapping(value = "/promotion/{userId}", method = RequestMethod.GET)
+	public String getPromotionsQueues(Model model, @PathVariable String userId) throws Exception{
+		model.addAttribute("RESPONSE_MAP", ezQueueService.getPromotionQueues(userId));
         return "queue";
 	}
 	
 	@RequestMapping(value = "/queuing/{userId}", method = RequestMethod.GET)
 	public String getQueuing(Model model, @PathVariable String userId) throws Exception{
-		User user = new User();
-		user.setUserId(userId);
-		
-		Map<String, Object> responseMap = ezQueueService.getQueuing(user);
-		responseMap.put("isQueuing", true);
-		model.addAttribute("RESPONSE_MAP", responseMap);
+		model.addAttribute("RESPONSE_MAP", ezQueueService.getQueuingQueues(userId));
         return "queue";
 	}
 	
 	@RequestMapping(value = "/favorite/{userId}", method = RequestMethod.GET)
 	public String getFavorite(Model model, @PathVariable String userId) throws Exception{
-		User user = new User();
-		user.setUserId(userId);
-		
-		Map<String, Object> responseMap = ezQueueService.getFavorite(user);
-		responseMap.put("isFavorite", true);
-		model.addAttribute("RESPONSE_MAP", responseMap);
+		model.addAttribute("RESPONSE_MAP", ezQueueService.getFavoriteQueues(userId));
         return "queue";
 	}
 }

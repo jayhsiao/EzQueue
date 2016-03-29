@@ -9,7 +9,5 @@ import com.ezqueue.model.User;
 
 public interface QueueRepository extends CrudRepository<Queue, String>{
 	
-	public List<Queue> findByPromotionPriorityNotNullOrderByPromotionPriorityAsc();
-	
 	public List<Queue> findByUserOrderByCreateDateDesc(User user);
 }

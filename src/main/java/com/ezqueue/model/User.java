@@ -12,7 +12,7 @@ import com.ezqueue.util.StringUtil;
 
 @Entity
 @Table(name = "user")
-public class User implements Serializable{
+public class User extends ModelBase implements Serializable{
 
 	private static final long serialVersionUID = -8609517864321196790L;
 

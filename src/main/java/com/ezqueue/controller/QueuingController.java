@@ -31,10 +31,10 @@ public class QueuingController extends BaseController {
 	private QueuingService userQueueService;
 	
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getQueuing(@PathVariable String userId){
+	public ResponseEntity<Object> getQueuings(@PathVariable String userId){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			List<Queue> queuings = userQueueService.getQueuing(userId);
+			List<Queuing> queuings = userQueueService.getQueuings(userId);
 			responseObject.setSuccess(true);
 			responseObject.setReturnObject(queuings);
 		} 
@@ -50,20 +50,9 @@ public class QueuingController extends BaseController {
 	public ResponseEntity<Object> addQueuing(@RequestBody Map<String, Object> map){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			User user = new User();
-			user.setUserId((String) map.get("userId"));
-			
-			Queue queue = new Queue();
-			queue.setQueueId((String) map.get("queueId"));
-			
-			Queuing queuing = new Queuing();
-			queuing.setQueuingId(StringUtil.getUUID());
-			queuing.setUser(user);
-			queuing.setQueue(queue);
-			queuing.setStatus(QueuingStatus.WAITTING);
-			
-			userQueueService.addQueuing(queuing);
+			Integer queueNum = userQueueService.addQueuing(map);
 			responseObject.setSuccess(true);
+			responseObject.setReturnObject(queueNum);
 		} 
 		catch (Exception e) {
 			logger.error(e, e);
@@ -88,18 +77,18 @@ public class QueuingController extends BaseController {
 		return this.getResponse(responseObject);
 	}
 	
-	@RequestMapping(value = "/updateStatus", method = RequestMethod.PATCH)
-	public ResponseEntity<Object> updateStatus(@RequestBody Queuing queuing){
-		ResponseObject responseObject = new ResponseObject();
-		try {
-			userQueueService.addQueuing(queuing);
-			responseObject.setSuccess(true);
-		} 
-		catch (Exception e) {
-			logger.error(e, e);
-			responseObject.setSuccess(false);
-			responseObject.setReturnMessage(e.getMessage());
-		}
-		return this.getResponse(responseObject);
-	}
+//	@RequestMapping(value = "/updateStatus", method = RequestMethod.PATCH)
+//	public ResponseEntity<Object> updateStatus(@RequestBody Queuing queuing){
+//		ResponseObject responseObject = new ResponseObject();
+//		try {
+//			userQueueService.addQueuing(queuing);
+//			responseObject.setSuccess(true);
+//		} 
+//		catch (Exception e) {
+//			logger.error(e, e);
+//			responseObject.setSuccess(false);
+//			responseObject.setReturnMessage(e.getMessage());
+//		}
+//		return this.getResponse(responseObject);
+//	}
 }
