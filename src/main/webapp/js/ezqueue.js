@@ -38,37 +38,37 @@ var ezqueueObj = {
 	
 	// 初始化
 	init: function(){
-		$('#mainFrame').css('height', $(window).height()+'px');
-		$("#a_promotions").click();
+		$('#mainFrame').css('height', ($(window).height() - $(".page-header").height() - 100) +'px');
+		$("#a_myQueue").click();
 	},
 	
 	getPromotionQueues: function(){
 		$("#submitForm").prop("method", "GET");
-		$("#submitForm").prop("action", "/ezQueue/promotion/"+$("#userId").val());
+		$("#submitForm").prop("action", "/ezqueue/promotion/"+$("#userId").val());
 		$("#submitForm").submit();
 	},
 	
 	getFavorite: function(){
 		$("#submitForm").prop("method", "GET");
-		$("#submitForm").prop("action", "/ezQueue/favorite/"+$("#userId").val());
+		$("#submitForm").prop("action", "/ezqueue/favorite/"+$("#userId").val());
 		$("#submitForm").submit();
 	},
 	
 	getMyQueues: function(){
 		$("#submitForm").prop("method", "GET");
-		$("#submitForm").prop("action", "/ezQueue/myQueues/"+$("#userId").val());
+		$("#submitForm").prop("action", "/ezqueue/myQueues/"+$("#userId").val());
 		$("#submitForm").submit();
 	},
 	
 	getQueuing: function(){
 		$("#submitForm").prop("method", "GET");
-		$("#submitForm").prop("action", "/ezQueue/queuing/"+$("#userId").val());
+		$("#submitForm").prop("action", "/ezqueue/queuing/"+$("#userId").val());
 		$("#submitForm").submit();
 	},
 	
 	createQueue: function(){
 		$("#submitForm").prop("method", "GET");
-		$("#submitForm").prop("action", "/ezQueue/createQueue");
+		$("#submitForm").prop("action", "/ezqueue/createQueue");
 		$("#submitForm").submit();
 	}
 }

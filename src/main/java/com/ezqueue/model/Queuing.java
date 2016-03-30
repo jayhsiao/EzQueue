@@ -35,7 +35,7 @@ public class Queuing extends ModelBase implements Serializable{
 	@Column(name = "end_date", insertable = false)
 	private Date endDate;
 	@Column(name = "waitting_time", insertable = false)
-	private Integer waittingTime;
+	private Long waittingTime;
 	@Column(name = "status")
 	private Integer status;
 	
@@ -79,10 +79,10 @@ public class Queuing extends ModelBase implements Serializable{
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	public Integer getWaittingTime() {
+	public Long getWaittingTime() {
 		return waittingTime;
 	}
-	public void setWaittingTime(Integer waittingTime) {
+	public void setWaittingTime(Long waittingTime) {
 		this.waittingTime = waittingTime;
 	}
 	public Integer getStatus() {

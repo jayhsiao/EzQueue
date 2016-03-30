@@ -8,8 +8,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.ezqueue.model.User;
-
 @Service
 public class EzQueueServiceImpl implements EzQueueService {
 	
@@ -27,10 +25,8 @@ public class EzQueueServiceImpl implements EzQueueService {
 		return resultMap;
 	}
 	
-	public Map<String, Object> getMyQueues(User user) throws Exception {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("queues", queueService.getMyQueues(user));
-		return resultMap;
+	public List<Map<String, Object>> getMyQueues(String userId) throws Exception {
+		return queueService.getMyQueues(userId);
 	}
 	
 	public List<Map<String, Object>> getPromotionQueues(String userId) throws Exception {

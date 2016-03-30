@@ -18,6 +18,18 @@ var queueObj = {
 		$("button[name=btn_favorite]").on("click", function(){
 			queueObj.favorite($(this));
 		});
+		
+		$(document).on("click", "button[name=btn_queuing_success]", function(event){
+			queueObj.updateWaittingStatus($(this), 1);
+		});
+		
+		$(document).on("click", "button[name=btn_queuing_pass]", function(event){
+			queueObj.updateWaittingStatus($(this), 2);
+		});
+		
+		$(document).on("click", "button[name=btn_queuing_cancel]", function(event){
+			queueObj.updateWaittingStatus($(this), 3);
+		});
 	},
 	
 	init: function(){
@@ -93,5 +105,22 @@ var queueObj = {
 				$("#div_"+$(btnObj).val()+" #i_heart").removeClass("fa-heart-o").addClass("fa-heart");
 			});
 		}
+	},
+	
+	updateWaittingStatus: function(btnObj, status){
+		var body = {
+			queuingId: $(btnObj).val(),
+			status: status
+		};
+		console.log(JSON.stringify(body));
+		var actionUrl = "/queuing/updateWaittingStatus";
+		ajaxUtilObj.callAJAX(ajaxUtilObj.PATCH, actionUrl, JSON.stringify(body), function(httpResponse){
+			if(!httpResponse.success){
+				$("#div_"+$(btnObj).val()+" #span_result").append("<div class='label label-danger'>"+httpResponse.returnMessage+"</div>");
+				return;
+			}
+			
+			$("#div_"+$(btnObj).val()+" #i_heart").removeClass("fa-heart-o").addClass("fa-heart");
+		});
 	}
 }

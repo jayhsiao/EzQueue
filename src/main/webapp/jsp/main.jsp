@@ -17,7 +17,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container" style="background-color: silver;">
+<div class="container">
 <form id="submitForm" target="mainFrame" style="font-family: 微軟正黑體;">
 	<div class="page-header">
 		<h1>排排 
@@ -50,6 +50,7 @@
 		<table style="width: 100%;">
 			<tr>
 				<td width="10%" valign="top">
+					<img src="http://graph.facebook.com/<c:out value="${RESPONSE_MAP.user.fbId}"/>/picture?width=70&height=70">
 					<div id="div_menu" class="list-group">
 						<a class="list-group-item" id="a_promotions"><i class="fa fa-thumbs-up"></i>強力推薦</a>
 						<a class="list-group-item" id="a_favorite"><i class="fa fa-heart"></i>我的最愛</a>

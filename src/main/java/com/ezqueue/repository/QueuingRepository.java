@@ -17,13 +17,13 @@ public interface QueuingRepository extends CrudRepository<Queuing, String>{
 	@Query("select AVG(q.waittingTime) from Queuing q where q.queue.queueId = :queueId")
 	public Double getAvgWaittingTime(@Param("queueId") String queueId);
 	
-	@Query("select count(*) from Queuing q where q.queue.queueId = :queueId and q.queueNum < :queueNum")
-	public Integer getWaittingCount(@Param("queueId") String queueId, @Param("queueNum") Integer queueNum);
+	@Query("select q from Queuing q where q.queue.queueId = :queueId and status = :status")
+	public List<Queuing> getQueuings(@Param("queueId") String queueId, @Param("status") Integer status);
 	
 	public List<Queuing> findByUser(User user);
 	
-	public Queuing findByUserAndQueue(User user, Queue queue);
+	public Queuing findByUserAndQueueAndStatus(User user, Queue queue, int status);
 	
-	@Query("select count(*) from Queuing q where now() between :startDate and :endDate and q.queue.queueId = :queueId")
-	public Integer countByQueue(@Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("queueId") String queueId);
+	@Query("select max(q.queueNum) from Queuing q where now() between :startDate and :endDate and q.queue.queueId = :queueId")
+	public Integer getMaxQueueNum(@Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("queueId") String queueId);
 }

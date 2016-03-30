@@ -4,11 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.ezqueue.model.Queue;
-import com.ezqueue.model.User;
 
 public interface QueueService {
 	
-	public List<Queue> getMyQueues(User user) throws Exception;
+	public List<Map<String, Object>> getMyQueues(String userId) throws Exception;
 
 	public List<Map<String, Object>> getPromotionQueues(String userId) throws Exception;
 	

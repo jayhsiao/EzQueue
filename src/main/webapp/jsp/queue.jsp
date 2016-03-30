@@ -16,11 +16,23 @@
 <script type="text/javascript" src="<c:url value="/js/ajax_util.js"/>"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
-<body style="background-color: silver;">
+<body>
 <div class="container">
 <form style="font-family: 微軟正黑體;">
 	<c:forEach items="${RESPONSE_MAP}" var="map">
-		<div id="div_<c:out value="${map.queue.queueId}"/>" class='panel panel-primary' style='display: inline-block; width: 420px;'>
+		<div 
+			id="div_<c:out value="${map.queue.queueId}"/>" 
+			class='panel panel-primary' 
+			style='
+			<c:choose>
+				<c:when test="${map.isMyQueues}">
+					display: block;
+				</c:when>
+				<c:otherwise>
+					width: 420px; display: inline-block;
+				</c:otherwise>
+			</c:choose>'>
+			
 			<div class='panel-heading'>
 				<table>
 				<tr>
@@ -37,13 +49,13 @@
 				</tr>
 				</table>
 			</div>
-			<div class='panel-body' style='height: 300px'>
+			<div class='panel-body'>
 				<div>
 					<button 
 						type="button" 
 						id="btn_favorite" 
 						name="btn_favorite" 
-						class="btn btn-warning btn-xs"
+						class="btn btn-warning btn-sm"
 						value="<c:out value="${map.queue.queueId}"/>">
 						<i id="i_heart" class="fa 
 							<c:choose>
@@ -54,9 +66,13 @@
 									fa-heart-o
 								</c:otherwise>
 							</c:choose>
-						"></i>我的最愛
+						">
+							<c:if test="${map.isMyQueues}">
+								<c:out value="${fn:length(map.queue.favorites)}"/>
+							</c:if>
+						</i>
 					</button>
-					<button type="button" id="btn_comment"  name="btn_comment"  class="btn btn-warning btn-xs" data-toggle="modal" data-target="#div_comments_<c:out value="${map.queue.queueId}"/>"><i class="fa fa-comment"></i>網友評論</button>
+					<button type="button" id="btn_comment"  name="btn_comment"  class="btn btn-warning btn-sm" data-toggle="modal" data-target="#div_comments_<c:out value="${map.queue.queueId}"/>"><i class="fa fa-comment"></i></button>
 					<br/><br/>
 				</div>
 				
@@ -65,6 +81,7 @@
 					<br/><br/>
 				</div>
 				
+				<c:if test="${!map.isMyQueues}">
 				<div id="div_avgWaittingTime">
 					<div style="display: inline-block;">
 						<div class="panel panel-info">
@@ -85,10 +102,47 @@
 						</div>
 					</div>
 				</div>
+				</c:if>
+				
+				<c:if test="${map.isMyQueues and not empty map.queue.queuings}">
+				<div>
+					<c:forEach items="${map.queue.queuings}" var="queuing">
+						<div class="panel panel-default" style="width: 100px; display: inline-block; cursor: pointer;" data-toggle="modal" data-target="#div_queuing_<c:out value="${queuing.queuingId}"/>">
+							<div class="panel-heading" align="center"><h1><span class="label label-success"><c:out value="${queuing.queueNum}"/></span></h1></div>
+							<div class="panel-body" align="center"><img src="http://graph.facebook.com/<c:out value="${queuing.user.fbId}"/>/picture?width=50&height=50"><br/><c:out value="${queuing.user.name}"/></div>
+						</div>
+						
+						<div id="div_queuing_<c:out value="${queuing.queuingId}"/>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+							<div class="modal-dialog">
+								<div class="modal-content" align="center">
+									<span class="label label-success"><c:out value="${queuing.queueNum}"/></span>
+									<c:out value="${queuing.user.name}"/>
+									<img src="http://graph.facebook.com/<c:out value="${queuing.user.fbId}"/>/picture?width=50&height=50">
+									<button type="button" class="btn btn-success" id="btn_queuing_success" name="btn_queuing_success" value="<c:out value="${queuing.queuingId}"/>"><i class="fa fa-thumbs-up"></i>完成</button>
+									<button type="button" class="btn btn-warning" id="btn_queuing_pass"    name="btn_queuing_pass"    value="<c:out value="${queuing.queuingId}"/>"><i class="fa fa-thumbs-up"></i>過號</button>
+									<button type="button" class="btn btn-danger"  id="btn_queuing_cancel"  name="btn_queuing_cancel"  value="<c:out value="${queuing.queuingId}"/>"><i class="fa fa-thumbs-up"></i>拒絕</button>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+					<i class="fa fa-chevron-circle-right fa-6"></i>
+				</div>
+				</c:if>
 				
 				<div>
-					<button type='button' id="btn_queuing" name="btn_queuing" class='btn btn-default' value="<c:out value="${map.queue.queueId}"/>" style="display: <c:if test="${not empty map.queuingId}">none;</c:if>">我要排隊</button>
-					<button type='button' id="btn_cancel"  name="btn_cancel"  class='btn btn-default' value="<c:out value="${map.queue.queueId}"/>" style="display: <c:if test="${empty map.queuingId}">none;</c:if>">取消排隊</button>
+					<c:choose>
+						<c:when test="${map.isMyQueues}">
+							<button type='button' id="btn_edit" name="btn_edit" class='btn btn-default' value="<c:out value="${map.queue.queueId}"/>">編輯排隊</button>
+						</c:when>
+						<c:otherwise>
+							<c:if test="${empty map.queuingId}">
+								<button type='button' id="btn_queuing" name="btn_queuing" class='btn btn-default' value="<c:out value="${map.queue.queueId}"/>">我要排隊</button>
+							</c:if>
+							<c:if test="${not empty map.queuingId}">
+								<button type='button' id="btn_cancel"  name="btn_cancel"  class='btn btn-default' value="<c:out value="${map.queue.queueId}"/>">取消排隊</button>
+							</c:if>
+						</c:otherwise>
+					</c:choose>
 					<span id="span_result"></span>
 					<br/>
 				</div>
@@ -96,6 +150,7 @@
 				<input type="hidden" id="input_promotionId" value="<c:out value="${map.promotionId}"/>">
 				<input type="hidden" id="input_favoriteId"  value="<c:out value="${map.favoriteId}"/>">
 				<input type="hidden" id="input_queuingId"   value="<c:out value="${map.queuingId}"/>">
+				<input type="hidden" id="input_isMyQueues"  value="<c:out value="${map.isMyQueues}"/>">
 				
 				<div id="div_comments_<c:out value="${map.queue.queueId}"/>" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 					<div class="modal-dialog modal-lg">
@@ -104,6 +159,7 @@
 						</div>
 					</div>
 				</div>
+				
 			</div>
 		</div>
 	</c:forEach>
@@ -117,7 +173,6 @@
   js.src = "//connect.facebook.net/zh_TW/sdk.js#xfbml=1&version=v2.5&appId=554860634671080";
   fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));</script>
-
 </div>
 </body>
 </html>

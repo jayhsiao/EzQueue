@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,14 +32,14 @@ public class QueuingServiceImpl implements QueuingService {
 		return queuingRepository.findByUser(user);
 	}
 	
-	public Queuing getQueuing(String userId, String queueId) throws Exception {
+	public Queuing getQueuing(String userId, String queueId, int status) throws Exception {
 		User user = new User();
 		user.setUserId(userId);
 		
 		Queue queue = new Queue();
 		queue.setQueueId(queueId);
 		
-		return queuingRepository.findByUserAndQueue(user, queue);
+		return queuingRepository.findByUserAndQueueAndStatus(user, queue, status);
 	}
 	
 	synchronized public Integer addQueuing(Map<String, Object> map) throws Exception {
@@ -63,11 +64,16 @@ public class QueuingServiceImpl implements QueuingService {
 		calendar.add(Calendar.DAY_OF_MONTH, +1);
 		Date endDate = calendar.getTime();
 		
-		Integer queueNum = queuingRepository.countByQueue(startDate, endDate, queue.getQueueId()) + 1;
-		queuing.setQueueNum(queueNum);
+		Integer maxQueueNum = queuingRepository.getMaxQueueNum(startDate, endDate, queue.getQueueId());
+		maxQueueNum = maxQueueNum == null? 1: maxQueueNum + 1;
+		queuing.setQueueNum(maxQueueNum);
 		
+		this.addQueuing(queuing);
+		return maxQueueNum;
+	}
+	
+	public void addQueuing(Queuing queuing) throws Exception {
 		queuingRepository.save(queuing);
-		return queueNum;
 	}
 	
 	public void removeQueuing(String queuingId) throws Exception {
@@ -78,8 +84,16 @@ public class QueuingServiceImpl implements QueuingService {
 		return queuingRepository.getAvgWaittingTime(queueId);
 	}
 	
-	public Integer getWaittingCount(String queueId, Integer queueNum) throws Exception {
-		return queuingRepository.getWaittingCount(queueId, queueNum);
+	public List<Queuing> getWaittingCount(String queueId, int status) throws Exception {
+		return queuingRepository.getQueuings(queueId, status);
 	}
 	
+	public void updateWaittingStatus(Queuing queuing) throws Exception {
+		Queuing oldQueuing = queuingRepository.findOne(queuing.getQueuingId());
+		oldQueuing.setEndDate(Calendar.getInstance().getTime());
+		oldQueuing.setWaittingTime(TimeUnit.MILLISECONDS.toSeconds(oldQueuing.getEndDate().getTime() - oldQueuing.getStartDate().getTime()));
+		oldQueuing.setStatus(queuing.getStatus());
+		
+		this.addQueuing(oldQueuing);
+	}
 }

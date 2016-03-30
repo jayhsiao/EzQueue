@@ -1,6 +1,5 @@
 package com.ezqueue.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -15,7 +14,7 @@ import com.ezqueue.model.User;
 import com.ezqueue.service.EzQueueService;
 
 @Controller
-@RequestMapping(value = "/ezQueue")
+@RequestMapping(value = "/ezqueue")    
 public class EzQueueController extends BaseController {
 	
 	private final Logger logger = Logger.getLogger(this.getClass());
@@ -42,11 +41,7 @@ public class EzQueueController extends BaseController {
 	
 	@RequestMapping(value = "/myQueues/{userId}", method = RequestMethod.GET)
 	public String getMyQueues(Model model, @PathVariable String userId) throws Exception{
-		User user = new User();
-		user.setUserId(userId);
-		
-		Map<String, Object> responseMap = ezQueueService.getMyQueues(user);
-		model.addAttribute("RESPONSE_MAP", responseMap);
+		model.addAttribute("RESPONSE_MAP", ezQueueService.getMyQueues(userId));
         return "queue";
 	}
 	

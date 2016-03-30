@@ -48,10 +48,7 @@ public class QueueController extends BaseController {
 	public ResponseEntity<Object> getMyQueues(@PathVariable String userId){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			User user = new User();
-			user.setUserId(userId);
-			
-			List<Queue> queues = queueService.getMyQueues(user);
+			List<Map<String, Object>> queues = queueService.getMyQueues(userId);
 			responseObject.setSuccess(true);
 			responseObject.setReturnObject(queues);
 		} 

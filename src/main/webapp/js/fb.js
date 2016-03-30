@@ -95,5 +95,5 @@ function rrr(httpResponse){
 	}
 	$("#div_result").html("<div class='alert alert-success'>Sign in success!!!</div>");
 	var userId = httpResponse.returnObject;
-	window.location = "/ezQueue/init/"+userId;
+	window.location = "/ezqueue/init/"+userId;
 };

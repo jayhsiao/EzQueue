@@ -36,6 +36,10 @@ public class Queue extends ModelBase implements Serializable{
 	@JoinColumn(name = "queue_id")
 	private List<Queuing> queuings;
 	
+	@OneToMany
+	@JoinColumn(name = "queue_id")
+	private List<Favorite> favorites;
+	
 	@Transient
 	private Double avgWaittingTime;
 	
@@ -90,6 +94,14 @@ public class Queue extends ModelBase implements Serializable{
 
 	public void setAvgWaittingTime(Double avgWaittingTime) {
 		this.avgWaittingTime = avgWaittingTime;
+	}
+
+	public List<Favorite> getFavorites() {
+		return favorites;
+	}
+
+	public void setFavorites(List<Favorite> favorites) {
+		this.favorites = favorites;
 	}
 
 }
