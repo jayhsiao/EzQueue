@@ -17,10 +17,9 @@ public interface QueuingRepository extends CrudRepository<Queuing, String>{
 	@Query("select AVG(q.waittingTime) from Queuing q where q.queue.queueId = :queueId")
 	public Double getAvgWaittingTime(@Param("queueId") String queueId);
 	
-	@Query("select q from Queuing q where q.queue.queueId = :queueId and status = :status")
-	public List<Queuing> getQueuings(@Param("queueId") String queueId, @Param("status") Integer status);
+	public List<Queuing> findByUserAndStatus(User user, Integer status);
 	
-	public List<Queuing> findByUser(User user);
+	public List<Queuing> findByQueueAndStatus(Queue queue, Integer status);
 	
 	public Queuing findByUserAndQueueAndStatus(User user, Queue queue, int status);
 	

@@ -34,10 +34,6 @@ public class Queue extends ModelBase implements Serializable{
 	
 	@OneToMany
 	@JoinColumn(name = "queue_id")
-	private List<Queuing> queuings;
-	
-	@OneToMany
-	@JoinColumn(name = "queue_id")
 	private List<Favorite> favorites;
 	
 	@Transient
@@ -78,14 +74,6 @@ public class Queue extends ModelBase implements Serializable{
 
 	public void setEnable(boolean enable) {
 		this.enable = enable;
-	}
-
-	public List<Queuing> getQueuings() {
-		return queuings;
-	}
-
-	public void setQueuings(List<Queuing> queuings) {
-		this.queuings = queuings;
 	}
 
 	public Double getAvgWaittingTime() {

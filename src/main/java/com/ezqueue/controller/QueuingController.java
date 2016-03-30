@@ -13,13 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ezqueue.model.Queue;
 import com.ezqueue.model.Queuing;
-import com.ezqueue.model.User;
 import com.ezqueue.service.QueuingService;
 import com.ezqueue.util.QueuingStatus;
 import com.ezqueue.util.ResponseObject;
-import com.ezqueue.util.StringUtil;
 
 @RestController
 @RequestMapping(value = "/queuing")
@@ -34,7 +31,7 @@ public class QueuingController extends BaseController {
 	public ResponseEntity<Object> getQueuings(@PathVariable String userId){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			List<Queuing> queuings = userQueueService.getQueuings(userId);
+			List<Queuing> queuings = userQueueService.getQueuingsByUserId(userId, QueuingStatus.WAITTING);
 			responseObject.setSuccess(true);
 			responseObject.setReturnObject(queuings);
 		} 

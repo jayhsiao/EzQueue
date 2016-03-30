@@ -7,7 +7,9 @@ import com.ezqueue.model.Queuing;
 
 public interface QueuingService {
 	
-	public List<Queuing> getQueuings(String userId) throws Exception;
+	public List<Queuing> getQueuingsByUserId(String userId, int status) throws Exception;
+	
+	public List<Queuing> getQueuingsByQueueId(String queueId, int status) throws Exception;
 	
 	public Queuing getQueuing(String userId, String queueId, int status) throws Exception;
 	
@@ -18,8 +20,6 @@ public interface QueuingService {
 	public void removeQueuing(String queuingId) throws Exception;
 	
 	public Double getAvgWaittingTime(String queueId) throws Exception;
-	
-	public List<Queuing> getWaittingCount(String queueId, int status) throws Exception;
 	
 	public void updateWaittingStatus(Queuing queuing) throws Exception;
 }

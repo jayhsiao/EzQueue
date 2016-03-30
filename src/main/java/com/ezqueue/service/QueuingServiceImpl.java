@@ -25,11 +25,18 @@ public class QueuingServiceImpl implements QueuingService {
 	@Autowired
 	private QueuingRepository queuingRepository;
 	
-	public List<Queuing> getQueuings(String userId) throws Exception {
+	public List<Queuing> getQueuingsByUserId(String userId, int status) throws Exception {
 		User user = new User();
 		user.setUserId(userId);
 		
-		return queuingRepository.findByUser(user);
+		return queuingRepository.findByUserAndStatus(user, status);
+	}
+	
+	public List<Queuing> getQueuingsByQueueId(String queueId, int status) throws Exception {
+		Queue queue = new Queue();
+		queue.setQueueId(queueId);
+		
+		return queuingRepository.findByQueueAndStatus(queue, status);
 	}
 	
 	public Queuing getQueuing(String userId, String queueId, int status) throws Exception {
@@ -82,10 +89,6 @@ public class QueuingServiceImpl implements QueuingService {
 	
 	public Double getAvgWaittingTime(String queueId) throws Exception {
 		return queuingRepository.getAvgWaittingTime(queueId);
-	}
-	
-	public List<Queuing> getWaittingCount(String queueId, int status) throws Exception {
-		return queuingRepository.getQueuings(queueId, status);
 	}
 	
 	public void updateWaittingStatus(Queuing queuing) throws Exception {

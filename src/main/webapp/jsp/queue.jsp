@@ -86,7 +86,7 @@
 					<div style="display: inline-block;">
 						<div class="panel panel-info">
 							<div class="panel-heading">等待組數</div>
-							<div class="panel-body" style="height: 45px; font-weight: bold;"><c:out value="${map.waittingCount}"/> 組</div>
+							<div class="panel-body" style="height: 45px; font-weight: bold;"><c:out value="${fn:length(map.queuings)}"/> 組</div>
 						</div>
 					</div>
 					<div style="display: inline-block;">
@@ -104,9 +104,9 @@
 				</div>
 				</c:if>
 				
-				<c:if test="${map.isMyQueues and not empty map.queue.queuings}">
+				<c:if test="${map.isMyQueues and not empty map.queuings}">
 				<div>
-					<c:forEach items="${map.queue.queuings}" var="queuing">
+					<c:forEach items="${map.queuings}" var="queuing">
 						<div class="panel panel-default" style="width: 100px; display: inline-block; cursor: pointer;" data-toggle="modal" data-target="#div_queuing_<c:out value="${queuing.queuingId}"/>">
 							<div class="panel-heading" align="center"><h1><span class="label label-success"><c:out value="${queuing.queueNum}"/></span></h1></div>
 							<div class="panel-body" align="center"><img src="http://graph.facebook.com/<c:out value="${queuing.user.fbId}"/>/picture?width=50&height=50"><br/><c:out value="${queuing.user.name}"/></div>
@@ -155,6 +155,7 @@
 				<div id="div_comments_<c:out value="${map.queue.queueId}"/>" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
 					<div class="modal-dialog modal-lg">
 						<div class="modal-content" align="center">
+							<c:out value="${map.queue.user.name}"/><br/>
 							<div class="fb-comments" data-width="700" data-href="http://local.ezqueue.com:8080/<c:out value="${map.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
 						</div>
 					</div>
