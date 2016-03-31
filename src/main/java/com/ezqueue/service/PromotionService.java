@@ -6,7 +6,7 @@ import com.ezqueue.model.Promotion;
 
 public interface PromotionService {
 
-	public List<Promotion> getPromotions() throws Exception;
+	public List<Promotion> getPromotions(int page, int size) throws Exception;
 	
 	public Promotion getPromotion(String queueId) throws Exception;
 	

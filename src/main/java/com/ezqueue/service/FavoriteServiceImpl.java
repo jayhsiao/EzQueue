@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.ezqueue.model.Favorite;
@@ -19,11 +21,12 @@ public class FavoriteServiceImpl implements FavoriteService {
 	@Autowired
 	private FavoriteRepository favoriteRepository;
 	
-	public List<Favorite> getFavorites(String userId) throws Exception {
+	public List<Favorite> getFavorites(String userId, int page, int size) throws Exception {
 		User user = new User();
 		user.setUserId(userId);
 		
-		return favoriteRepository.findByUser(user);
+		PageRequest pageRequest = new PageRequest(page, size, Direction.DESC, "createDate");
+		return favoriteRepository.findByUser(user, pageRequest);
 	}
 	
 	public Favorite getFavorite(String userId, String queueId) throws Exception {

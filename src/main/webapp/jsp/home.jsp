@@ -16,7 +16,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
-<div class="container" style="background-color: silver;">
+<div class="container">
 <div id="div_login" align="center" style="font-family: 微軟正黑體;">
 	<br/>
 	<br/>

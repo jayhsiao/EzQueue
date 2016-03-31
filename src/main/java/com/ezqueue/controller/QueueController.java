@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ezqueue.model.Queue;
 import com.ezqueue.model.User;
 import com.ezqueue.service.QueueService;
+import com.ezqueue.util.EzQueueConstants;
 import com.ezqueue.util.ResponseObject;
 import com.ezqueue.util.StringUtil;
 
@@ -28,11 +29,11 @@ public class QueueController extends BaseController {
 	@Autowired
 	private QueueService queueService;
 	
-	@RequestMapping(value = "/promotion/{userId}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getPromotionsQueues(@PathVariable String userId){
+	@RequestMapping(value = "/promotion/{userId}/{page}", method = RequestMethod.GET)
+	public ResponseEntity<Object> getPromotionsQueues(@PathVariable String userId, @PathVariable Integer page){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			List<Map<String, Object>> queues = queueService.getPromotionQueues(userId);
+			List<Map<String, Object>> queues = queueService.getPromotionQueues(userId, page, EzQueueConstants.PAGE_SIZE);
 			responseObject.setSuccess(true);
 			responseObject.setReturnObject(queues);
 		} 
@@ -44,11 +45,11 @@ public class QueueController extends BaseController {
 		return this.getResponse(responseObject);
 	}
 	
-	@RequestMapping(value = "/my/{userId}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getMyQueues(@PathVariable String userId){
+	@RequestMapping(value = "/my/{userId}/{page}", method = RequestMethod.GET)
+	public ResponseEntity<Object> getMyQueues(@PathVariable String userId, @PathVariable Integer page){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			List<Map<String, Object>> queues = queueService.getMyQueues(userId);
+			List<Map<String, Object>> queues = queueService.getMyQueues(userId, page, EzQueueConstants.PAGE_SIZE);
 			responseObject.setSuccess(true);
 			responseObject.setReturnObject(queues);
 		} 

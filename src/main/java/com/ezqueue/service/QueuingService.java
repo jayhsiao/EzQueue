@@ -7,13 +7,13 @@ import com.ezqueue.model.Queuing;
 
 public interface QueuingService {
 	
-	public List<Queuing> getQueuingsByUserId(String userId, int status) throws Exception;
+	public List<Queuing> getQueuingsByUserId(String userId, int status, int page, int size) throws Exception;
 	
-	public List<Queuing> getQueuingsByQueueId(String queueId, int status) throws Exception;
+	public List<Queuing> getQueuingsByQueueId(String queueId, int status, int page, int size) throws Exception;
 	
 	public Queuing getQueuing(String userId, String queueId, int status) throws Exception;
 	
-	public Integer addQueuing(Map<String, Object> map) throws Exception;
+	public Queuing addQueuing(Map<String, Object> map) throws Exception;
 	
 	public void addQueuing(Queuing queuing) throws Exception;
 	

@@ -20,31 +20,7 @@
 <div class="container">
 <form id="submitForm" target="mainFrame" style="font-family: 微軟正黑體;">
 	<div class="page-header">
-		<h1>排排 
-			<small>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-				<i class="fa fa-male"></i>
-			</small>
-		</h1>
+		<h1>排排 </h1>
 	</div>
 	<div align="center">
 		<table style="width: 100%;">

@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.ezqueue.model.User;
 import com.ezqueue.service.EzQueueService;
+import com.ezqueue.util.EzQueueConstants;
 
 @Controller
 @RequestMapping(value = "/ezqueue")    
@@ -41,25 +41,25 @@ public class EzQueueController extends BaseController {
 	
 	@RequestMapping(value = "/myQueues/{userId}", method = RequestMethod.GET)
 	public String getMyQueues(Model model, @PathVariable String userId) throws Exception{
-		model.addAttribute("RESPONSE_MAP", ezQueueService.getMyQueues(userId));
+		model.addAttribute("RESPONSE_MAP", ezQueueService.getMyQueues(userId, 0, EzQueueConstants.PAGE_SIZE));
         return "queue";
 	}
 	
 	@RequestMapping(value = "/promotion/{userId}", method = RequestMethod.GET)
 	public String getPromotionsQueues(Model model, @PathVariable String userId) throws Exception{
-		model.addAttribute("RESPONSE_MAP", ezQueueService.getPromotionQueues(userId));
+		model.addAttribute("RESPONSE_MAP", ezQueueService.getPromotionQueues(userId, 0, EzQueueConstants.PAGE_SIZE));
         return "queue";
 	}
 	
 	@RequestMapping(value = "/queuing/{userId}", method = RequestMethod.GET)
 	public String getQueuing(Model model, @PathVariable String userId) throws Exception{
-		model.addAttribute("RESPONSE_MAP", ezQueueService.getQueuingQueues(userId));
+		model.addAttribute("RESPONSE_MAP", ezQueueService.getQueuingQueues(userId, 0, EzQueueConstants.PAGE_SIZE));
         return "queue";
 	}
 	
 	@RequestMapping(value = "/favorite/{userId}", method = RequestMethod.GET)
 	public String getFavorite(Model model, @PathVariable String userId) throws Exception{
-		model.addAttribute("RESPONSE_MAP", ezQueueService.getFavoriteQueues(userId));
+		model.addAttribute("RESPONSE_MAP", ezQueueService.getFavoriteQueues(userId, 0, EzQueueConstants.PAGE_SIZE));
         return "queue";
 	}
 }

@@ -10,11 +10,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Where;
+
 import com.ezqueue.util.StringUtil;
 
 
 @Entity
 @Table(name = "promotion")
+@Where(clause="now() between start_date and end_date")
 public class Promotion extends ModelBase implements Serializable{
 
 	private static final long serialVersionUID = -8609517864321196790L;

@@ -7,7 +7,7 @@ import com.ezqueue.model.Favorite;
 
 public interface FavoriteService {
 
-	public List<Favorite> getFavorites(String userId) throws Exception;
+	public List<Favorite> getFavorites(String userId, int page, int size) throws Exception;
 	
 	public Favorite getFavorite(String userId, String queueId) throws Exception;
 	

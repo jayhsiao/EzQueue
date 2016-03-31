@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.ezqueue.model.User;
@@ -25,18 +27,20 @@ public class QueuingServiceImpl implements QueuingService {
 	@Autowired
 	private QueuingRepository queuingRepository;
 	
-	public List<Queuing> getQueuingsByUserId(String userId, int status) throws Exception {
+	public List<Queuing> getQueuingsByUserId(String userId, int status, int page, int size) throws Exception {
 		User user = new User();
 		user.setUserId(userId);
 		
-		return queuingRepository.findByUserAndStatus(user, status);
+		PageRequest pageRequest = new PageRequest(page, size, Direction.DESC, "createDate");
+		return queuingRepository.findByUserAndStatus(user, status, pageRequest);
 	}
 	
-	public List<Queuing> getQueuingsByQueueId(String queueId, int status) throws Exception {
+	public List<Queuing> getQueuingsByQueueId(String queueId, int status, int page, int size) throws Exception {
 		Queue queue = new Queue();
 		queue.setQueueId(queueId);
 		
-		return queuingRepository.findByQueueAndStatus(queue, status);
+		PageRequest pageRequest = new PageRequest(page, size, Direction.ASC, "queueNum");
+		return queuingRepository.findByQueueAndStatus(queue, status, pageRequest);
 	}
 	
 	public Queuing getQueuing(String userId, String queueId, int status) throws Exception {
@@ -49,7 +53,7 @@ public class QueuingServiceImpl implements QueuingService {
 		return queuingRepository.findByUserAndQueueAndStatus(user, queue, status);
 	}
 	
-	synchronized public Integer addQueuing(Map<String, Object> map) throws Exception {
+	synchronized public Queuing addQueuing(Map<String, Object> map) throws Exception {
 		User user = new User();
 		user.setUserId((String) map.get("userId"));
 		
@@ -76,7 +80,7 @@ public class QueuingServiceImpl implements QueuingService {
 		queuing.setQueueNum(maxQueueNum);
 		
 		this.addQueuing(queuing);
-		return maxQueueNum;
+		return queuing;
 	}
 	
 	public void addQueuing(Queuing queuing) throws Exception {

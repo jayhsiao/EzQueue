@@ -25,19 +25,19 @@ public class EzQueueServiceImpl implements EzQueueService {
 		return resultMap;
 	}
 	
-	public List<Map<String, Object>> getMyQueues(String userId) throws Exception {
-		return queueService.getMyQueues(userId);
+	public List<Map<String, Object>> getMyQueues(String userId, int page, int size) throws Exception {
+		return queueService.getMyQueues(userId, page, size);
 	}
 	
-	public List<Map<String, Object>> getPromotionQueues(String userId) throws Exception {
-		return queueService.getPromotionQueues(userId);
+	public List<Map<String, Object>> getPromotionQueues(String userId, int page, int size) throws Exception {
+		return queueService.getPromotionQueues(userId, page, size);
 	}
 	
-	public List<Map<String, Object>> getQueuingQueues(String userId) throws Exception {
-		return queueService.getQueuingQueues(userId);
+	public List<Map<String, Object>> getQueuingQueues(String userId, int page, int size) throws Exception {
+		return queueService.getQueuingQueues(userId, page, size);
 	}
 	
-	public List<Map<String, Object>> getFavoriteQueues(String userId) throws Exception {
-		return queueService.getFavoriteQueues(userId);
+	public List<Map<String, Object>> getFavoriteQueues(String userId, int page, int size) throws Exception {
+		return queueService.getFavoriteQueues(userId, page, size);
 	}
 }

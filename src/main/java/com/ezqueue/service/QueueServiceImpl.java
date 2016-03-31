@@ -10,6 +10,8 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.ezqueue.model.Favorite;
@@ -37,27 +39,30 @@ public class QueueServiceImpl implements QueueService {
 	@Autowired
 	private QueuingService queuingService;
 	
-	public List<Map<String, Object>> getMyQueues(String userId) throws Exception {
+	public List<Map<String, Object>> getMyQueues(String userId, int page, int size) throws Exception {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
 		User user = new User();
 		user.setUserId(userId);
 		
-		List<Queue> queues = queueRepository.findByUserOrderByCreateDateDesc(user);
+		PageRequest pageRequest = new PageRequest(page, size, Direction.DESC, "createDate");
+		List<Queue> queues = queueRepository.findByUser(user, pageRequest);
 		for(Queue queue: queues){
 			Map<String, Object> queueMap = new HashMap<String, Object>();
 			
 			Favorite favorite = favoriteService.getFavorite(userId, queue.getQueueId());
 			Promotion promotion = promotionService.getPromotion(queue.getQueueId());
-			List<Queuing> queuings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING);
+			List<Queuing> queuings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING, page, size);
 			this.sortQueuings(queuings);
 			Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
 			
+			Integer queuingCount = 0;
+			if(queuings != null && queuings.size() > 1){
+				queuingCount = queuings.size() - 1;
+			}
+			
 			String queuingId = null;
 			Integer queueNum = null;
-			
-			
-			
 			for(Queuing queuing: queuings){
 				if(userId.equals(queuing.getUser().getUserId())){
 					queuingId = queuing.getQueuingId();
@@ -67,6 +72,7 @@ public class QueueServiceImpl implements QueueService {
 			}
 			
 			queueMap.put("queue", queue);
+			queueMap.put("queuingCount", queuingCount);
 			queueMap.put("avgWaittingTime", this.getAvgWaittingTimeString(avgSeconds));
 			queueMap.put("queueNum", queueNum);
 			queueMap.put("queuings", queuings);
@@ -80,18 +86,23 @@ public class QueueServiceImpl implements QueueService {
 		return list;
 	}
 	
-	public List<Map<String, Object>> getPromotionQueues(String userId) throws Exception {
+	public List<Map<String, Object>> getPromotionQueues(String userId, int page, int size) throws Exception {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
-		List<Promotion> promotions = promotionService.getPromotions();
+		List<Promotion> promotions = promotionService.getPromotions(page, size);
 		for(Promotion promotion: promotions){
 			Map<String, Object> queueMap = new HashMap<String, Object>();
 			
 			Queue queue = promotion.getQueue();
 			
 			Favorite favorite = favoriteService.getFavorite(userId, queue.getQueueId());
-			List<Queuing> queuings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING);
+			List<Queuing> queuings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING, page, size);
 			Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
+			
+			Integer queuingCount = 0;
+			if(queuings != null && queuings.size() > 1){
+				queuingCount = queuings.size() - 1;
+			}
 			
 			String queuingId = null;
 			Integer queueNum = null;
@@ -104,6 +115,7 @@ public class QueueServiceImpl implements QueueService {
 			}
 			
 			queueMap.put("queue", queue);
+			queueMap.put("queuingCount", queuingCount);
 			queueMap.put("avgWaittingTime", this.getAvgWaittingTimeString(avgSeconds));
 			queueMap.put("queueNum", queueNum);
 			queueMap.put("queuings", queuings);
@@ -117,10 +129,10 @@ public class QueueServiceImpl implements QueueService {
 		return list;
 	}
 	
-	public List<Map<String, Object>> getQueuingQueues(String userId) throws Exception {
+	public List<Map<String, Object>> getQueuingQueues(String userId, int page, int size) throws Exception {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
-		List<Queuing> queuings = queuingService.getQueuingsByUserId(userId, QueuingStatus.WAITTING);
+		List<Queuing> queuings = queuingService.getQueuingsByUserId(userId, QueuingStatus.WAITTING, page, size);
 		for(Queuing queuing: queuings){
 			Map<String, Object> queueMap = new HashMap<String, Object>();
 			
@@ -130,7 +142,13 @@ public class QueueServiceImpl implements QueueService {
 			Favorite favorite = favoriteService.getFavorite(userId, queue.getQueueId());
 			Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
 			
+			Integer queuingCount = 0;
+			if(queuings != null && queuings.size() > 1){
+				queuingCount = queuings.size() - 1;
+			}
+			
 			queueMap.put("queue", queue);
+			queueMap.put("queuingCount", queuingCount);
 			queueMap.put("avgWaittingTime", this.getAvgWaittingTimeString(avgSeconds));
 			queueMap.put("queueNum", queuing.getQueueNum());
 			queueMap.put("queuings", queuings);
@@ -144,18 +162,23 @@ public class QueueServiceImpl implements QueueService {
 		return list;
 	}
 	
-	public List<Map<String, Object>> getFavoriteQueues(String userId) throws Exception {
+	public List<Map<String, Object>> getFavoriteQueues(String userId, int page, int size) throws Exception {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
-		List<Favorite> favorites = favoriteService.getFavorites(userId);
+		List<Favorite> favorites = favoriteService.getFavorites(userId, page, size);
 		for(Favorite favorite: favorites){
 			Map<String, Object> queueMap = new HashMap<String, Object>();
 			
 			Queue queue = favorite.getQueue();
 			
 			Promotion promotion = promotionService.getPromotion(queue.getQueueId());
-			List<Queuing> queuings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING);
+			List<Queuing> queuings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING, page, size);
 			Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
+			
+			Integer queuingCount = 0;
+			if(queuings != null && queuings.size() > 1){
+				queuingCount = queuings.size() - 1;
+			}
 			
 			String queuingId = null;
 			Integer queueNum = null;
@@ -168,6 +191,7 @@ public class QueueServiceImpl implements QueueService {
 			}
 			
 			queueMap.put("queue", queue);
+			queueMap.put("queuingCount", queuingCount);
 			queueMap.put("avgWaittingTime", this.getAvgWaittingTimeString(avgSeconds));
 			queueMap.put("queueNum", queueNum);
 			queueMap.put("queuings", queuings);

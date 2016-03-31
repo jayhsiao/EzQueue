@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ezqueue.model.Queuing;
 import com.ezqueue.service.QueuingService;
+import com.ezqueue.util.EzQueueConstants;
 import com.ezqueue.util.QueuingStatus;
 import com.ezqueue.util.ResponseObject;
 
@@ -27,11 +28,11 @@ public class QueuingController extends BaseController {
 	@Autowired
 	private QueuingService userQueueService;
 	
-	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getQueuings(@PathVariable String userId){
+	@RequestMapping(value = "/{userId}/{page}", method = RequestMethod.GET)
+	public ResponseEntity<Object> getQueuingsByUserId(@PathVariable String userId, @PathVariable Integer page){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			List<Queuing> queuings = userQueueService.getQueuingsByUserId(userId, QueuingStatus.WAITTING);
+			List<Queuing> queuings = userQueueService.getQueuingsByUserId(userId, QueuingStatus.WAITTING, page, EzQueueConstants.PAGE_SIZE);
 			responseObject.setSuccess(true);
 			responseObject.setReturnObject(queuings);
 		} 
@@ -47,9 +48,9 @@ public class QueuingController extends BaseController {
 	public ResponseEntity<Object> addQueuing(@RequestBody Map<String, Object> map){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			Integer queueNum = userQueueService.addQueuing(map);
+			Queuing queuing = userQueueService.addQueuing(map);
 			responseObject.setSuccess(true);
-			responseObject.setReturnObject(queueNum);
+			responseObject.setReturnObject(queuing);
 		} 
 		catch (Exception e) {
 			logger.error(e, e);

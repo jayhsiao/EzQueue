@@ -44,6 +44,7 @@ public class FavoriteController extends BaseController {
 			
 			favoriteService.addFavorite(favorite);
 			responseObject.setSuccess(true);
+			responseObject.setReturnObject(favorite.getFavoriteId());
 		} 
 		catch (Exception e) {
 			logger.error(e, e);
