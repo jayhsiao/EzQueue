@@ -71,6 +71,7 @@ public class QueueController extends BaseController {
 			Queue queue = new Queue();
 			queue.setQueueId(StringUtil.getUUID());
 			queue.setUser(user);
+			queue.setTitle((String) map.get("title"));
 			queue.setDscr((String) map.get("dscr"));
 			queue.setEnable(Boolean.valueOf((String) map.get("enable")));
 			
@@ -90,6 +91,22 @@ public class QueueController extends BaseController {
 		ResponseObject responseObject = new ResponseObject();
 		try {
 			queueService.removeQueue((String) map.get("queueId"));
+			responseObject.setSuccess(true);
+		} 
+		catch (Exception e) {
+			logger.error(e, e);
+			responseObject.setSuccess(false);
+			responseObject.setReturnMessage(e.getMessage());
+		}
+		return this.getResponse(responseObject);
+	}
+	
+	@RequestMapping(value = "/update", method = RequestMethod.PATCH)
+	public ResponseEntity<Object> update(@RequestBody Queue queue){
+		ResponseObject responseObject = new ResponseObject();
+		try {
+			queue.setEnable(false);
+			queueService.update(queue);
 			responseObject.setSuccess(true);
 		} 
 		catch (Exception e) {

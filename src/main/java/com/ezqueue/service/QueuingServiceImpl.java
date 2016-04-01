@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,20 +52,22 @@ public class QueuingServiceImpl implements QueuingService {
 		return queuingRepository.findByUserAndQueueAndStatus(user, queue, status);
 	}
 	
-	synchronized public Queuing addQueuing(Map<String, Object> map) throws Exception {
+	synchronized public Queuing queuing(Map<String, Object> map) throws Exception {
 		User user = new User();
 		user.setUserId((String) map.get("userId"));
 		
 		Queue queue = new Queue();
 		queue.setQueueId((String) map.get("queueId"));
 		
+		Calendar calendar = Calendar.getInstance();
+		
 		Queuing queuing = new Queuing();
 		queuing.setQueuingId(StringUtil.getUUID());
 		queuing.setUser(user);
 		queuing.setQueue(queue);
 		queuing.setStatus(QueuingStatus.WAITTING);
+		queuing.setStartDate(calendar.getTime());
 		
-		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
@@ -95,10 +96,9 @@ public class QueuingServiceImpl implements QueuingService {
 		return queuingRepository.getAvgWaittingTime(queueId);
 	}
 	
-	public void updateWaittingStatus(Queuing queuing) throws Exception {
+	public void updateStatus(Queuing queuing) throws Exception {
 		Queuing oldQueuing = queuingRepository.findOne(queuing.getQueuingId());
 		oldQueuing.setEndDate(Calendar.getInstance().getTime());
-		oldQueuing.setWaittingTime(TimeUnit.MILLISECONDS.toSeconds(oldQueuing.getEndDate().getTime() - oldQueuing.getStartDate().getTime()));
 		oldQueuing.setStatus(queuing.getStatus());
 		
 		this.addQueuing(oldQueuing);

@@ -48,7 +48,7 @@ public class QueuingController extends BaseController {
 	public ResponseEntity<Object> addQueuing(@RequestBody Map<String, Object> map){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			Queuing queuing = userQueueService.addQueuing(map);
+			Queuing queuing = userQueueService.queuing(map);
 			responseObject.setSuccess(true);
 			responseObject.setReturnObject(queuing);
 		} 
@@ -75,11 +75,11 @@ public class QueuingController extends BaseController {
 		return this.getResponse(responseObject);
 	}
 	
-	@RequestMapping(value = "/updateWaittingStatus", method = RequestMethod.PATCH)
+	@RequestMapping(value = "/updateStatus", method = RequestMethod.PATCH)
 	public ResponseEntity<Object> updateWaittingStatus(@RequestBody Queuing queuing){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			userQueueService.updateWaittingStatus(queuing);
+			userQueueService.updateStatus(queuing);
 			responseObject.setSuccess(true);
 		} 
 		catch (Exception e) {

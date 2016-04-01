@@ -32,7 +32,7 @@ function checkLoginState() {
 
 window.fbAsyncInit = function() {
 	FB.init({
-		appId : '554860634671080',
+		appId : '592070890950054',
 		cookie : true, // enable cookies to allow the server to access 
 		// the session
 		xfbml : true, // parse social plugins on this page
@@ -85,15 +85,14 @@ function xxx(response){
 		email: response.email
 	};
 	var actionUrl = "/user/add";
-	ajaxUtilObj.callAJAX(ajaxUtilObj.POST, actionUrl, JSON.stringify(body), rrr);
+	ajaxUtilObj.callAJAX(ajaxUtilObj.POST, actionUrl, JSON.stringify(body), function(httpResponse){
+		if(!httpResponse.success){
+			$("#div_result").html("<div class='alert alert-danger'>"+httpResponse.returnMessage+"</div>");
+			return;
+		}
+		$("#div_result").html("<div class='alert alert-success'>Sign in success!!!</div>");
+		var userId = httpResponse.returnObject;
+		window.location = "/ezqueue/init/"+userId;
+	});
 }
 
-function rrr(httpResponse){
-	if(!httpResponse.success){
-		$("#div_result").html("<div class='alert alert-danger'>"+httpResponse.returnMessage+"</div>");
-		return;
-	}
-	$("#div_result").html("<div class='alert alert-success'>Sign in success!!!</div>");
-	var userId = httpResponse.returnObject;
-	window.location = "/ezqueue/init/"+userId;
-};

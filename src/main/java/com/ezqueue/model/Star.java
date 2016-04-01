@@ -13,41 +13,58 @@ import com.ezqueue.util.StringUtil;
 
 
 @Entity
-@Table(name = "favorite")
-public class Favorite extends ModelBase implements Serializable{
+@Table(name = "star")
+public class Star extends ModelBase implements Serializable{
 
-	private static final long serialVersionUID = 5995000827130756685L;
+	private static final long serialVersionUID = 6452911642499660819L;
 	
 	@Id
-	@Column(name = "favorite_id")
-	private String favoriteId;
+	@Column(name = "star_id")
+	private String starsId;
 	@OneToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 	@OneToOne
 	@JoinColumn(name = "queue_id")
 	private Queue queue;
+	@Column(name = "star")
+	private Integer star;
 	
 	@Override
 	public String toString() {
 		return StringUtil.reflectionToString(this);
 	}
-	public String getFavoriteId() {
-		return favoriteId;
+
+	public String getStarsId() {
+		return starsId;
 	}
-	public void setFavoriteId(String favoriteId) {
-		this.favoriteId = favoriteId;
+
+	public void setStarsId(String starsId) {
+		this.starsId = starsId;
 	}
+
 	public User getUser() {
 		return user;
 	}
+
 	public void setUser(User user) {
 		this.user = user;
 	}
+
 	public Queue getQueue() {
 		return queue;
 	}
+
 	public void setQueue(Queue queue) {
 		this.queue = queue;
 	}
+
+	public Integer getStar() {
+		return star;
+	}
+
+	public void setStar(Integer star) {
+		this.star = star;
+	}
+
 }

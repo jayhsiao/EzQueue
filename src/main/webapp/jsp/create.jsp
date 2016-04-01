@@ -16,10 +16,10 @@
 <script type="text/javascript" src="<c:url value="/js/ajax_util.js"/>"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
-<body style="background-color: silver;">
+<body>
 <div class="container">
 <form style="font-family: 微軟正黑體;">
-	<div class='panel panel-primary' style='width: 420px;'>
+	<div class='panel panel-default' style='width: 420px;'>
 		<div class='panel-heading'>
 			<table>
 			<tr>
@@ -31,28 +31,30 @@
 			</tr>
 			</table>
 		</div>
-		<div class='panel-body' style='height: 300px'>
-			<div id="div_btn-group" class="btn-group" data-toggle="buttons">
-				<label class="btn btn-default active">
-					<input type="radio" name="enable" id="enable_true" autocomplete="off" value="true" checked> 開啟
-				</label>
-				<label class="btn btn-default">
-					<input type="radio" name="enable" id="enable_false" autocomplete="off" value="false"> 暫時關閉
-				</label>
-				<br/><br/>
+		<div class='panel-body'>
+		
+			<div class="form-group row col-xs-10">
+				<div id="div_btn-group" class="btn-group" data-toggle="buttons">
+					<label class="btn btn-default active">
+						<input type="radio" name="enable" id="enable_true" autocomplete="off" value="true" checked> 開啟
+					</label>
+					<label class="btn btn-default">
+						<input type="radio" name="enable" id="enable_false" autocomplete="off" value="false"> 暫時關閉
+					</label>
+					<br/><br/>
+				</div>
 			</div>
 			
-			<div id="div_textarea">
-				簡介<br/>
-				<textarea id="textarea_dscr" rows='3' cols='33' maxlength='150'></textarea>
-				<br/><br/>
+			<div class="form-group row col-xs-10">
+				<input type="text" class="form-control" id="input_title" name="title" maxlength="45" placeholder="名稱">
+			</div>
+			<div class="form-group row col-xs-10">
+				<textarea id="textarea_dscr" rows='3' cols='33' class="form-control" maxlength='150' placeholder="簡介"></textarea>
 			</div>
 			
-			<div>
+			<div class="form-group row col-xs-10">
 				<button type='button' id="btn_create" class='btn btn-default'>建立排隊</button>
-				<br/><br/>
 			</div>
-			
 			<div id="div_result"></div>
 			
 			<br/>

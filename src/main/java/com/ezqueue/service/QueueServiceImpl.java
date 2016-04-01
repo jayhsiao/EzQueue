@@ -1,8 +1,8 @@
 package com.ezqueue.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +39,9 @@ public class QueueServiceImpl implements QueueService {
 	@Autowired
 	private QueuingService queuingService;
 	
+	@Autowired
+	private StarService starsService;
+	
 	public List<Map<String, Object>> getMyQueues(String userId, int page, int size) throws Exception {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
@@ -53,8 +56,8 @@ public class QueueServiceImpl implements QueueService {
 			Favorite favorite = favoriteService.getFavorite(userId, queue.getQueueId());
 			Promotion promotion = promotionService.getPromotion(queue.getQueueId());
 			List<Queuing> queuings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING, page, size);
-			this.sortQueuings(queuings);
 			Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
+			Integer star = starsService.getAvgStar(queue.getQueueId());
 			
 			Integer queuingCount = 0;
 			if(queuings != null && queuings.size() > 1){
@@ -72,6 +75,7 @@ public class QueueServiceImpl implements QueueService {
 			}
 			
 			queueMap.put("queue", queue);
+			queueMap.put("star", star);
 			queueMap.put("queuingCount", queuingCount);
 			queueMap.put("avgWaittingTime", this.getAvgWaittingTimeString(avgSeconds));
 			queueMap.put("queueNum", queueNum);
@@ -98,6 +102,7 @@ public class QueueServiceImpl implements QueueService {
 			Favorite favorite = favoriteService.getFavorite(userId, queue.getQueueId());
 			List<Queuing> queuings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING, page, size);
 			Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
+			Integer star = starsService.getAvgStar(queue.getQueueId());
 			
 			Integer queuingCount = 0;
 			if(queuings != null && queuings.size() > 1){
@@ -115,6 +120,7 @@ public class QueueServiceImpl implements QueueService {
 			}
 			
 			queueMap.put("queue", queue);
+			queueMap.put("star", star);
 			queueMap.put("queuingCount", queuingCount);
 			queueMap.put("avgWaittingTime", this.getAvgWaittingTimeString(avgSeconds));
 			queueMap.put("queueNum", queueNum);
@@ -141,6 +147,7 @@ public class QueueServiceImpl implements QueueService {
 			Promotion promotion = promotionService.getPromotion(queue.getQueueId());
 			Favorite favorite = favoriteService.getFavorite(userId, queue.getQueueId());
 			Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
+			Integer star = starsService.getAvgStar(queue.getQueueId());
 			
 			Integer queuingCount = 0;
 			if(queuings != null && queuings.size() > 1){
@@ -148,6 +155,7 @@ public class QueueServiceImpl implements QueueService {
 			}
 			
 			queueMap.put("queue", queue);
+			queueMap.put("star", star);
 			queueMap.put("queuingCount", queuingCount);
 			queueMap.put("avgWaittingTime", this.getAvgWaittingTimeString(avgSeconds));
 			queueMap.put("queueNum", queuing.getQueueNum());
@@ -174,6 +182,7 @@ public class QueueServiceImpl implements QueueService {
 			Promotion promotion = promotionService.getPromotion(queue.getQueueId());
 			List<Queuing> queuings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING, page, size);
 			Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
+			Integer star = starsService.getAvgStar(queue.getQueueId());
 			
 			Integer queuingCount = 0;
 			if(queuings != null && queuings.size() > 1){
@@ -191,6 +200,7 @@ public class QueueServiceImpl implements QueueService {
 			}
 			
 			queueMap.put("queue", queue);
+			queueMap.put("star", star);
 			queueMap.put("queuingCount", queuingCount);
 			queueMap.put("avgWaittingTime", this.getAvgWaittingTimeString(avgSeconds));
 			queueMap.put("queueNum", queueNum);
@@ -206,6 +216,11 @@ public class QueueServiceImpl implements QueueService {
 	}
 	
 	public void addQueue(Queue queue) throws Exception {
+		Date now = Calendar.getInstance().getTime();
+		queue.setCreateDate(now);
+		queue.setCreateUser(queue.getUser().getUserId());
+		queue.setUpdateDate(now);
+		queue.setUpdateUser(queue.getUser().getUserId());
 		queueRepository.save(queue);
 	}
 	
@@ -213,8 +228,14 @@ public class QueueServiceImpl implements QueueService {
 		queueRepository.delete(queueId);
 	}
 	
+	public void update(Queue queue) throws Exception {
+		Queue oldQueue = queueRepository.findOne(queue.getQueueId());
+		oldQueue.setDscr(queue.getDscr());
+		queueRepository.save(oldQueue);
+	}
+	
 	private String getAvgWaittingTimeString(Double seconds){
-		String avgWaittingTimeString = "0 秒";
+		String avgWaittingTimeString = null;
 		if(seconds != null){
 			long hours = TimeUnit.SECONDS.toHours(seconds.intValue());
 			long minute = TimeUnit.SECONDS.toMinutes(seconds.intValue()) - (TimeUnit.SECONDS.toHours(seconds.intValue()) * 60);
@@ -222,19 +243,5 @@ public class QueueServiceImpl implements QueueService {
 			avgWaittingTimeString =  hours + " : " + minute + " : " + second;
 		}
 		return avgWaittingTimeString;
-	}
-	
-	private void sortQueuings(List<Queuing> queuings){
-		Collections.sort(queuings, new Comparator<Queuing>() {
-			@Override
-			public int compare(Queuing o1, Queuing o2) {
-				if(o1.getQueueNum() > o2.getQueueNum()){
-					return 1;
-				}
-				else{
-					return -1;
-				}
-			}
-		});
 	}
 }

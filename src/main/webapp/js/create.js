@@ -19,6 +19,7 @@ var createObj = {
 	createQueue: function(){
 		var body = {
 			userId: $("#userId", window.parent.document).val(),
+			title: $("#input_title").val(),
 			dscr: $("#textarea_dscr").val(),
 			enable: $("input[name=enable]:checked").val()
 		};

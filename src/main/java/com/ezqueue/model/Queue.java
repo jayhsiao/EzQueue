@@ -3,6 +3,7 @@ package com.ezqueue.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -27,14 +28,28 @@ public class Queue extends ModelBase implements Serializable{
 	@OneToOne
 	@JoinColumn(name = "user_id")
 	private User user;
+	@Column(name = "title")
+	private String title;
 	@Column(name = "dscr")
 	private String dscr;
 	@Column(name = "enable")
 	private boolean enable;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "queue_id")
 	private List<Favorite> favorites;
+	
+	@OneToMany(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "queue_id")
+	private List<Promotion> promotions;
+	
+	@OneToMany(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "queue_id")
+	private List<Queuing> queuings;
+	
+	@OneToMany(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "queue_id")
+	private List<Star> stars;
 	
 	@Transient
 	private Double avgWaittingTime;
@@ -58,6 +73,14 @@ public class Queue extends ModelBase implements Serializable{
 
 	public void setUser(User user) {
 		this.user = user;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getDscr() {
@@ -90,6 +113,30 @@ public class Queue extends ModelBase implements Serializable{
 
 	public void setFavorites(List<Favorite> favorites) {
 		this.favorites = favorites;
+	}
+
+	public List<Star> getStars() {
+		return stars;
+	}
+
+	public void setStars(List<Star> stars) {
+		this.stars = stars;
+	}
+
+	public List<Promotion> getPromotions() {
+		return promotions;
+	}
+
+	public void setPromotions(List<Promotion> promotions) {
+		this.promotions = promotions;
+	}
+
+	public List<Queuing> getQueuings() {
+		return queuings;
+	}
+
+	public void setQueuings(List<Queuing> queuings) {
+		this.queuings = queuings;
 	}
 
 }

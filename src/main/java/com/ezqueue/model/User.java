@@ -14,8 +14,8 @@ import com.ezqueue.util.StringUtil;
 @Table(name = "user")
 public class User extends ModelBase implements Serializable{
 
-	private static final long serialVersionUID = -8609517864321196790L;
-
+	private static final long serialVersionUID = 6252677806180763045L;
+	
 	@Id
 	@Column(name = "user_id")
 	private String userId;

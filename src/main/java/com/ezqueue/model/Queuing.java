@@ -17,8 +17,8 @@ import com.ezqueue.util.StringUtil;
 @Table(name = "queuing")
 public class Queuing extends ModelBase implements Serializable{
 
-	private static final long serialVersionUID = -8609517864321196790L;
-
+	private static final long serialVersionUID = -3845762232327273130L;
+	
 	@Id
 	@Column(name = "queuing_id")
 	private String queuingId;
@@ -30,12 +30,10 @@ public class Queuing extends ModelBase implements Serializable{
 	private Queue queue;
 	@Column(name = "queue_num")
 	private Integer queueNum;
-	@Column(name = "start_date", insertable = false)
+	@Column(name = "start_date")
 	private Date startDate;
-	@Column(name = "end_date", insertable = false)
+	@Column(name = "end_date")
 	private Date endDate;
-	@Column(name = "waitting_time", insertable = false)
-	private Long waittingTime;
 	@Column(name = "status")
 	private Integer status;
 	
@@ -78,12 +76,6 @@ public class Queuing extends ModelBase implements Serializable{
 	}
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
-	}
-	public Long getWaittingTime() {
-		return waittingTime;
-	}
-	public void setWaittingTime(Long waittingTime) {
-		this.waittingTime = waittingTime;
 	}
 	public Integer getStatus() {
 		return status;

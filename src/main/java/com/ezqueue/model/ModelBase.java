@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @MappedSuperclass
 public abstract class ModelBase implements Serializable {
 	
-	private static final long serialVersionUID = 4493066134966097597L;
+	private static final long serialVersionUID = -7751304918692194237L;
 	
 	@JsonIgnore
 	@Column(name = "create_date")

@@ -13,7 +13,7 @@ public interface QueuingService {
 	
 	public Queuing getQueuing(String userId, String queueId, int status) throws Exception;
 	
-	public Queuing addQueuing(Map<String, Object> map) throws Exception;
+	public Queuing queuing(Map<String, Object> map) throws Exception;
 	
 	public void addQueuing(Queuing queuing) throws Exception;
 	
@@ -21,5 +21,5 @@ public interface QueuingService {
 	
 	public Double getAvgWaittingTime(String queueId) throws Exception;
 	
-	public void updateWaittingStatus(Queuing queuing) throws Exception;
+	public void updateStatus(Queuing queuing) throws Exception;
 }

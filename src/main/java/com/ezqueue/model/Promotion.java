@@ -20,8 +20,8 @@ import com.ezqueue.util.StringUtil;
 @Where(clause="now() between start_date and end_date")
 public class Promotion extends ModelBase implements Serializable{
 
-	private static final long serialVersionUID = -8609517864321196790L;
-
+	private static final long serialVersionUID = -5758156456033975093L;
+	
 	@Id
 	@Column(name = "promotion_id")
 	private String promotionId;

@@ -18,4 +18,6 @@ public interface QueueService {
 	public void addQueue(Queue queue) throws Exception;
 	
 	public void removeQueue(String queueId) throws Exception;
+	
+	public void update(Queue queue) throws Exception;
 }
