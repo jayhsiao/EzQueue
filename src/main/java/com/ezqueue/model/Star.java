@@ -20,7 +20,7 @@ public class Star extends ModelBase implements Serializable{
 	
 	@Id
 	@Column(name = "star_id")
-	private String starsId;
+	private String starId;
 	@OneToOne
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -35,12 +35,12 @@ public class Star extends ModelBase implements Serializable{
 		return StringUtil.reflectionToString(this);
 	}
 
-	public String getStarsId() {
-		return starsId;
+	public String getStarId() {
+		return starId;
 	}
 
-	public void setStarsId(String starsId) {
-		this.starsId = starsId;
+	public void setStarId(String starId) {
+		this.starId = starId;
 	}
 
 	public User getUser() {

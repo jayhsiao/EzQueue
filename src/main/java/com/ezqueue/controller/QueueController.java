@@ -72,6 +72,8 @@ public class QueueController extends BaseController {
 			queue.setQueueId(StringUtil.getUUID());
 			queue.setUser(user);
 			queue.setTitle((String) map.get("title"));
+			queue.setPhone((String) map.get("phone"));
+			queue.setAddress((String) map.get("address"));
 			queue.setDscr((String) map.get("dscr"));
 			queue.setEnable(Boolean.valueOf((String) map.get("enable")));
 			
@@ -105,7 +107,6 @@ public class QueueController extends BaseController {
 	public ResponseEntity<Object> update(@RequestBody Queue queue){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			queue.setEnable(false);
 			queueService.update(queue);
 			responseObject.setSuccess(true);
 		} 

@@ -20,9 +20,12 @@ var createObj = {
 		var body = {
 			userId: $("#userId", window.parent.document).val(),
 			title: $("#input_title").val(),
+			phone: $("#input_phone").val(),
+			address: $("#input_address").val(),
 			dscr: $("#textarea_dscr").val(),
 			enable: $("input[name=enable]:checked").val()
 		};
+		console.log(JSON.stringify(body));
 		var actionUrl = "/queue/add";
 		ajaxUtilObj.callAJAX("POST", actionUrl, JSON.stringify(body), function(httpResponse){
 			if(!httpResponse.success){

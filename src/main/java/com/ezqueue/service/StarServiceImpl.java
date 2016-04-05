@@ -9,6 +9,7 @@ import com.ezqueue.model.Queue;
 import com.ezqueue.model.Star;
 import com.ezqueue.model.User;
 import com.ezqueue.repository.StarRepository;
+import com.ezqueue.util.StringUtil;
 
 @Service
 public class StarServiceImpl implements StarService {
@@ -18,13 +19,13 @@ public class StarServiceImpl implements StarService {
 	@Autowired
 	private StarRepository starRepository;
 	
-	public Integer getAvgStar(String queueId) throws Exception {
-		Double star = starRepository.getAvgStar(queueId);
-		return star != null? star.intValue(): 0;
+	public Double getAvgStar(String queueId) throws Exception {
+		Double avgStar = starRepository.getAvgStar(queueId);
+		return  avgStar != null? (double) Math.round(avgStar * 10)/10: null;
 	}
 	
 	public Integer getStar(String userId, String queueId) throws Exception {
-		User user = new User();
+		User user= new User();
 		user.setUserId(userId);
 		
 		Queue queue = new Queue();
@@ -35,7 +36,15 @@ public class StarServiceImpl implements StarService {
 	}
 	
 	public void addStar(Star star) throws Exception {
-		starRepository.save(star);
+		Star oldStar = starRepository.findByUserAndQueue(star.getUser(), star.getQueue());
+		if(oldStar == null){
+			star.setStarId(StringUtil.getUUID());
+			starRepository.save(star);
+		}
+		else {
+			oldStar.setStar(star.getStar());
+			starRepository.save(oldStar);
+		}
 	}
 	
 	public void removeStar(String starId) throws Exception {

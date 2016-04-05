@@ -26,11 +26,10 @@
 		<table style="width: 100%;">
 			<tr>
 				<td width="10%" valign="top">
-					<img src="http://graph.facebook.com/<c:out value="${RESPONSE_MAP.user.fbId}"/>/picture?width=70&height=70">
 					<div id="div_menu" class="list-group">
+						<a class="list-group-item" id="a_myQueue"><img src="http://graph.facebook.com/<c:out value="${RESPONSE_MAP.user.fbId}"/>/picture?width=12&height=14"> <c:out value="${RESPONSE_MAP.user.name}"/></a>
 						<a class="list-group-item" id="a_promotions"><i class="fa fa-thumbs-up"></i>強力推薦</a>
 						<a class="list-group-item" id="a_favorite"><i class="fa fa-heart"></i>我的最愛</a>
-						<a class="list-group-item" id="a_myQueue"><i class="fa fa-user"></i>我的排隊</a>
 						<a class="list-group-item" id="a_queueing"><i class="fa fa-clock-o"></i>正在排隊</a>
 						<a class="list-group-item" id="a_create"><i class="fa fa-play"></i>建立排隊</a>
 						<a class="list-group-item" id="a_setting"><i class="fa fa-cog"></i>系統設定</a>

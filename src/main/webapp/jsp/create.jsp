@@ -49,6 +49,12 @@
 				<input type="text" class="form-control" id="input_title" name="title" maxlength="45" placeholder="名稱">
 			</div>
 			<div class="form-group row col-xs-10">
+				<input type="text" class="form-control" id="input_phone" name="title" maxlength="45" placeholder="電話">
+			</div>
+			<div class="form-group row col-xs-10">
+				<input type="text" class="form-control" id="input_address" name="title" maxlength="45" placeholder="地址">
+			</div>
+			<div class="form-group row col-xs-10">
 				<textarea id="textarea_dscr" rows='3' cols='33' class="form-control" maxlength='150' placeholder="簡介"></textarea>
 			</div>
 			

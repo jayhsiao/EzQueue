@@ -30,6 +30,10 @@ public class Queue extends ModelBase implements Serializable{
 	private User user;
 	@Column(name = "title")
 	private String title;
+	@Column(name = "phone")
+	private String phone;
+	@Column(name = "address")
+	private String address;
 	@Column(name = "dscr")
 	private String dscr;
 	@Column(name = "enable")
@@ -81,6 +85,22 @@ public class Queue extends ModelBase implements Serializable{
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public String getDscr() {

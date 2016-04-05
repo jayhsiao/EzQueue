@@ -7,35 +7,36 @@ var queueObj = {
 	
 	registerEvent: function(){
 		
-		$(document).on("mouseover", "h1 .fa-star-o", function(event){
-			$(this).parent().find("i:lt("+($(this).index()+1)+")").removeClass("fa-star-o").addClass("fa-star");
-		});
-		$(document).on("mouseover", "h1 .fa-star", function(event){
-			$(this).parent().find("i:gt("+$(this).index()+")").removeClass("fa-star").addClass("fa-star-o");
-		});
-		
-		$("button[name=btn_queuing]").on("click", function(){
-			queueObj.queuing($(this));
-		});
-		
-		$("button[name=btn_cancel]").on("click", function(){
-			queueObj.cancel($(this));
-		});
-		
-		$("button[name=btn_favorite]").on("click", function(){
-			queueObj.favorite($(this));
+		$(document).on("mouseover", ".modal", function(event){
+			$("#input_queueId").val("");
+			$("#input_promotionId").val("");
+			$("#input_favoriteId").val("");
+			$("#input_queuingId").val("");
+			$("#input_isMyQueues").val("");
+			
+			$("#input_queueId").val($(this).find("#input_map_queueId").val());
+			$("#input_promotionId").val($(this).find("#input_map_promotionId").val());
+			$("#input_favoriteId").val($(this).find("#input_map_favoriteId").val());
+			$("#input_queuingId").val($(this).find("#input_map_queuingId").val());
+			$("#input_isMyQueues").val($(this).find("#input_map_isMyQueues").val());
 		});
 		
-		$("button[name=btn_delete]").on("click", function(){
-			queueObj.deleteQueue($(this));
+		$(document).on("click", ".star i", function(event){
+			$(this).parent().find("i:lt("+($(this).index()+1)+")").removeClass("fa-star-o").removeClass("star-o-color").addClass("fa-star").addClass("star-color");
+			$(this).parent().find("i:gt("+$(this).index()+")").removeClass("fa-star").removeClass("star-color").addClass("fa-star-o").addClass("star-o-color");
+			queueObj.star($(this));
 		});
 		
-		$("button[name=btn_edit]").on("click", function(){
-			queueObj.edit($(this));
+		$(document).on("click", "button[name=btn_queuing]", function(event){
+			queueObj.queuing();
 		});
 		
-		$("button[name=btn_save]").on("click", function(){
-			queueObj.save($(this));
+		$(document).on("click", "button[name=btn_cancel]", function(event){
+			queueObj.cancel();
+		});
+		
+		$(document).on("click", "button[name=btn_favorite]", function(event){
+			queueObj.favorite();
 		});
 		
 		$(document).on("click", "button[name=btn_queuing_success]", function(event){
@@ -43,125 +44,196 @@ var queueObj = {
 		});
 		
 		$(document).on("click", "button[name=btn_queuing_pass]", function(event){
-			queueObj.updateStatus($(this), 2);
+			queueObj.updateStatus((this), 2);
 		});
+		
+		$(document).on("click", "button[name=btn_delete]", function(event){
+			queueObj.deleteQueue($(this));
+		});
+		
+		$(document).on("click", "button[name=btn_edit]", function(event){
+			queueObj.edit($(this));
+		});
+		
+		$(document).on("click", "button[name=btn_back]", function(event){
+			queueObj.back($(this));
+		});
+		
+		$(document).on("click", "button[name=btn_save]", function(event){
+			queueObj.save($(this));
+		});
+		
 	},
 	
 	init: function(){
 		
 	},
 	
-	queuing: function(btnObj){
+	queuing: function(){
 		var body = {
 			userId: $("#userId", window.parent.document).val(),
-			queueId: $(btnObj).val()
+			queueId: $("#input_queueId").val()
 		};
 		var actionUrl = "/queuing/add";
 		ajaxUtilObj.callAJAX(ajaxUtilObj.POST, actionUrl, JSON.stringify(body), function(httpResponse){
 			if(!httpResponse.success){
-				$("#div_"+$(btnObj).val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
+				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 				return;
 			}
-			$("#div_"+$(btnObj).val()+" #span_result").addClass("label").addClass("label-success").text("排隊成功");
+			$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-success").text("排隊成功").fadeIn(0).fadeOut(2000);
 			var queuing = httpResponse.returnObject;
-			$("#div_"+$(btnObj).val()+" #input_queuingId").val(queuing.queuingId);
-			$("#div_"+$(btnObj).val()+" #span_queueNum").text(queuing.queueNum);
-			$(btnObj).css("display", "none");
-			$("#div_"+$(btnObj).val()+" #btn_cancel").css("display", "inline-block");
+			$("#div_info_"+$("#input_queueId").val()+" #input_map_queuingId").val(queuing.queuingId);
+			$("#input_queuingId").val(queuing.queuingId);
+			
+			$("#div_info_"+$("#input_queueId").val()+" #span_queueNum").text(queuing.queueNum);
+			$("#div_info_"+$("#input_queueId").val()+" #btn_queuing").css("display", "none");
+			$("#div_info_"+$("#input_queueId").val()+" #btn_cancel").css("display", "inline-block");
 		});
 	},
 	
-	cancel: function(btnObj){
+	cancel: function(){
 		var body = {
-			queuingId: $("#div_"+$(btnObj).val()+" #input_queuingId").val()
+			queuingId: $("#input_queuingId").val()
 		};
 		var actionUrl = "/queuing/remove";
 		ajaxUtilObj.callAJAX(ajaxUtilObj.DELETE, actionUrl, JSON.stringify(body), function(httpResponse){
 			if(!httpResponse.success){
-				$("#div_"+$(btnObj).val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
+				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 				return;
 			}
-			$("#div_"+$(btnObj).val()+" #span_result").addClass("label").addClass("label-success").text("取消成功");
-			$("#div_"+$(btnObj).val()+" #input_queuingId").val("");
-			$("#div_"+$(btnObj).val()+" #span_queueNum").text("");
-			$(btnObj).css("display", "none");
-			$("#div_"+$(btnObj).val()+" #btn_queuing").css("display", "inline-block");
+			$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-success").text("取消成功").fadeIn(0).fadeOut(2000);
+			$("#div_info_"+$("#input_queueId").val()+" #input_map_queuingId").val("");
+			$("#input_map_queuingId").val("");
+			
+			$("#div_info_"+$("#input_queueId").val()+" #span_queueNum").text("");
+			$("#div_info_"+$("#input_queueId").val()+" #btn_cancel").css("display", "none");
+			$("#div_info_"+$("#input_queueId").val()+" #btn_queuing").css("display", "inline-block");
 		});
 	},
 	
-	favorite: function(btnObj){
-		if($(btnObj).find("#i_heart").hasClass("fa-heart")){
+	favorite: function(){
+		if($("#div_info_"+$("#input_queueId").val()).find("#i_heart").hasClass("fa-heart")){
 			var body = {
-				favoriteId: $("#div_"+$(btnObj).val()+" #input_favoriteId").val()
+				favoriteId: $("#input_favoriteId").val()
 			};
 			var actionUrl = "/favorite/remove";
 			ajaxUtilObj.callAJAX(ajaxUtilObj.DELETE, actionUrl, JSON.stringify(body), function(httpResponse){
 				if(!httpResponse.success){
-					$("#div_"+$(btnObj).val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
+					$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 					return;
 				}
-				$("#div_"+$(btnObj).val()+" #i_heart").removeClass("fa-heart").addClass("fa-heart-o");
-				$("#div_"+$(btnObj).val()+" #input_favoriteId").val("");
+				$("#div_info_"+$("#input_queueId").val()+" #i_heart").removeClass("fa-heart").addClass("fa-heart-o");
+				$("#div_info_"+$("#input_queueId").val()+" #input_map_favoriteId").val("");
+				$("#input_favoriteId").val("");
 			});
 		}
 		else {
 			var body = {
 				userId: $("#userId", window.parent.document).val(),
-				queueId: $(btnObj).val()
+				queueId: $("#input_queueId").val()
 			};
 			var actionUrl = "/favorite/add";
 			ajaxUtilObj.callAJAX(ajaxUtilObj.POST, actionUrl, JSON.stringify(body), function(httpResponse){
 				if(!httpResponse.success){
-					$("#div_"+$(btnObj).val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
+					$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 					return;
 				}
 				var favoriteId = httpResponse.returnObject;
-				$("#div_"+$(btnObj).val()+" #i_heart").removeClass("fa-heart-o").addClass("fa-heart");
-				$("#div_"+$(btnObj).val()+" #input_favoriteId").val(favoriteId);
+				$("#div_info_"+$("#input_queueId").val()+" #i_heart").removeClass("fa-heart-o").addClass("fa-heart");
+				$("#div_info_"+$("#input_queueId").val()+" #input_map_favoriteId").val(favoriteId);
+				$("#input_favoriteId").val(favoriteId);
 			});
 		}
+	},
+	
+	star: function(starObj){
+		var body = {
+			userId: $("#userId", window.parent.document).val(),
+			queueId: $("#input_queueId").val(),
+			star: $(starObj).index()+1
+		};
+		var actionUrl = "/star/add";
+		ajaxUtilObj.callAJAX(ajaxUtilObj.PATCH, actionUrl, JSON.stringify(body), function(httpResponse){
+			if(!httpResponse.success){
+				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
+				return;
+			}
+			$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-success").text("打分成功").fadeIn(0).fadeOut(2000);
+		});
 	},
 	
 	edit: function(btnObj){
 		$(btnObj).hide();
 		$(btnObj).parent().find("#btn_delete").hide();
 		$(btnObj).parent().find("#btn_save").show();
-		$("#div_"+$(btnObj).val()+" #span_dscr").hide();
-		$("#div_"+$(btnObj).val()+" #textarea_dscr").val($("#div_"+$(btnObj).val()+" #span_dscr").text()).show();
+		$(btnObj).parent().find("#btn_back").show();
+		$("#div_info_"+$("#input_queueId").val()+" #span_phone").hide();
+		$("#div_info_"+$("#input_queueId").val()+" #input_phone").show();
+		$("#div_info_"+$("#input_queueId").val()+" #span_address").hide();
+		$("#div_info_"+$("#input_queueId").val()+" #input_address").show();
+		$("#div_info_"+$("#input_queueId").val()+" #span_dscr").hide();
+		$("#div_info_"+$("#input_queueId").val()+" #textarea_dscr").show();
+	},
+	
+	back: function(btnObj){
+		$(btnObj).hide();
+		$(btnObj).parent().find("#btn_save").hide();
+		$(btnObj).parent().find("#btn_delete").show();
+		$(btnObj).parent().find("#btn_edit").show();
+		$("#div_info_"+$("#input_queueId").val()+" #span_phone").show();
+		$("#div_info_"+$("#input_queueId").val()+" #input_phone").val($("#div_info_"+$("#input_queueId").val()+" #span_phone").text()).hide();
+		$("#div_info_"+$("#input_queueId").val()+" #span_address").show();
+		$("#div_info_"+$("#input_queueId").val()+" #input_address").val($("#div_info_"+$("#input_queueId").val()+" #span_address").text()).hide();
+		$("#div_info_"+$("#input_queueId").val()+" #span_dscr").show();
+		$("#div_info_"+$("#input_queueId").val()+" #textarea_dscr").text($("#div_info_"+$("#input_queueId").val()+" #span_dscr").text()).hide();
 	},
 	
 	save: function(btnObj){
 		var body = {
-			queueId: $(btnObj).val(),
-			dscr: $("#div_"+$(btnObj).val()+" #textarea_dscr").val()
+			queueId: $("#input_queueId").val(),
+			phone: $("#div_info_"+$("#input_queueId").val()+" #input_phone").val(),
+			address: $("#div_info_"+$("#input_queueId").val()+" #input_address").val(),
+			dscr: $("#div_info_"+$("#input_queueId").val()+" #textarea_dscr").val()
 		};
 		var actionUrl = "/queue/update";
 		ajaxUtilObj.callAJAX(ajaxUtilObj.PATCH, actionUrl, JSON.stringify(body), function(httpResponse){
 			if(!httpResponse.success){
-				$("#div_"+$(btnObj).val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
+				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);;
 				return;
 			}
-			$("#div_"+$(btnObj).val()+" #span_result").addClass("label").addClass("label-success").text("修改成功");
+			$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-success").text("修改成功").fadeIn(0).fadeOut(2000);
+			
 			$(btnObj).hide();
+			$(btnObj).parent().find("#btn_back").hide();
 			$(btnObj).parent().find("#btn_delete").show();
 			$(btnObj).parent().find("#btn_edit").show();
-			$("#div_"+$(btnObj).val()+" #span_dscr").text(body.dscr).show();
-			$("#div_"+$(btnObj).val()+" #textarea_dscr").val("").hide();
+			$("#div_info_"+$("#input_queueId").val()+" #input_phone").hide();
+			$("#div_info_"+$("#input_queueId").val()+" #input_address").hide();
+			$("#div_info_"+$("#input_queueId").val()+" #textarea_dscr").hide();
+			
+			$("#div_info_"+$("#input_queueId").val()+" #span_phone").text($("#div_info_"+$("#input_queueId").val()+" #input_phone").val()).hide();
+			$("#div_info_"+$("#input_queueId").val()+" #span_address").text($("#div_info_"+$("#input_queueId").val()+" #input_address").val()).hide();
+			$("#div_info_"+$("#input_queueId").val()+" #span_dscr").text($("#div_info_"+$("#input_queueId").val()+" #textarea_dscr").val()).hide();
+			
+			$("#div_info_"+$("#input_queueId").val()+" #span_phone").show();
+			$("#div_info_"+$("#input_queueId").val()+" #span_address").show();
+			$("#div_info_"+$("#input_queueId").val()+" #span_dscr").show();
 		});
 	},
 	
 	deleteQueue: function(btnObj){
 		var body = {
-			queueId: $(btnObj).val()
+			queueId: $("#input_queueId").val()
 		};
 		var actionUrl = "/queue/remove";
 		ajaxUtilObj.callAJAX(ajaxUtilObj.DELETE, actionUrl, JSON.stringify(body), function(httpResponse){
 			if(!httpResponse.success){
-				$("#div_"+$(btnObj).val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
+				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 				return;
 			}
-			$("#div_"+$(btnObj).val()+" #span_result").addClass("label").addClass("label-success").text("刪除成功");
-			$("#div_"+$(btnObj).val()).fadeOut(1000);
+			$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-success").text("刪除成功").fadeIn(0).fadeOut(3000);
+			$(btnObj).parent().find("#btn_close").click();
+			$("#div_"+$("#input_queueId").val()).fadeOut(1000);
 		});
 	},
 	
@@ -173,7 +245,7 @@ var queueObj = {
 		var actionUrl = "/queuing/updateStatus";
 		ajaxUtilObj.callAJAX(ajaxUtilObj.PATCH, actionUrl, JSON.stringify(body), function(httpResponse){
 			if(!httpResponse.success){
-				$("#div_"+$(btnObj).val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
+				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
 				return;
 			}
 			$("#div_queuing_"+$(btnObj).val()).fadeOut(1000);

@@ -57,7 +57,8 @@ public class QueueServiceImpl implements QueueService {
 			Promotion promotion = promotionService.getPromotion(queue.getQueueId());
 			List<Queuing> queuings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING, page, size);
 			Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
-			Integer star = starsService.getAvgStar(queue.getQueueId());
+			Integer star = starsService.getStar(userId, queue.getQueueId());
+			Double avgStar = starsService.getAvgStar(queue.getQueueId());
 			
 			Integer queuingCount = 0;
 			if(queuings != null && queuings.size() > 1){
@@ -76,6 +77,7 @@ public class QueueServiceImpl implements QueueService {
 			
 			queueMap.put("queue", queue);
 			queueMap.put("star", star);
+			queueMap.put("avgStar", avgStar);
 			queueMap.put("queuingCount", queuingCount);
 			queueMap.put("avgWaittingTime", this.getAvgWaittingTimeString(avgSeconds));
 			queueMap.put("queueNum", queueNum);
@@ -102,7 +104,8 @@ public class QueueServiceImpl implements QueueService {
 			Favorite favorite = favoriteService.getFavorite(userId, queue.getQueueId());
 			List<Queuing> queuings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING, page, size);
 			Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
-			Integer star = starsService.getAvgStar(queue.getQueueId());
+			Integer star = starsService.getStar(userId, queue.getQueueId());
+			Double avgStar = starsService.getAvgStar(queue.getQueueId());
 			
 			Integer queuingCount = 0;
 			if(queuings != null && queuings.size() > 1){
@@ -121,6 +124,7 @@ public class QueueServiceImpl implements QueueService {
 			
 			queueMap.put("queue", queue);
 			queueMap.put("star", star);
+			queueMap.put("avgStar", avgStar);
 			queueMap.put("queuingCount", queuingCount);
 			queueMap.put("avgWaittingTime", this.getAvgWaittingTimeString(avgSeconds));
 			queueMap.put("queueNum", queueNum);
@@ -147,7 +151,8 @@ public class QueueServiceImpl implements QueueService {
 			Promotion promotion = promotionService.getPromotion(queue.getQueueId());
 			Favorite favorite = favoriteService.getFavorite(userId, queue.getQueueId());
 			Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
-			Integer star = starsService.getAvgStar(queue.getQueueId());
+			Integer star = starsService.getStar(userId, queue.getQueueId());
+			Double avgStar = starsService.getAvgStar(queue.getQueueId());
 			
 			Integer queuingCount = 0;
 			if(queuings != null && queuings.size() > 1){
@@ -156,6 +161,7 @@ public class QueueServiceImpl implements QueueService {
 			
 			queueMap.put("queue", queue);
 			queueMap.put("star", star);
+			queueMap.put("avgStar", avgStar);
 			queueMap.put("queuingCount", queuingCount);
 			queueMap.put("avgWaittingTime", this.getAvgWaittingTimeString(avgSeconds));
 			queueMap.put("queueNum", queuing.getQueueNum());
@@ -182,7 +188,8 @@ public class QueueServiceImpl implements QueueService {
 			Promotion promotion = promotionService.getPromotion(queue.getQueueId());
 			List<Queuing> queuings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING, page, size);
 			Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
-			Integer star = starsService.getAvgStar(queue.getQueueId());
+			Integer star = starsService.getStar(userId, queue.getQueueId());
+			Double avgStar = starsService.getAvgStar(queue.getQueueId());
 			
 			Integer queuingCount = 0;
 			if(queuings != null && queuings.size() > 1){
@@ -201,6 +208,7 @@ public class QueueServiceImpl implements QueueService {
 			
 			queueMap.put("queue", queue);
 			queueMap.put("star", star);
+			queueMap.put("avgStar", avgStar);
 			queueMap.put("queuingCount", queuingCount);
 			queueMap.put("avgWaittingTime", this.getAvgWaittingTimeString(avgSeconds));
 			queueMap.put("queueNum", queueNum);
@@ -230,6 +238,8 @@ public class QueueServiceImpl implements QueueService {
 	
 	public void update(Queue queue) throws Exception {
 		Queue oldQueue = queueRepository.findOne(queue.getQueueId());
+		oldQueue.setPhone(queue.getPhone());
+		oldQueue.setAddress(queue.getAddress());
 		oldQueue.setDscr(queue.getDscr());
 		queueRepository.save(oldQueue);
 	}

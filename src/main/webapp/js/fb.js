@@ -32,6 +32,7 @@ function checkLoginState() {
 
 window.fbAsyncInit = function() {
 	FB.init({
+//		appId : '554860634671080',
 		appId : '592070890950054',
 		cookie : true, // enable cookies to allow the server to access 
 		// the session
@@ -50,11 +51,6 @@ window.fbAsyncInit = function() {
 	//    your app or not.
 	//
 	// These three cases are handled in the callback function.
-
-	FB.getLoginStatus(function(response) {
-		statusChangeCallback(response);
-	});
-
 };
 
 // Load the SDK asynchronously
@@ -71,14 +67,15 @@ window.fbAsyncInit = function() {
 // Here we run a very simple test of the Graph API after login is
 // successful.  See statusChangeCallback() for when this call is made.
 function testAPI() {
+	var userId = null;
 	console.log('Welcome!  Fetching your information.... ');
 	FB.api('/me?fields=id,name,email', function(response) {
 		console.log('Successful login for: ' + JSON.stringify(response));
-		xxx(response);
+		checkUser(response);
 	});
 }
 
-function xxx(response){
+function checkUser(response){
 	var body = {
 		fbId: response.id,
 		name: response.name,
@@ -95,4 +92,3 @@ function xxx(response){
 		window.location = "/ezqueue/init/"+userId;
 	});
 }
-
