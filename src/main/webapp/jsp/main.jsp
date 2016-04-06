@@ -5,14 +5,15 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<title>main</title>
+<title>排排</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link rel="stylesheet" href="<c:url value="/css/ezqueue.css"/>">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <script type="text/javascript" src="<c:url value="/js/jquery-1.11.3.min.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/js/ezqueue.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/fb_other.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/main.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/ajax_util.js"/>"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>

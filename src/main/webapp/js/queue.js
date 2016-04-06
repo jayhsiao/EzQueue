@@ -28,23 +28,19 @@ var queueObj = {
 		});
 		
 		$(document).on("click", "button[name=btn_queuing]", function(event){
-			queueObj.queuing();
+			queueObj.queuing($(this));
 		});
 		
 		$(document).on("click", "button[name=btn_cancel]", function(event){
-			queueObj.cancel();
+			queueObj.cancel($(this));
 		});
 		
 		$(document).on("click", "button[name=btn_favorite]", function(event){
-			queueObj.favorite();
+			queueObj.favorite($(this));
 		});
 		
 		$(document).on("click", "button[name=btn_queuing_success]", function(event){
 			queueObj.updateStatus($(this), 1);
-		});
-		
-		$(document).on("click", "button[name=btn_queuing_pass]", function(event){
-			queueObj.updateStatus((this), 2);
 		});
 		
 		$(document).on("click", "button[name=btn_delete]", function(event){
@@ -69,13 +65,14 @@ var queueObj = {
 		
 	},
 	
-	queuing: function(){
+	queuing: function(btnObj){
 		var body = {
 			userId: $("#userId", window.parent.document).val(),
 			queueId: $("#input_queueId").val()
 		};
-		var actionUrl = "/queuing/add";
-		ajaxUtilObj.callAJAX(ajaxUtilObj.POST, actionUrl, JSON.stringify(body), function(httpResponse){
+		
+		var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
+		ajaxUtilObj.callAJAX(ajaxUtilObj.POST, "/queuing/add", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 			if(!httpResponse.success){
 				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 				return;
@@ -91,12 +88,13 @@ var queueObj = {
 		});
 	},
 	
-	cancel: function(){
+	cancel: function(btnObj){
 		var body = {
 			queuingId: $("#input_queuingId").val()
 		};
-		var actionUrl = "/queuing/remove";
-		ajaxUtilObj.callAJAX(ajaxUtilObj.DELETE, actionUrl, JSON.stringify(body), function(httpResponse){
+		
+		var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
+		ajaxUtilObj.callAJAX(ajaxUtilObj.DELETE, "/queuing/remove", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 			if(!httpResponse.success){
 				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 				return;
@@ -111,13 +109,14 @@ var queueObj = {
 		});
 	},
 	
-	favorite: function(){
+	favorite: function(btnObj){
 		if($("#div_info_"+$("#input_queueId").val()).find("#i_heart").hasClass("fa-heart")){
 			var body = {
 				favoriteId: $("#input_favoriteId").val()
 			};
-			var actionUrl = "/favorite/remove";
-			ajaxUtilObj.callAJAX(ajaxUtilObj.DELETE, actionUrl, JSON.stringify(body), function(httpResponse){
+			
+			var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
+			ajaxUtilObj.callAJAX(ajaxUtilObj.DELETE, "/favorite/remove", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 				if(!httpResponse.success){
 					$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 					return;
@@ -132,8 +131,9 @@ var queueObj = {
 				userId: $("#userId", window.parent.document).val(),
 				queueId: $("#input_queueId").val()
 			};
-			var actionUrl = "/favorite/add";
-			ajaxUtilObj.callAJAX(ajaxUtilObj.POST, actionUrl, JSON.stringify(body), function(httpResponse){
+			
+			var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
+			ajaxUtilObj.callAJAX(ajaxUtilObj.POST, "/favorite/add", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 				if(!httpResponse.success){
 					$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 					return;
@@ -152,8 +152,7 @@ var queueObj = {
 			queueId: $("#input_queueId").val(),
 			star: $(starObj).index()+1
 		};
-		var actionUrl = "/star/add";
-		ajaxUtilObj.callAJAX(ajaxUtilObj.PATCH, actionUrl, JSON.stringify(body), function(httpResponse){
+		ajaxUtilObj.callAJAX(ajaxUtilObj.PATCH, "/star/add", JSON.stringify(body), null, null, function(httpResponse){
 			if(!httpResponse.success){
 				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
 				return;
@@ -195,8 +194,9 @@ var queueObj = {
 			address: $("#div_info_"+$("#input_queueId").val()+" #input_address").val(),
 			dscr: $("#div_info_"+$("#input_queueId").val()+" #textarea_dscr").val()
 		};
-		var actionUrl = "/queue/update";
-		ajaxUtilObj.callAJAX(ajaxUtilObj.PATCH, actionUrl, JSON.stringify(body), function(httpResponse){
+		
+		var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
+		ajaxUtilObj.callAJAX(ajaxUtilObj.PATCH, "/queue/update", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 			if(!httpResponse.success){
 				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);;
 				return;
@@ -225,8 +225,9 @@ var queueObj = {
 		var body = {
 			queueId: $("#input_queueId").val()
 		};
-		var actionUrl = "/queue/remove";
-		ajaxUtilObj.callAJAX(ajaxUtilObj.DELETE, actionUrl, JSON.stringify(body), function(httpResponse){
+		
+		var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
+		ajaxUtilObj.callAJAX(ajaxUtilObj.DELETE, "/queue/remove", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 			if(!httpResponse.success){
 				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 				return;
@@ -242,8 +243,8 @@ var queueObj = {
 			queuingId: $(btnObj).val(),
 			status: status
 		};
-		var actionUrl = "/queuing/updateStatus";
-		ajaxUtilObj.callAJAX(ajaxUtilObj.PATCH, actionUrl, JSON.stringify(body), function(httpResponse){
+		
+		ajaxUtilObj.callAJAX(ajaxUtilObj.PATCH, "/queuing/updateStatus", JSON.stringify(body), btnObj, null, function(httpResponse){
 			if(!httpResponse.success){
 				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
 				return;

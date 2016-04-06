@@ -11,7 +11,8 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <script type="text/javascript" src="<c:url value="/js/jquery-1.11.3.min.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/js/fb.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/fb_home.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/home.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/ajax_util.js"/>"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
@@ -25,7 +26,7 @@
 	<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
 	<br/>
 	<br/>
-	<div id="div_result"></div>
+	<span id="span_result"></span>
 	<br/>
 	<br/>
 	<br/>

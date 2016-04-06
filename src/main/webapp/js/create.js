@@ -7,8 +7,8 @@ var createObj = {
 	
 	registerEvent: function(){
 		
-		$("#btn_create").on("click", function(){
-			createObj.createQueue();
+		$(document).on("click", "#btn_create", function(){
+			createObj.createQueue($(this));
 		});
 	},
 	
@@ -16,7 +16,7 @@ var createObj = {
 		$("#span_title").text($("#name", window.parent.document).val());
 	},
 	
-	createQueue: function(){
+	createQueue: function(btnObj){
 		var body = {
 			userId: $("#userId", window.parent.document).val(),
 			title: $("#input_title").val(),
@@ -25,17 +25,14 @@ var createObj = {
 			dscr: $("#textarea_dscr").val(),
 			enable: $("input[name=enable]:checked").val()
 		};
-		console.log(JSON.stringify(body));
-		var actionUrl = "/queue/add";
-		ajaxUtilObj.callAJAX("POST", actionUrl, JSON.stringify(body), function(httpResponse){
+		
+		var spanObj = $("#span_spinner");
+		ajaxUtilObj.callAJAX("POST", "/queue/add", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 			if(!httpResponse.success){
-				$(".panel-primary").addClass("panel-danger");
-				$(".panel-body").empty();
-				$(".panel-body").append(httpResponse.returnMessage);
+				$("#span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
 				return;
 			}
 			
-			$(".panel-primary").addClass("panel-success");
 			$(".panel-body").empty();
 			$(".panel-body").append("<h1>建立成功</h1>");
 		});

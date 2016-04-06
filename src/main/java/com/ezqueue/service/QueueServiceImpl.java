@@ -86,6 +86,7 @@ public class QueueServiceImpl implements QueueService {
 			queueMap.put("favoriteId", favorite != null? favorite.getFavoriteId(): null);
 			queueMap.put("queuingId", queuingId);
 			queueMap.put("isMyQueues", true);
+			queueMap.put("isQueuing", false);
 			
 			list.add(queueMap);
 		}
@@ -133,6 +134,7 @@ public class QueueServiceImpl implements QueueService {
 			queueMap.put("favoriteId", favorite != null? favorite.getFavoriteId(): null);
 			queueMap.put("queuingId", queuingId);
 			queueMap.put("isMyQueues", false);
+			queueMap.put("isQueuing", false);
 			
 			list.add(queueMap);
 		}
@@ -170,6 +172,7 @@ public class QueueServiceImpl implements QueueService {
 			queueMap.put("favoriteId", favorite != null? favorite.getFavoriteId(): null);
 			queueMap.put("queuingId", queuing.getQueuingId());
 			queueMap.put("isMyQueues", false);
+			queueMap.put("isQueuing", true);
 			
 			list.add(queueMap);
 		}
@@ -217,6 +220,7 @@ public class QueueServiceImpl implements QueueService {
 			queueMap.put("favoriteId", favorite.getFavoriteId());
 			queueMap.put("queuingId", queuingId);
 			queueMap.put("isMyQueues", false);
+			queueMap.put("isQueuing", false);
 			
 			list.add(queueMap);
 		}
