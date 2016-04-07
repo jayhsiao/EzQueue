@@ -72,7 +72,7 @@ var queueObj = {
 		};
 		
 		var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
-		ajaxUtilObj.callAJAX(ajaxUtilObj.POST, "/queuing/add", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
+		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/queuing/add", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 			if(!httpResponse.success){
 				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 				return;
@@ -94,7 +94,7 @@ var queueObj = {
 		};
 		
 		var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
-		ajaxUtilObj.callAJAX(ajaxUtilObj.DELETE, "/queuing/remove", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
+		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.DELETE, "/queuing/remove", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 			if(!httpResponse.success){
 				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 				return;
@@ -116,7 +116,7 @@ var queueObj = {
 			};
 			
 			var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
-			ajaxUtilObj.callAJAX(ajaxUtilObj.DELETE, "/favorite/remove", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
+			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.DELETE, "/favorite/remove", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 				if(!httpResponse.success){
 					$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 					return;
@@ -133,7 +133,7 @@ var queueObj = {
 			};
 			
 			var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
-			ajaxUtilObj.callAJAX(ajaxUtilObj.POST, "/favorite/add", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
+			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/favorite/add", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 				if(!httpResponse.success){
 					$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 					return;
@@ -152,7 +152,7 @@ var queueObj = {
 			queueId: $("#input_queueId").val(),
 			star: $(starObj).index()+1
 		};
-		ajaxUtilObj.callAJAX(ajaxUtilObj.PATCH, "/star/add", JSON.stringify(body), null, null, function(httpResponse){
+		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.PATCH, "/star/add", JSON.stringify(body), null, null, function(httpResponse){
 			if(!httpResponse.success){
 				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
 				return;
@@ -196,7 +196,7 @@ var queueObj = {
 		};
 		
 		var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
-		ajaxUtilObj.callAJAX(ajaxUtilObj.PATCH, "/queue/update", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
+		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.PATCH, "/queue/update", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 			if(!httpResponse.success){
 				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);;
 				return;
@@ -227,7 +227,7 @@ var queueObj = {
 		};
 		
 		var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
-		ajaxUtilObj.callAJAX(ajaxUtilObj.DELETE, "/queue/remove", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
+		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.DELETE, "/queue/remove", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 			if(!httpResponse.success){
 				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 				return;
@@ -244,7 +244,7 @@ var queueObj = {
 			status: status
 		};
 		
-		ajaxUtilObj.callAJAX(ajaxUtilObj.PATCH, "/queuing/updateStatus", JSON.stringify(body), btnObj, null, function(httpResponse){
+		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.PATCH, "/queuing/updateStatus", JSON.stringify(body), btnObj, null, function(httpResponse){
 			if(!httpResponse.success){
 				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
 				return;

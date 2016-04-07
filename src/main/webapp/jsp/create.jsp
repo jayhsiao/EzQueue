@@ -19,7 +19,7 @@
 <body>
 <div class="container">
 <form class="form-horizontal" style="font-family: 微軟正黑體;">
-	<div class='panel panel-default' style='width: 60%;'>
+	<div class='panel panel-default' style='width: 45%;'>
 		<div class='panel-heading'>
 			<table>
 			<tr>
@@ -46,60 +46,37 @@
 			</div>
 			
 			<div class="form-group">
-				<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
-				<div class="col-sm-10">
-					<input type="email" class="form-control" id="inputEmail3"
-						placeholder="Email">
-				</div>
-			</div>
-			
-			
-				
-				
-				<div class="col-md-12">
-					<input type="checkbox" id="input_monday"    name="week">星期一
-					<input type="checkbox"  id="input_tuesday"   name="week">星期二
-					<input type="checkbox"  id="input_wednesday" name="week">星期三
-					<input type="checkbox"  id="input_thursday"  name="week">星期四
-					<input type="checkbox"  id="input_friday"    name="week">星期五
-					<input type="checkbox"  id="input_saturday"  name="week">星期六
-					<input type="checkbox"  id="input_sunday"    name="week">星期日
-				</div>
-				
-				<div class="col-md-6">
-					<input type="text" class="form-control" id="input_startTime" name="startTime" maxlength="45" placeholder="名稱">
-				</div>
-				<div class="col-md-6">
-					<input type="text" class="form-control" id="input_endTime" name="endTime" maxlength="45" placeholder="名稱">
-				</div>
-				
 				<div class="col-md-12">
 					<input type="text" class="form-control" id="input_title" name="title" maxlength="45" placeholder="名稱">
 				</div>
+			</div>
+			
+			<div class="form-group">
 				<div class="col-md-12">
 					<input type="text" class="form-control" id="input_phone" name="title" maxlength="45" placeholder="電話">
 				</div>
+			</div>
+			
+			<div class="form-group">
 				<div class="col-md-12">
 					<input type="text" class="form-control" id="input_address" name="title" maxlength="45" placeholder="地址">
 				</div>
+			</div>
+			
+			<div class="form-group">
 				<div class="col-md-12">
 					<textarea id="textarea_dscr" rows='3' cols='33' class="form-control" maxlength='150' placeholder="簡介"></textarea>
 				</div>
-				
+			</div>
+			
+			<div class="form-group">
 				<div class="col-md-12">
 					<button type='button' id="btn_create" class='btn btn-default'>建立排隊</button>
 					<span id="span_result"></span>
 					<span id="span_spinner" style="display: none;"><i class="fa fa-spinner fa-spin"></i></span>
 				</div>
-				
 			</div>
-			
-			
-			
-			
-			
-			
-			
+				
 			<br/>
 		</div>
 	</div>

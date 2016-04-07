@@ -30,7 +30,7 @@ var homeObj = {
 				email: response.email
 			};
 			var actionUrl = "/user/add";
-			ajaxUtilObj.callAJAX(ajaxUtilObj.POST, actionUrl, JSON.stringify(body), null, null, function(httpResponse){
+			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, actionUrl, JSON.stringify(body), null, null, function(httpResponse){
 				if(!httpResponse.success){
 					$("#span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
 					return;

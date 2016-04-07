@@ -1,74 +1,49 @@
 $(document).ready(function(){
-	// 註冊事件
-	ezqueueObj.registerEvent();
-	// 初始化
-	ezqueueObj.init();
+	mainObj.registerEvent();
+	mainObj.init();
 });
 
-var ezqueueObj = {
+var mainObj = {
 		
-	// 註冊事件
 	registerEvent: function(){
 		
-		$("#div_menu a").on("click", function(){
-			$("#div_menu a").removeClass("active");
+		$(document).on("click", "#navbar li", function(event){
+			$("#navbar li").removeClass("active");
 			$(this).addClass("active");
 		});
 		
-		$("#a_promotions").on("click", function(){
-			ezqueueObj.getPromotionQueues();
+		$(document).on("click", "#a_promotions", function(event){
+			mainObj.getHtml($(this), "/ezqueue/promotion/"+$("#userId").val());
 		});
 		
-		$("#a_favorite").on("click", function(){
-			ezqueueObj.getFavorite();
+		$(document).on("click", "#a_favorite", function(event){
+			mainObj.getHtml($(this), "/ezqueue/favorite/"+$("#userId").val());
 		});
 		
-		$("#a_myQueue").on("click", function(){
-			ezqueueObj.getMyQueues();
+		$(document).on("click", "#a_myQueue", function(event){
+			mainObj.getHtml($(this), "/ezqueue/myQueues/"+$("#userId").val());
 		});
 		
-		$("#a_queueing").on("click", function(){
-			ezqueueObj.getQueuing();
+		$(document).on("click", "#a_queueing", function(event){
+			mainObj.getHtml($(this), "/ezqueue/queuing/"+$("#userId").val());
 		});
 		
-		$("#a_create").on("click", function(){
-			ezqueueObj.createQueue();
+		$(document).on("click", "#a_create", function(event){
+			mainObj.getHtml($(this), "/ezqueue/createQueue");
 		});
 	},
 	
 	// 初始化
 	init: function(){
-		$('#mainFrame').css('height', ($(window).height() - $(".page-header").height() - 100) +'px');
-		$("#a_myQueue").click();
+		$("#a_promotions").click();
 	},
 	
-	getPromotionQueues: function(){
-		$("#submitForm").prop("method", "GET");
-		$("#submitForm").prop("action", "/ezqueue/promotion/"+$("#userId").val());
-		$("#submitForm").submit();
-	},
-	
-	getFavorite: function(){
-		$("#submitForm").prop("method", "GET");
-		$("#submitForm").prop("action", "/ezqueue/favorite/"+$("#userId").val());
-		$("#submitForm").submit();
-	},
-	
-	getMyQueues: function(){
-		$("#submitForm").prop("method", "GET");
-		$("#submitForm").prop("action", "/ezqueue/myQueues/"+$("#userId").val());
-		$("#submitForm").submit();
-	},
-	
-	getQueuing: function(){
-		$("#submitForm").prop("method", "GET");
-		$("#submitForm").prop("action", "/ezqueue/queuing/"+$("#userId").val());
-		$("#submitForm").submit();
-	},
-	
-	createQueue: function(){
-		$("#submitForm").prop("method", "GET");
-		$("#submitForm").prop("action", "/ezqueue/createQueue");
-		$("#submitForm").submit();
+	getHtml: function(liObj, url){
+		$("#div_main").empty();
+		var spanObj = $(liObj).parent().find("span");
+		ajaxUtilObj.callHtmlAJAX(ajaxUtilObj.GET, url, spanObj, function(httpResponse){
+			$("#div_main").html(httpResponse);
+			FB.XFBML.parse();
+		});
 	}
 }

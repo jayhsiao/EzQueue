@@ -6,7 +6,7 @@ var ajaxUtilObj = {
 	PUT:    "PUT",
 	PATCH:  "PATCH",
 	
-	callAJAX: function(method, url, body, btnObj, spanObj, returnMethod){
+	callJsonAJAX: function(method, url, body, btnObj, spanObj, returnMethod){
 		$.ajax({
 			type : method,
 			url : url,
@@ -33,7 +33,28 @@ var ajaxUtilObj = {
 				}
 			},
 			success : function(httpResponse) {
-				console.log(httpResponse);
+				returnMethod(httpResponse);
+			}
+		});
+	}, 
+	
+	callHtmlAJAX: function(method, url, spanObj, returnMethod){
+		$.ajax({
+			type : method,
+			url : url,
+            dataType: "html",
+			async : true,
+			beforeSend: function(){
+				if(spanObj){
+					$(spanObj).show();
+				}
+			},
+			complete: function(){
+				if(spanObj){
+					$(spanObj).hide();
+				}
+			},
+			success : function(httpResponse) {
 				returnMethod(httpResponse);
 			}
 		});
