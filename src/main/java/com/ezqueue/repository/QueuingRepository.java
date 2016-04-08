@@ -24,6 +24,6 @@ public interface QueuingRepository extends PagingAndSortingRepository<Queuing, S
 	
 	public Queuing findByUserAndQueueAndStatus(User user, Queue queue, int status);
 	
-	@Query("select max(q.queueNum) from Queuing q where now() between :startDate and :endDate and q.queue.queueId = :queueId")
-	public Integer getMaxQueueNum(@Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("queueId") String queueId);
+	@Query("select max(q.queueNum) from Queuing q where :now between :startDate and :endDate and q.queue.queueId = :queueId")
+	public Integer getMaxQueueNum(@Param("now") Date now, @Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("queueId") String queueId);
 }

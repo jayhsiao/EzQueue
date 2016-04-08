@@ -34,8 +34,9 @@ public class EzQueueController extends BaseController {
 		return "main";
 	}
 	
-	@RequestMapping(value = "/createQueue", method = RequestMethod.GET)
-	public String createQueue() throws Exception{
+	@RequestMapping(value = "/createQueue/{userId}", method = RequestMethod.GET)
+	public String createQueue(Model model, @PathVariable String userId) throws Exception{
+		model.addAttribute("RESPONSE_MAP", ezQueueService.createQueue(userId));
         return "create";
 	}
 	

@@ -61,12 +61,14 @@ public class QueuingServiceImpl implements QueuingService {
 		
 		Calendar calendar = Calendar.getInstance();
 		
+		Date now = calendar.getTime();
+		
 		Queuing queuing = new Queuing();
 		queuing.setQueuingId(StringUtil.getUUID());
 		queuing.setUser(user);
 		queuing.setQueue(queue);
 		queuing.setStatus(QueuingStatus.WAITTING);
-		queuing.setStartDate(calendar.getTime());
+		queuing.setStartDate(now);
 		
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
@@ -76,7 +78,7 @@ public class QueuingServiceImpl implements QueuingService {
 		calendar.add(Calendar.DAY_OF_MONTH, +1);
 		Date endDate = calendar.getTime();
 		
-		Integer maxQueueNum = queuingRepository.getMaxQueueNum(startDate, endDate, queue.getQueueId());
+		Integer maxQueueNum = queuingRepository.getMaxQueueNum(now, startDate, endDate, queue.getQueueId());
 		maxQueueNum = maxQueueNum == null? 1: maxQueueNum + 1;
 		queuing.setQueueNum(maxQueueNum);
 		
@@ -86,10 +88,6 @@ public class QueuingServiceImpl implements QueuingService {
 	
 	public void addQueuing(Queuing queuing) throws Exception {
 		queuingRepository.save(queuing);
-	}
-	
-	public void removeQueuing(String queuingId) throws Exception {
-		queuingRepository.delete(queuingId);
 	}
 	
 	public Double getAvgWaittingTime(String queueId) throws Exception {

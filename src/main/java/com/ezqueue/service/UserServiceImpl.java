@@ -1,5 +1,9 @@
 package com.ezqueue.service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,16 +20,71 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public User addUser(User user) throws Exception {
-		User oldUser = userRepository.findByFbId(user.getFbId());
+	public String check(Map<String, Object> map) throws Exception {
+		
+		String id = (String) map.get("id");
+		String name = (String) map.get("name");
+		String email = (String) map.get("email");
+		List<Map<String, Object>> accounts = (List<Map<String, Object>>) map.get("accounts");
+		
+		String userId = null;
+		User oldUser = userRepository.findById(id);
 		if(oldUser == null){
-			user.setUserId(StringUtil.getUUID());
-			oldUser = userRepository.save(user);
+			User newUser = new User();
+			newUser.setUserId(StringUtil.getUUID());
+			newUser.setId(id);
+			newUser.setName(name);
+			newUser.setEmail(email);
+			userRepository.save(newUser);
+			
+			userId = newUser.getUserId();
+			
+			if(accounts != null && !accounts.isEmpty()){
+				for(Map<String, Object> accountMap: accounts){
+					User newAccountUser = new User();
+					newAccountUser.setUserId(StringUtil.getUUID());
+					newAccountUser.setId((String) accountMap.get("id"));
+					newAccountUser.setName((String) accountMap.get("name"));
+					newAccountUser.setParent(userId);
+					userRepository.save(newAccountUser);
+				}
+			}
 		}
-		return oldUser;
+		else{
+			userId = oldUser.getUserId();
+			
+			if(accounts != null && !accounts.isEmpty()){
+				List<String> ids = new ArrayList<String>();
+				for(Map<String, Object> accountMap: accounts){
+					String accountId = (String) accountMap.get("id");
+					String accountName = (String) accountMap.get("name");
+					
+					User accountUser = userRepository.findByParentAndId(userId, accountId);
+					if(accountUser == null){
+						User newAccountUser = new User();
+						newAccountUser.setUserId(StringUtil.getUUID());
+						newAccountUser.setId(accountId);
+						newAccountUser.setName(accountName);
+						newAccountUser.setParent(userId);
+						userRepository.save(newAccountUser);
+					}
+					
+					ids.add(accountId);
+				}
+				
+				List<User> accountUsers = userRepository.findByParentAndIdNotIn(userId, ids);
+				userRepository.delete(accountUsers);
+			}
+		}
+		
+		return userId;
 	}
 	
 	public User getUser(String userId) throws Exception {
 		return userRepository.findOne(userId);
+	}
+	
+	public List<User> getUserAccount(String userId) throws Exception {
+		return userRepository.findByParent(userId);
 	}
 }

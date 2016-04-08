@@ -12,7 +12,7 @@ var mainObj = {
 			$(this).addClass("active");
 		});
 		
-		$(document).on("click", "#a_promotions", function(event){
+		$(document).on("click", "#a_promotion", function(event){
 			mainObj.getHtml($(this), "/ezqueue/promotion/"+$("#userId").val());
 		});
 		
@@ -29,13 +29,13 @@ var mainObj = {
 		});
 		
 		$(document).on("click", "#a_create", function(event){
-			mainObj.getHtml($(this), "/ezqueue/createQueue");
+			mainObj.getHtml($(this), "/ezqueue/createQueue/"+$("#userId").val());
 		});
 	},
 	
 	// 初始化
 	init: function(){
-		$("#a_promotions").click();
+		$("#a_promotion").click();
 	},
 	
 	getHtml: function(liObj, url){

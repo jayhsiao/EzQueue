@@ -18,6 +18,7 @@ import com.ezqueue.model.Favorite;
 import com.ezqueue.model.Promotion;
 import com.ezqueue.model.Queue;
 import com.ezqueue.model.Queuing;
+import com.ezqueue.model.Star;
 import com.ezqueue.model.User;
 import com.ezqueue.repository.QueueRepository;
 import com.ezqueue.util.QueuingStatus;
@@ -31,6 +32,9 @@ public class QueueServiceImpl implements QueueService {
 	private QueueRepository queueRepository;
 	
 	@Autowired
+	private UserService userService;
+	
+	@Autowired
 	private PromotionService promotionService;
 	
 	@Autowired
@@ -42,14 +46,28 @@ public class QueueServiceImpl implements QueueService {
 	@Autowired
 	private StarService starsService;
 	
+	public Map<String, Object> createQueue(String userId) throws Exception {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		List<User> accounts = new ArrayList<User>();
+		accounts.add(userService.getUser(userId));
+		accounts.addAll(userService.getUserAccount(userId));
+		resultMap.put("accounts", accounts);
+		return resultMap;
+	}
+	
 	public List<Map<String, Object>> getMyQueues(String userId, int page, int size) throws Exception {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
 		User user = new User();
 		user.setUserId(userId);
 		
+		List<User> users = new ArrayList<User>();
+		users.add(userService.getUser(userId));
+		users.addAll(userService.getUserAccount(userId));
+		
 		PageRequest pageRequest = new PageRequest(page, size, Direction.DESC, "createDate");
-		List<Queue> queues = queueRepository.findByUser(user, pageRequest);
+		List<Queue> queues = queueRepository.findByUserIn(users, pageRequest);
+		
 		for(Queue queue: queues){
 			Map<String, Object> queueMap = new HashMap<String, Object>();
 			
@@ -57,7 +75,7 @@ public class QueueServiceImpl implements QueueService {
 			Promotion promotion = promotionService.getPromotion(queue.getQueueId());
 			List<Queuing> queuings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING, page, size);
 			Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
-			Integer star = starsService.getStar(userId, queue.getQueueId());
+			Star star = starsService.getStar(userId, queue.getQueueId());
 			Double avgStar = starsService.getAvgStar(queue.getQueueId());
 			
 			Integer queuingCount = 0;
@@ -105,7 +123,7 @@ public class QueueServiceImpl implements QueueService {
 			Favorite favorite = favoriteService.getFavorite(userId, queue.getQueueId());
 			List<Queuing> queuings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING, page, size);
 			Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
-			Integer star = starsService.getStar(userId, queue.getQueueId());
+			Star star = starsService.getStar(userId, queue.getQueueId());
 			Double avgStar = starsService.getAvgStar(queue.getQueueId());
 			
 			Integer queuingCount = 0;
@@ -152,13 +170,14 @@ public class QueueServiceImpl implements QueueService {
 			
 			Promotion promotion = promotionService.getPromotion(queue.getQueueId());
 			Favorite favorite = favoriteService.getFavorite(userId, queue.getQueueId());
+			List<Queuing> waittings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING, page, size);
 			Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
-			Integer star = starsService.getStar(userId, queue.getQueueId());
+			Star star = starsService.getStar(userId, queue.getQueueId());
 			Double avgStar = starsService.getAvgStar(queue.getQueueId());
 			
 			Integer queuingCount = 0;
-			if(queuings != null && queuings.size() > 1){
-				queuingCount = queuings.size() - 1;
+			if(waittings != null && waittings.size() > 1){
+				queuingCount = waittings.size() - 1;
 			}
 			
 			queueMap.put("queue", queue);
@@ -191,7 +210,7 @@ public class QueueServiceImpl implements QueueService {
 			Promotion promotion = promotionService.getPromotion(queue.getQueueId());
 			List<Queuing> queuings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING, page, size);
 			Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
-			Integer star = starsService.getStar(userId, queue.getQueueId());
+			Star star = starsService.getStar(userId, queue.getQueueId());
 			Double avgStar = starsService.getAvgStar(queue.getQueueId());
 			
 			Integer queuingCount = 0;

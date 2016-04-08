@@ -9,12 +9,14 @@ var queueObj = {
 		
 		$(document).on("mouseover", ".modal", function(event){
 			$("#input_queueId").val("");
+			$("#input_starId").val("");
 			$("#input_promotionId").val("");
 			$("#input_favoriteId").val("");
 			$("#input_queuingId").val("");
 			$("#input_isMyQueues").val("");
 			
 			$("#input_queueId").val($(this).find("#input_map_queueId").val());
+			$("#input_starId").val($(this).find("#input_map_starId").val());
 			$("#input_promotionId").val($(this).find("#input_map_promotionId").val());
 			$("#input_favoriteId").val($(this).find("#input_map_favoriteId").val());
 			$("#input_queuingId").val($(this).find("#input_map_queuingId").val());
@@ -22,9 +24,16 @@ var queueObj = {
 		});
 		
 		$(document).on("click", ".star i", function(event){
-			$(this).parent().find("i:lt("+($(this).index()+1)+")").removeClass("fa-star-o").removeClass("star-o-color").addClass("fa-star").addClass("star-color");
-			$(this).parent().find("i:gt("+$(this).index()+")").removeClass("fa-star").removeClass("star-color").addClass("fa-star-o").addClass("star-o-color");
-			queueObj.star($(this));
+			var star = 0;
+			if($(this).index() == 0 && $(this).parent().find(".fa-star").length == 1){
+				$(this).removeClass("fa-star").addClass("fa-star-o");
+			}
+			else{
+				$(this).parent().find("i:lt("+($(this).index()+1)+")").removeClass("fa-star-o").addClass("fa-star");
+				$(this).parent().find("i:gt("+$(this).index()+")").removeClass("fa-star").addClass("fa-star-o");
+				star = $(this).index() + 1;
+			}
+			queueObj.addStar(star);
 		});
 		
 		$(document).on("click", "button[name=btn_queuing]", function(event){
@@ -32,7 +41,7 @@ var queueObj = {
 		});
 		
 		$(document).on("click", "button[name=btn_cancel]", function(event){
-			queueObj.cancel($(this));
+			queueObj.cancel();
 		});
 		
 		$(document).on("click", "button[name=btn_favorite]", function(event){
@@ -40,7 +49,8 @@ var queueObj = {
 		});
 		
 		$(document).on("click", "button[name=btn_queuing_success]", function(event){
-			queueObj.updateStatus($(this), 1);
+			var queuingId = $(this).parent().find("#input_waitting").attr("id");
+			queueObj.updateStatus($(this), queuingId, 1);
 		});
 		
 		$(document).on("click", "button[name=btn_delete]", function(event){
@@ -67,17 +77,17 @@ var queueObj = {
 	
 	queuing: function(btnObj){
 		var body = {
-			userId: $("#userId", window.parent.document).val(),
+			userId: $("#userId").val(),
 			queueId: $("#input_queueId").val()
 		};
 		
 		var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
 		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/queuing/add", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 			if(!httpResponse.success){
-				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
+				$("#div_info_"+$("#input_queueId").val()+" #span_result").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 				return;
 			}
-			$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-success").text("排隊成功").fadeIn(0).fadeOut(2000);
+			$("#div_info_"+$("#input_queueId").val()+" #span_result").text("排隊成功").fadeIn(0).fadeOut(2000);
 			var queuing = httpResponse.returnObject;
 			$("#div_info_"+$("#input_queueId").val()+" #input_map_queuingId").val(queuing.queuingId);
 			$("#input_queuingId").val(queuing.queuingId);
@@ -88,24 +98,24 @@ var queueObj = {
 		});
 	},
 	
-	cancel: function(btnObj){
+	cancel: function(){
 		var body = {
-			queuingId: $("#input_queuingId").val()
+			queuingId: $("#input_queuingId").val(),
+			status: 3
 		};
 		
 		var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
-		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.DELETE, "/queuing/remove", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
+		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.PATCH, "/queuing/updateStatus", JSON.stringify(body), null, spanObj, function(httpResponse){
 			if(!httpResponse.success){
-				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
+				$("#div_info_"+$("#input_queueId").val()+" #span_result").text(httpResponse.returnMessage);
 				return;
 			}
-			$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-success").text("取消成功").fadeIn(0).fadeOut(2000);
-			$("#div_info_"+$("#input_queueId").val()+" #input_map_queuingId").val("");
-			$("#input_map_queuingId").val("");
+			$("#div_info_"+$("#input_queueId").val()+" #span_result").text("取消排隊成功").fadeIn(0).fadeOut(2000);
 			
+			$("#input_queuingId").val("");
 			$("#div_info_"+$("#input_queueId").val()+" #span_queueNum").text("");
-			$("#div_info_"+$("#input_queueId").val()+" #btn_cancel").css("display", "none");
 			$("#div_info_"+$("#input_queueId").val()+" #btn_queuing").css("display", "inline-block");
+			$("#div_info_"+$("#input_queueId").val()+" #btn_cancel").css("display", "none");
 		});
 	},
 	
@@ -118,7 +128,7 @@ var queueObj = {
 			var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
 			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.DELETE, "/favorite/remove", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 				if(!httpResponse.success){
-					$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
+					$("#div_info_"+$("#input_queueId").val()+" #span_result").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 					return;
 				}
 				$("#div_info_"+$("#input_queueId").val()+" #i_heart").removeClass("fa-heart").addClass("fa-heart-o");
@@ -128,14 +138,14 @@ var queueObj = {
 		}
 		else {
 			var body = {
-				userId: $("#userId", window.parent.document).val(),
+				userId: $("#userId").val(),
 				queueId: $("#input_queueId").val()
 			};
 			
 			var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
 			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/favorite/add", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 				if(!httpResponse.success){
-					$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
+					$("#div_info_"+$("#input_queueId").val()+" #span_result").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 					return;
 				}
 				var favoriteId = httpResponse.returnObject;
@@ -146,18 +156,17 @@ var queueObj = {
 		}
 	},
 	
-	star: function(starObj){
+	addStar: function(star){
 		var body = {
-			userId: $("#userId", window.parent.document).val(),
+			userId: $("#userId").val(),
 			queueId: $("#input_queueId").val(),
-			star: $(starObj).index()+1
+			star: star
 		};
 		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.PATCH, "/star/add", JSON.stringify(body), null, null, function(httpResponse){
 			if(!httpResponse.success){
-				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
+				$("#div_info_"+$("#input_queueId").val()+" #span_result").text(httpResponse.returnMessage);
 				return;
 			}
-			$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-success").text("打分成功").fadeIn(0).fadeOut(2000);
 		});
 	},
 	
@@ -198,10 +207,10 @@ var queueObj = {
 		var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
 		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.PATCH, "/queue/update", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 			if(!httpResponse.success){
-				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);;
+				$("#div_info_"+$("#input_queueId").val()+" #span_result").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);;
 				return;
 			}
-			$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-success").text("修改成功").fadeIn(0).fadeOut(2000);
+			$("#div_info_"+$("#input_queueId").val()+" #span_result").text("修改成功").fadeIn(0).fadeOut(2000);
 			
 			$(btnObj).hide();
 			$(btnObj).parent().find("#btn_back").hide();
@@ -229,24 +238,25 @@ var queueObj = {
 		var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
 		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.DELETE, "/queue/remove", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 			if(!httpResponse.success){
-				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
+				$("#div_info_"+$("#input_queueId").val()+" #span_result").text(httpResponse.returnMessage).fadeIn(0).fadeOut(2000);
 				return;
 			}
-			$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-success").text("刪除成功").fadeIn(0).fadeOut(3000);
+			$("#div_info_"+$("#input_queueId").val()+" #span_result").text("刪除成功").fadeIn(0).fadeOut(3000);
 			$(btnObj).parent().find("#btn_close").click();
 			$("#div_"+$("#input_queueId").val()).fadeOut(1000);
 		});
 	},
 	
-	updateStatus: function(btnObj, status){
+	updateStatus: function(btnObj, queuingId, status){
 		var body = {
-			queuingId: $(btnObj).val(),
+			queuingId: queuingId,
 			status: status
 		};
 		
-		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.PATCH, "/queuing/updateStatus", JSON.stringify(body), btnObj, null, function(httpResponse){
+		var spanObj = $("#div_info_"+$("#input_queueId").val()+" #span_spinner");
+		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.PATCH, "/queuing/updateStatus", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 			if(!httpResponse.success){
-				$("#div_info_"+$("#input_queueId").val()+" #span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
+				$("#div_info_"+$("#input_queueId").val()+" #span_result").text(httpResponse.returnMessage);
 				return;
 			}
 			$("#div_queuing_"+$(btnObj).val()).fadeOut(1000);
