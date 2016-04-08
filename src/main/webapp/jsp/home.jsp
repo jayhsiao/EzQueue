@@ -26,7 +26,7 @@
 	<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
 	<br/>
 	<br/>
-	<span id="span_result"></span>
+	<span id="span_result" class="label label-default"></span>
 	<br/>
 	<br/>
 	<br/>

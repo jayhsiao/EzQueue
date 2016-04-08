@@ -24,7 +24,7 @@ public class StarServiceImpl implements StarService {
 		return  avgStar != null? (double) Math.round(avgStar * 10)/10: null;
 	}
 	
-	public Integer getStar(String userId, String queueId) throws Exception {
+	public Star getStar(String userId, String queueId) throws Exception {
 		User user= new User();
 		user.setUserId(userId);
 		
@@ -32,7 +32,7 @@ public class StarServiceImpl implements StarService {
 		queue.setQueueId(queueId);
 		
 		Star star = starRepository.findByUserAndQueue(user, queue);
-		return star != null? star.getStar(): 0;
+		return star;
 	}
 	
 	public void addStar(Star star) throws Exception {
@@ -45,9 +45,5 @@ public class StarServiceImpl implements StarService {
 			oldStar.setStar(star.getStar());
 			starRepository.save(oldStar);
 		}
-	}
-	
-	public void removeStar(String starId) throws Exception {
-		starRepository.delete(starId);
 	}
 }

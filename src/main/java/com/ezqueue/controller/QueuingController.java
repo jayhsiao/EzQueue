@@ -60,21 +60,6 @@ public class QueuingController extends BaseController {
 		return this.getResponse(responseObject);
 	}
 	
-	@RequestMapping(value = "/remove", method = RequestMethod.DELETE)
-	public ResponseEntity<Object> removeQueuing(@RequestBody Map<String, Object> map){
-		ResponseObject responseObject = new ResponseObject();
-		try {
-			userQueueService.removeQueuing((String) map.get("queuingId"));
-			responseObject.setSuccess(true);
-		} 
-		catch (Exception e) {
-			logger.error(e, e);
-			responseObject.setSuccess(false);
-			responseObject.setReturnMessage(e.getMessage());
-		}
-		return this.getResponse(responseObject);
-	}
-	
 	@RequestMapping(value = "/updateStatus", method = RequestMethod.PATCH)
 	public ResponseEntity<Object> updateWaittingStatus(@RequestBody Queuing queuing){
 		ResponseObject responseObject = new ResponseObject();

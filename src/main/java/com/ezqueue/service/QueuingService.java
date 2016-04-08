@@ -17,8 +17,6 @@ public interface QueuingService {
 	
 	public void addQueuing(Queuing queuing) throws Exception;
 	
-	public void removeQueuing(String queuingId) throws Exception;
-	
 	public Double getAvgWaittingTime(String queueId) throws Exception;
 	
 	public void updateStatus(Queuing queuing) throws Exception;

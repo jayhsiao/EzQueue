@@ -17,12 +17,13 @@
 <script type="text/javascript" src="<c:url value="/js/jquery-1.11.3.min.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/fb_other.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/main.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/create.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/queue.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/ajax_util.js"/>"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
 <body>
-<form id="submitForm" style="font-family: 微軟正黑體;">
+<form id="submitForm" class="form-horizontal" style="font-family: 微軟正黑體;">
 <nav class="navbar navbar-default navbar-static-top">
 	<div class="container">
 		<div class="navbar-header">
@@ -39,10 +40,10 @@
 			aria-expanded="false" style="height: 1px;">
 			<ul class="nav navbar-nav">
 				<li>
-					<a id="a_myQueue"><img src="http://graph.facebook.com/<c:out value="${RESPONSE_MAP.user.fbId}"/>/picture?width=12&height=14">&nbsp;<c:out value="${RESPONSE_MAP.user.name}"/><span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+					<a id="a_myQueue"><img src="http://graph.facebook.com/<c:out value="${RESPONSE_MAP.user.id}"/>/picture?width=12&height=14">&nbsp;<c:out value="${RESPONSE_MAP.user.name}"/><span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
 				</li>
 				<li>
-					<a id="a_promotions"><i class="fa fa-thumbs-up"></i>強力推薦<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+					<a id="a_promotion"><i class="fa fa-thumbs-up"></i>強力推薦<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
 				</li>
 				<li>
 					<a id="a_favorite"><i class="fa fa-heart"></i>我的最愛<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
@@ -69,8 +70,16 @@
 
 <div id="fb-root"></div>
 
-<input type="hidden" id="name"   name="name"   value="<c:out value="${RESPONSE_MAP.user.name}"/>">
-<input type="hidden" id="userId" name="userId" value="<c:out value="${RESPONSE_MAP.user.userId}"/>">
+<input type="hidden" id="name"   value="<c:out value="${RESPONSE_MAP.user.name}"/>">
+<input type="hidden" id="userId" value="<c:out value="${RESPONSE_MAP.user.userId}"/>">
+
+<input type="hidden" id="input_userId"      value="">
+<input type="hidden" id="input_queueId"     value="">
+<input type="hidden" id="input_starId"      value="">
+<input type="hidden" id="input_promotionId" value="">
+<input type="hidden" id="input_favoriteId"  value="">
+<input type="hidden" id="input_queuingId"   value="">
+<input type="hidden" id="input_isMyQueues"  value="">
 
 </body>
 </html>

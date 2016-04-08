@@ -7,6 +7,17 @@ var createObj = {
 	
 	registerEvent: function(){
 		
+		$(document).on("click", ".dropdown-menu li", function(){
+			var userId = $(this).find("#input_accounts_userId").val();
+			var accountId = $(this).find("#input_accounts_accountId").val();
+			var accountName = $(this).find("#input_accounts_accountName").val();
+			
+			$("#btn_accounts").text("");
+			$("#btn_accounts").append("<img src='http://graph.facebook.com/"+accountId+"/picture?width=12&height=14'>&nbsp;"+accountName+"&nbsp;<span class='caret'></span>");
+			
+			$("#input_userId").val(userId);
+		});
+		
 		$(document).on("click", "#btn_create", function(){
 			createObj.createQueue($(this));
 		});
@@ -18,7 +29,7 @@ var createObj = {
 	
 	createQueue: function(btnObj){
 		var body = {
-			userId: $("#userId", window.parent.document).val(),
+			userId: $("#input_userId").val(),
 			title: $("#input_title").val(),
 			phone: $("#input_phone").val(),
 			address: $("#input_address").val(),
@@ -27,7 +38,7 @@ var createObj = {
 		};
 		
 		var spanObj = $("#span_spinner");
-		ajaxUtilObj.callAJAX("POST", "/queue/add", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
+		ajaxUtilObj.callJsonAJAX("POST", "/queue/add", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
 			if(!httpResponse.success){
 				$("#span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
 				return;

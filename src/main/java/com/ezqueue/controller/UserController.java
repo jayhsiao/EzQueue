@@ -1,6 +1,8 @@
 package com.ezqueue.controller;
 
 
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +25,14 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
-	public ResponseEntity<Object> getStore(@RequestBody User user) throws Exception{
+	@RequestMapping(value = "/check", method = RequestMethod.POST)
+	public ResponseEntity<Object> check(@RequestBody Map<String, Object> map) throws Exception{
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			User newUser = userService.addUser(user);
+			System.out.println(map.entrySet());
+			String userId = userService.check(map);
 			responseObject.setSuccess(true);
-			responseObject.setReturnObject(newUser.getUserId());
+			responseObject.setReturnObject(userId);
 		}
 		catch (Exception e) {
 			logger.error(e, e);
@@ -40,7 +43,7 @@ public class UserController extends BaseController {
 	}
 	
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getStore(@PathVariable String userId) throws Exception{
+	public ResponseEntity<Object> getUser(@PathVariable String userId) throws Exception{
 		ResponseObject responseObject = new ResponseObject();
 		try {
 			User user = userService.getUser(userId);

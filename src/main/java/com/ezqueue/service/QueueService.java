@@ -7,6 +7,8 @@ import com.ezqueue.model.Queue;
 
 public interface QueueService {
 	
+	public Map<String, Object> createQueue(String userId) throws Exception;
+	
 	public List<Map<String, Object>> getMyQueues(String userId, int page, int size) throws Exception;
 
 	public List<Map<String, Object>> getPromotionQueues(String userId, int page, int size) throws Exception;
