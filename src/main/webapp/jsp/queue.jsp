@@ -3,14 +3,17 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <c:forEach items="${RESPONSE_MAP}" var="map">
-	<div id="div_<c:out value="${map.queue.queueId}"/>" class="col-sm-6 col-md-4" style="cursor: pointer;">
+	<div id="div_<c:out value="${map.queue.queueId}"/>" class="col-sm-6 col-md-3" style="cursor: pointer;">
 		<div class="thumbnail" data-toggle="modal" data-target="#div_info_<c:out value="${map.queue.queueId}"/>">
-			<img src="http://graph.facebook.com/<c:out value="${map.queue.user.id}"/>/picture?width=283&height=283">
+			<c:if test="${not empty map.promotionId}">
+				<span style="font-size: 14px; z-index: 1; position: absolute; top: 12px; left: 25px;" class="label label-danger">Hot</span>
+			</c:if>
+			<img style="z-index: 2;" src="http://graph.facebook.com/<c:out value="${map.queue.user.id}"/>/picture?width=245&height=245">
 			<div class="caption">
 				<h3><c:out value="${map.queue.title}"/></h3>
 				<div>
 					<c:choose>
-						<c:when test="${not empty map.avgStar}">
+						<c:when test="${map.avgStar > 0}">
 							<span class="star-color"><c:out value="${map.avgStar}"/></span>&nbsp;
 							<c:forEach begin="1" end="${map.avgStar}" step="1">
 								<i class="star-color fa fa-star"></i>
@@ -24,10 +27,6 @@
 							尚無評分
 						</c:otherwise>
 					</c:choose>
-					
-					<c:if test="${not empty map.promotionId}">
-						<span class="label label-danger">Hot</span>
-					</c:if>
 				</div>
 				
 				<c:if test="${map.isQueuing}">
@@ -44,7 +43,7 @@
 								<h3><c:out value="${map.avgWaittingTime}"/>&nbsp;</h3>
 							</td>
 							<td width="20%" align="center" valign="top">
-								<div><i class="fa fa-tags"></i></div>
+								<div><i class="fa fa-list-ol"></i></div>
 								<h3><span id="span_queueNum" class="label label-default"><c:out value="${map.queueNum}"/></span>&nbsp;</h3>
 							</td>
 						</tr>
@@ -90,7 +89,7 @@
 							<input type="text" class="form-control" id="input_phone" placeholder="電話" value="<c:out value="${map.queue.phone}"/>" style="display: none;">
 						</div>
 						<div class="col-xs-12">
-							<i class="fa fa-map-marker"></i>&nbsp;<span id="span_address"><a href="http://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=<c:out value="${map.queue.address}"/>&z=16&output=&t=" target="_blank"><c:out value="${map.queue.address}"/></a></span>
+							<i class="fa fa-map-marker"></i>&nbsp;<span id="span_address"><c:out value="${map.queue.address}"/>&nbsp;<a href="http://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=<c:out value="${map.queue.address}"/>&z=16&output=&t=" target="_blank"><i class="fa fa-map"></i></a></span>
 							<input type="text" class="form-control" id="input_address" placeholder="地址" value="<c:out value="${map.queue.address}"/>" style="display: none;">
 						</div>
 						<div class="col-xs-12">
@@ -110,7 +109,7 @@
 								<h1><c:out value="${map.avgWaittingTime}"/>&nbsp;</h1>
 							</div>
 							<div class="col-sm-3" align="center">
-								<i class="fa fa-tags"></i>
+								<i class="fa fa-list-ol"></i>
 								<h1><span id="span_queueNum" class="label label-default"><c:out value="${map.queueNum}"/></span>&nbsp;</h1>
 							</div>
 						</div>
@@ -189,7 +188,7 @@
 						
 						<div class="col-xs-12">
 							<hr>
-							<div class="fb-comments" data-width="100%" data-href="http://ezqueue-dev.ap-northeast-1.elasticbeanstalk.com/<c:out value="${map.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
+							<div class="fb-comments" data-width="100%" data-href="http://local.ezqueue.com:8080/<c:out value="${map.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
 						</div>
 						
 					</div>
