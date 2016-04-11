@@ -45,22 +45,6 @@ public class QueueController extends BaseController {
 		return this.getResponse(responseObject);
 	}
 	
-	@RequestMapping(value = "/my/{userId}/{page}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getMyQueues(@PathVariable String userId, @PathVariable Integer page){
-		ResponseObject responseObject = new ResponseObject();
-		try {
-			List<Map<String, Object>> queues = queueService.getMyQueues(userId, page, EzQueueConstants.PAGE_SIZE);
-			responseObject.setSuccess(true);
-			responseObject.setReturnObject(queues);
-		} 
-		catch (Exception e) {
-			logger.error(e, e);
-			responseObject.setSuccess(false);
-			responseObject.setReturnMessage(e.getMessage());
-		}
-		return this.getResponse(responseObject);
-	}
-	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<Object> addQueue(@RequestBody Map<String, Object> map){
 		ResponseObject responseObject = new ResponseObject();

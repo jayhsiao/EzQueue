@@ -40,9 +40,9 @@ public class EzQueueController extends BaseController {
         return "create";
 	}
 	
-	@RequestMapping(value = "/myQueues/{userId}", method = RequestMethod.GET)
-	public String getMyQueues(Model model, @PathVariable String userId) throws Exception{
-		model.addAttribute("RESPONSE_MAP", ezQueueService.getMyQueues(userId, 0, EzQueueConstants.PAGE_SIZE));
+	@RequestMapping(value = "/myQueues/{userId}/{page}", method = RequestMethod.GET)
+	public String getMyQueues(Model model, @PathVariable String userId, @PathVariable Integer page) throws Exception{
+		model.addAttribute("RESPONSE_MAP", ezQueueService.getMyQueues(userId, page, EzQueueConstants.PAGE_SIZE));
         return "queue";
 	}
 	

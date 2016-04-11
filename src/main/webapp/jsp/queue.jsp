@@ -15,12 +15,22 @@
 					<c:choose>
 						<c:when test="${map.avgStar > 0}">
 							<span class="star-color"><c:out value="${map.avgStar}"/></span>&nbsp;
-							<c:forEach begin="1" end="${map.avgStar}" step="1">
+							<c:forEach begin="1" end="${map.avgStar / 1}" step="1">
 								<i class="star-color fa fa-star"></i>
 							</c:forEach>
-							<c:forEach begin="1" end="${5 - map.avgStar}" step="1">
-								<i class="star-color fa fa-star-o"></i>
-							</c:forEach>
+							<c:choose>
+								<c:when test="${map.avgStar % 1 > 0}">
+									<i class="star-color fa fa-star-half-o"></i>
+									<c:forEach begin="1" end="${5 - (map.avgStar / 1) - 1}" step="1">
+										<i class="star-color fa fa-star-o"></i>
+									</c:forEach>
+								</c:when>
+								<c:otherwise>
+									<c:forEach begin="1" end="${5 - (map.avgStar / 1)}" step="1">
+										<i class="star-color fa fa-star-o"></i>
+									</c:forEach>
+								</c:otherwise>
+							</c:choose>
 							<span class="badge"><c:out value="${fn:length(map.queue.stars)}"/></span>
 						</c:when>
 						<c:otherwise>
@@ -64,19 +74,31 @@
 							<tr>
 								<td>
 									<h2><c:out value="${map.queue.title}"/></h2>
-									<c:if test="${not empty map.avgStar}">
-										<span class="star-color"><c:out value="${map.avgStar}"/></span>&nbsp;
-										<c:forEach begin="1" end="${map.avgStar}" step="1">
-											<i class="star-color fa fa-star"></i>
-										</c:forEach>
-										<c:forEach begin="1" end="${5 - map.avgStar}" step="1">
-											<i class="star-o-color fa fa-star-o"></i>
-										</c:forEach>
-										<span class="badge"><c:out value="${fn:length(map.queue.stars)}"/></span>
-									</c:if>
-									<c:if test="${not empty map.promotionId}">
-										<span class="label label-danger">Hot</span>
-									</c:if>
+									<c:choose>
+										<c:when test="${map.avgStar > 0}">
+											<span class="star-color"><c:out value="${map.avgStar}"/></span>&nbsp;
+											<c:forEach begin="1" end="${map.avgStar / 1}" step="1">
+												<i class="star-color fa fa-star"></i>
+											</c:forEach>
+											<c:choose>
+												<c:when test="${map.avgStar % 1 > 0}">
+													<i class="star-color fa fa-star-half-o"></i>
+													<c:forEach begin="1" end="${5 - (map.avgStar / 1) - 1}" step="1">
+														<i class="star-color fa fa-star-o"></i>
+													</c:forEach>
+												</c:when>
+												<c:otherwise>
+													<c:forEach begin="1" end="${5 - (map.avgStar / 1)}" step="1">
+														<i class="star-color fa fa-star-o"></i>
+													</c:forEach>
+												</c:otherwise>
+											</c:choose>
+											<span class="badge"><c:out value="${fn:length(map.queue.stars)}"/></span>
+										</c:when>
+										<c:otherwise>
+											尚無評分
+										</c:otherwise>
+									</c:choose>
 								</td>
 							</tr>
 						</table>
@@ -85,16 +107,16 @@
 				<div class="modal-body">
 					<div class="row">
 						<div class="col-xs-12">
+							<h4><span id="span_dscr"><c:out value="${map.queue.dscr}" escapeXml="false"/></span></h4>
+							<textarea id="textarea_dscr" rows='3' cols='33' class="form-control" maxlength='150' placeholder="簡介" style="display: none;"><c:out value="${map.queue.dscr}" escapeXml="false"/></textarea>
+						</div>
+						<div class="col-xs-12">
 							<i title="電話" class="fa fa-phone"></i>&nbsp;<span id="span_phone"><c:out value="${map.queue.phone}"/></span>
 							<input type="text" class="form-control" id="input_phone" placeholder="電話" value="<c:out value="${map.queue.phone}"/>" style="display: none;">
 						</div>
 						<div class="col-xs-12">
 							<i class="fa fa-map-marker"></i>&nbsp;<span id="span_address"><c:out value="${map.queue.address}"/>&nbsp;<a href="http://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=<c:out value="${map.queue.address}"/>&z=16&output=&t=" target="_blank"><i class="fa fa-map"></i></a></span>
 							<input type="text" class="form-control" id="input_address" placeholder="地址" value="<c:out value="${map.queue.address}"/>" style="display: none;">
-						</div>
-						<div class="col-xs-12">
-							<i class="fa fa-thumbs-up"></i>&nbsp;<span id="span_dscr"><c:out value="${map.queue.dscr}" escapeXml="false"/></span>
-							<textarea id="textarea_dscr" rows='3' cols='33' class="form-control" maxlength='150' placeholder="簡介" style="display: none;"><c:out value="${map.queue.dscr}" escapeXml="false"/></textarea>
 						</div>
 						
 						<c:if test="${!map.isMyQueues}">

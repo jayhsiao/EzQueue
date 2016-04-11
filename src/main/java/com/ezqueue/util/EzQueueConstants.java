@@ -1,5 +1,5 @@
 package com.ezqueue.util;
 
 public class EzQueueConstants {
-	public static final int PAGE_SIZE = 10;
+	public static final int PAGE_SIZE = 12;
 }
