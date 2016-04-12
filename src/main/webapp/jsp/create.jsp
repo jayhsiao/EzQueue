@@ -2,83 +2,105 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core"      prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
-<div class='panel panel-default' style='width: 45%;'>
-	<div class='panel-heading'>
-		<table>
-		<tr>
-			<td width='100%' nowrap>
+<div class="row">
+	<div class="col-md-6">
+		<div class='panel panel-default'>
+			<div class='panel-heading'>
 				<div class='panel-title'>
-					<h4><span id="span_title"></span></h4>
+					<h4>建立排隊</h4>
 				</div>
-			</td>
-		</tr>
-		</table>
-	</div>
-	<div class='panel-body'>
-		
-		<div class="form-group">
-			<div class="col-md-6 dropdown">
-				<button type="button" id="btn_accounts" class="btn btn-default dropdown-toggle"
-					data-toggle="dropdown" aria-expanded="true">
-					請選擇&nbsp;<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu" role="menu">
-					<c:forEach items="${RESPONSE_MAP.accounts }" var="account">
-						<li>
-							<a><img src="http://graph.facebook.com/<c:out value="${account.id}"/>/picture?width=12&height=14">&nbsp;<c:out value="${account.name}"/></a>
-							<input type="hidden" id="input_accounts_userId"      value="<c:out value="${account.userId}"/>">
-							<input type="hidden" id="input_accounts_accountId"   value="<c:out value="${account.id}"/>">
-							<input type="hidden" id="input_accounts_accountName" value="<c:out value="${account.name}"/>">
-						</li>
-					</c:forEach>
-				</ul>
 			</div>
-		</div>
-	
-		<div class="form-group">
-			<div id="div_btn-group" class="col-md-6 btn-group" data-toggle="buttons">
-				<label class="btn btn-default active">
-					<input type="radio" name="enable" id="enable_true" autocomplete="off" value="true" checked> 開啟
-				</label>
-				<label class="btn btn-default">
-					<input type="radio" name="enable" id="enable_false" autocomplete="off" value="false"> 暫時關閉
-				</label>
-				<br/><br/>
-			</div>
-		</div>
-		
-		<div class="form-group">
-			<div class="col-md-12">
-				<input type="text" class="form-control" id="input_title" name="title" maxlength="45" placeholder="名稱">
-			</div>
-		</div>
-		
-		<div class="form-group">
-			<div class="col-md-12">
-				<input type="text" class="form-control" id="input_phone" name="title" maxlength="45" placeholder="電話">
-			</div>
-		</div>
-		
-		<div class="form-group">
-			<div class="col-md-12">
-				<input type="text" class="form-control" id="input_address" name="title" maxlength="45" placeholder="地址">
-			</div>
-		</div>
-		
-		<div class="form-group">
-			<div class="col-md-12">
-				<textarea id="textarea_dscr" rows='3' cols='33' class="form-control" maxlength='150' placeholder="簡介"></textarea>
-			</div>
-		</div>
-		
-		<div class="form-group">
-			<div class="col-md-12">
-				<button type='button' id="btn_create" class='btn btn-default'>建立排隊</button>
-				<span id="span_result"></span>
-				<span id="span_spinner" style="display: none;"><i class="fa fa-spinner fa-spin"></i></span>
-			</div>
-		</div>
+			<div class='panel-body'>
+				<div class="form-group">
+					<div class="col-md-6">
+						<div class="dropdown">
+							<button type="button" id="btn_accounts" class="btn btn-default dropdown-toggle"
+								data-toggle="dropdown" aria-expanded="true">
+								請選擇&nbsp;<span class="caret"></span>
+							</button>
+							<ul id="ul_accounts" class="dropdown-menu" role="menu">
+								<c:forEach items="${RESPONSE_MAP.accounts }" var="account">
+									<li>
+										<a><img src="http://graph.facebook.com/<c:out value="${account.id}"/>/picture?width=12&height=14">&nbsp;<c:out value="${account.name}"/></a>
+										<input type="hidden" id="input_accounts_userId"      value="<c:out value="${account.userId}"/>">
+										<input type="hidden" id="input_accounts_accountId"   value="<c:out value="${account.id}"/>">
+										<input type="hidden" id="input_accounts_accountName" value="<c:out value="${account.name}"/>">
+									</li>
+								</c:forEach>
+							</ul>
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-md-6">
+						<div class="dropdown">
+							<button type="button" id="btn_queueTypes" class="btn btn-default dropdown-toggle"
+								data-toggle="dropdown" aria-expanded="true">
+								請選擇&nbsp;<span class="caret"></span>
+							</button>
+							<ul id="ul_queueTypes" class="dropdown-menu" role="menu">
+								<c:forEach items="${RESPONSE_MAP.queueTypes }" var="queueType">
+									<li>
+										<a><i class="fa <c:out value="${queueType.iconClass }"/>"></i>&nbsp;<c:out value="${queueType.dscr }"/></a>
+										<input type="hidden" id="input_queueType_queueTypeId" value="<c:out value="${queueType.queueTypeId }"/>">
+										<input type="hidden" id="input_queueType_dscr"        value="<c:out value="${queueType.dscr }"/>">
+										<input type="hidden" id="input_queueType_iconClass"   value="<c:out value="${queueType.iconClass }"/>">
+									</li>
+								</c:forEach>
+							</ul>
+						</div>
+					</div>
+				</div>
 			
-		<br/>
+				<div class="form-group">
+					<div class="col-md-6">
+						<div id="div_btn-group" class="btn-group" data-toggle="buttons">
+							<label class="btn btn-default active">
+								<input type="radio" name="enable" id="enable_true" autocomplete="off" value="true" checked> 開啟
+							</label>
+							<label class="btn btn-default">
+								<input type="radio" name="enable" id="enable_false" autocomplete="off" value="false"> 暫時關閉
+							</label>
+							<br/><br/>
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-md-12">
+						<input type="text" class="form-control" id="input_title" name="title" maxlength="45" placeholder="名稱">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-md-12">
+						<input type="text" class="form-control" id="input_phone" name="title" maxlength="45" placeholder="電話">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-md-12">
+						<input type="text" class="form-control" id="input_address" name="title" maxlength="45" placeholder="地址">
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-md-12">
+						<textarea id="textarea_dscr" rows='3' cols='33' class="form-control" maxlength='150' placeholder="簡介"></textarea>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="col-md-12">
+						<button type='button' id="btn_create" class='btn btn-default'>建立排隊</button>
+						<span id="span_result" class="label label-default"></span>
+						<span id="span_spinner" style="display: none;"><i class="fa fa-spinner fa-spin"></i></span>
+					</div>
+				</div>
+					
+				<br/>
+			</div>
+		</div>
 	</div>
 </div>

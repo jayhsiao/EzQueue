@@ -36,6 +36,11 @@ public class Queue extends ModelBase implements Serializable{
 	private String address;
 	@Column(name = "dscr")
 	private String dscr;
+	
+	@OneToOne
+	@JoinColumn(name = "queue_type_id")
+	private QueueType queueType;
+	
 	@Column(name = "enable")
 	private boolean enable;
 	
@@ -109,6 +114,14 @@ public class Queue extends ModelBase implements Serializable{
 
 	public void setDscr(String dscr) {
 		this.dscr = dscr;
+	}
+
+	public QueueType getQueueType() {
+		return queueType;
+	}
+
+	public void setQueueType(QueueType queueType) {
+		this.queueType = queueType;
 	}
 
 	public boolean isEnable() {

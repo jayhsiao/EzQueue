@@ -38,18 +38,26 @@ var ajaxUtilObj = {
 		});
 	}, 
 	
-	callHtmlAJAX: function(method, url, spanObj, returnMethod){
+	callHtmlAJAX: function(method, url, disabledObj, spanObj, returnMethod){
 		$.ajax({
 			type : method,
 			url : url,
             dataType: "html",
 			async : true,
 			beforeSend: function(){
+				if(disabledObj){
+					$(disabledObj).attr("disabled", true);
+					$(disabledObj).addClass("disabled");
+				}
 				if(spanObj){
 					$(spanObj).show();
 				}
 			},
 			complete: function(){
+				if(disabledObj){
+					$(disabledObj).attr("disabled", false);
+					$(disabledObj).removeClass("disabled");
+				}
 				if(spanObj){
 					$(spanObj).hide();
 				}

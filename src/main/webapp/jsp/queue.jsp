@@ -10,7 +10,7 @@
 			</c:if>
 			<img style="z-index: 2;" src="http://graph.facebook.com/<c:out value="${map.queue.user.id}"/>/picture?width=245&height=245">
 			<div class="caption">
-				<h3><c:out value="${map.queue.title}"/></h3>
+				<h3><i class="fa <c:out value="${map.queue.queueType.iconClass}"/>"></i>&nbsp;<c:out value="${map.queue.title}"/></h3>
 				<div>
 					<c:choose>
 						<c:when test="${map.avgStar > 0}">

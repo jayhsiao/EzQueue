@@ -29,19 +29,23 @@ public class EzQueueServiceImpl implements EzQueueService {
 		return queueService.createQueue(userId);
 	}
 	
-	public List<Map<String, Object>> getMyQueues(String userId, int page, int size) throws Exception {
-		return queueService.getMyQueues(userId, page, size);
+	public List<Map<String, Object>> getMyQueues(String userId, int page) throws Exception {
+		return queueService.getMyQueues(userId, page);
 	}
 	
-	public List<Map<String, Object>> getPromotionQueues(String userId, int page, int size) throws Exception {
-		return queueService.getPromotionQueues(userId, page, size);
+	public List<Map<String, Object>> getPromotionQueues(String userId, int page) throws Exception {
+		return queueService.getPromotionQueues(userId, page);
 	}
 	
-	public List<Map<String, Object>> getQueuingQueues(String userId, int page, int size) throws Exception {
-		return queueService.getQueuingQueues(userId, page, size);
+	public List<Map<String, Object>> getQueuingQueues(String userId, int page) throws Exception {
+		return queueService.getQueuingQueues(userId, page);
 	}
 	
-	public List<Map<String, Object>> getFavoriteQueues(String userId, int page, int size) throws Exception {
-		return queueService.getFavoriteQueues(userId, page, size);
+	public List<Map<String, Object>> getFavoriteQueues(String userId, int page) throws Exception {
+		return queueService.getFavoriteQueues(userId, page);
+	}
+	
+	public List<Map<String, Object>> getSearchQueues(String userId, String text, int page) throws Exception {
+		return queueService.getSearchQueues(userId, text, page);
 	}
 }

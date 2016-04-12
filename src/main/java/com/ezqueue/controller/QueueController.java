@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ezqueue.model.Queue;
+import com.ezqueue.model.QueueType;
 import com.ezqueue.model.User;
 import com.ezqueue.service.QueueService;
-import com.ezqueue.util.EzQueueConstants;
 import com.ezqueue.util.ResponseObject;
 import com.ezqueue.util.StringUtil;
 
@@ -33,7 +33,7 @@ public class QueueController extends BaseController {
 	public ResponseEntity<Object> getPromotionsQueues(@PathVariable String userId, @PathVariable Integer page){
 		ResponseObject responseObject = new ResponseObject();
 		try {
-			List<Map<String, Object>> queues = queueService.getPromotionQueues(userId, page, EzQueueConstants.PAGE_SIZE);
+			List<Map<String, Object>> queues = queueService.getPromotionQueues(userId, page);
 			responseObject.setSuccess(true);
 			responseObject.setReturnObject(queues);
 		} 
@@ -59,6 +59,11 @@ public class QueueController extends BaseController {
 			queue.setPhone((String) map.get("phone"));
 			queue.setAddress((String) map.get("address"));
 			queue.setDscr((String) map.get("dscr"));
+			
+			QueueType queueType = new QueueType();
+			queueType.setQueueTypeId(Integer.valueOf((String) map.get("queueTypeId")));
+			queue.setQueueType(queueType);
+			
 			queue.setEnable(Boolean.valueOf((String) map.get("enable")));
 			
 			queueService.addQueue(queue);

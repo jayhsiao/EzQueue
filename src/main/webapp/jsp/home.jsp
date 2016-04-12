@@ -23,7 +23,7 @@
 	<br/>
 	<br/>
 	<br/>
-	<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button>
+	<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button><span id="span_spin" style="display: none;"><i class="fa fa-spinner fa-spin"></i></span>
 	<br/>
 	<br/>
 	<span id="span_result" class="label label-default"></span>

@@ -22,12 +22,12 @@
 <script type="text/javascript" src="<c:url value="/js/ajax_util.js"/>"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 </head>
-<body>
-<form id="submitForm" class="form-horizontal" style="font-family: 微軟正黑體;">
+<body style="font-family: 微軟正黑體;">
+<form id="submitForm" class="form-horizontal">
 <nav class="navbar navbar-default navbar-static-top">
 	<div class="container">
 		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed"
+			<button id="btn_navbar" type="button" class="navbar-toggle collapsed"
 				data-toggle="collapse" data-target="#navbar" aria-expanded="false"
 				aria-controls="navbar">
 				<span class="icon-bar"></span> 
@@ -40,24 +40,37 @@
 			aria-expanded="false" style="height: 1px;">
 			<ul class="nav navbar-nav">
 				<li>
-					<a id="a_myQueue"><img src="http://graph.facebook.com/<c:out value="${RESPONSE_MAP.user.id}"/>/picture?width=12&height=14">&nbsp;<c:out value="${RESPONSE_MAP.user.name}"/><span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+					<a id="a_myQueue" style="cursor: pointer;"><img src="http://graph.facebook.com/<c:out value="${RESPONSE_MAP.user.id}"/>/picture?width=12&height=14">&nbsp;<c:out value="${RESPONSE_MAP.user.name}"/><span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
 				</li>
 				<li>
-					<a id="a_promotion"><i class="fa fa-thumbs-up"></i>強力推薦<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+					<a id="a_promotion" style="cursor: pointer;"><i class="fa fa-thumbs-up"></i>強力推薦<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
 				</li>
 				<li>
-					<a id="a_favorite"><i class="fa fa-heart"></i>我的最愛<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+					<a id="a_favorite" style="cursor: pointer;"><i class="fa fa-heart"></i>我的最愛<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
 				</li>
 				<li>
-					<a id="a_queueing"><i class="fa fa-clock-o"></i>正在排隊<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+					<a id="a_queueing" style="cursor: pointer;"><i class="fa fa-clock-o"></i>正在排隊<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
 				</li>
 				<li>
-					<a id="a_create"><i class="fa fa-play"></i>建立排隊<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
-				</li>
-				<li>
-					<a id="a_setting"><i class="fa fa-cog"></i>系統設定<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+					<a id="a_create" style="cursor: pointer;"><i class="fa fa-play"></i>建立排隊<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
 				</li>
 			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li>
+					<a id="a_setting" style="cursor: pointer;"><i class="fa fa-cog"></i>系統設定<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+				</li>
+				<li>
+					<a id="a_logout" style="cursor: pointer;"><i class="fa fa-sign-out"></i>登出</a>
+				</li>
+			</ul>
+			<div class="navbar-form navbar-right">
+				<div class="input-group">
+					<input type="text" id="input_search" class="form-control" placeholder="搜尋...">
+					<span class="input-group-btn">
+						<button type="button" id="btn_search" class="btn btn-default"><i class="fa fa-search"></i>&nbsp;<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></button>
+					</span>
+				</div>
+			</div>
 		</div>
 	</div>
 </nav>
@@ -74,6 +87,7 @@
 <input type="hidden" id="userId" value="<c:out value="${RESPONSE_MAP.user.userId}"/>">
 
 <input type="hidden" id="input_userId"      value="">
+<input type="hidden" id="input_queueTypeId" value="">
 <input type="hidden" id="input_queueId"     value="">
 <input type="hidden" id="input_starId"      value="">
 <input type="hidden" id="input_promotionId" value="">

@@ -7,11 +7,6 @@ var homeObj = {
 		
 	registerEvent: function(){
 		
-		$(document).on("click", ".fb-login-button", function(event){
-			console.log('connected');
-			// @fb_check.js
-			checkLoginState(homeObj.login);
-		});
 	},
 	
 	init: function(){
@@ -34,7 +29,8 @@ var homeObj = {
 					email: me_response.email,
 					accounts: accounts_response.data
 				};
-				ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/user/check", JSON.stringify(body), null, null, function(httpResponse){
+				
+				ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/user/check", JSON.stringify(body), null, $("#span_spin"), function(httpResponse){
 					if(!httpResponse.success){
 						$("#span_result").text(httpResponse.returnMessage);
 						return;
