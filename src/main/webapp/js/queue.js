@@ -7,7 +7,7 @@ var queueObj = {
 	
 	registerEvent: function(){
 		
-		$(document).on("mouseover", ".modal", function(event){
+		$(document).on("mouseover", ".thumbnail", function(event){
 			$("#input_queueId").val("");
 			$("#input_starId").val("");
 			$("#input_promotionId").val("");

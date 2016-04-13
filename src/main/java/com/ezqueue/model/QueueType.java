@@ -18,22 +18,24 @@ public class QueueType extends ModelBase implements Serializable{
 	
 	@Id
 	@Column(name = "queue_type_id")
-	private Integer queueTypeId;
+	private String queueTypeId;
 	@Column(name = "dscr")
 	private String dscr;
 	@Column(name = "icon_class")
 	private String iconClass;
+	@Column(name = "display_order")
+	private Integer displayOrder;
 	
 	@Override
 	public String toString() {
 		return StringUtil.reflectionToString(this);
 	}
 
-	public Integer getQueueTypeId() {
+	public String getQueueTypeId() {
 		return queueTypeId;
 	}
 
-	public void setQueueTypeId(Integer queueTypeId) {
+	public void setQueueTypeId(String queueTypeId) {
 		this.queueTypeId = queueTypeId;
 	}
 
@@ -51,6 +53,14 @@ public class QueueType extends ModelBase implements Serializable{
 
 	public void setIconClass(String iconClass) {
 		this.iconClass = iconClass;
+	}
+
+	public Integer getDisplayOrder() {
+		return displayOrder;
+	}
+
+	public void setDisplayOrder(Integer displayOrder) {
+		this.displayOrder = displayOrder;
 	}
 
 }

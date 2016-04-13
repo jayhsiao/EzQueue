@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import com.ezqueue.model.QueueType;
@@ -20,6 +23,7 @@ public class QueueTypeServiceImpl implements QueueTypeService {
 	private QueueTypeRepository queueTypeRepository;
 	
 	public List<QueueType> getQueueType() throws Exception {
-		return  Lists.newArrayList(queueTypeRepository.findAll().iterator());
+		Sort sort = new Sort(new Order(Direction.ASC, "displayOrder"));
+		return  Lists.newArrayList(queueTypeRepository.findAll(sort).iterator());
 	}
 }

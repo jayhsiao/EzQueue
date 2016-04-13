@@ -41,6 +41,9 @@ public class Queue extends ModelBase implements Serializable{
 	@JoinColumn(name = "queue_type_id")
 	private QueueType queueType;
 	
+	@Column(name = "read_count")
+	private long readCount;
+	
 	@Column(name = "enable")
 	private boolean enable;
 	
@@ -122,6 +125,14 @@ public class Queue extends ModelBase implements Serializable{
 
 	public void setQueueType(QueueType queueType) {
 		this.queueType = queueType;
+	}
+
+	public long getReadCount() {
+		return readCount;
+	}
+
+	public void setReadCount(long readCount) {
+		this.readCount = readCount;
 	}
 
 	public boolean isEnable() {

@@ -13,15 +13,16 @@
 			<div class='panel-body'>
 				<div class="form-group">
 					<div class="col-md-6">
-						<div class="dropdown">
+						<div class="btn-group">
 							<button type="button" id="btn_accounts" class="btn btn-default dropdown-toggle"
-								data-toggle="dropdown" aria-expanded="true">
-								請選擇&nbsp;<span class="caret"></span>
+								data-toggle="dropdown" aria-haspopup="true"
+								aria-expanded="false">
+								帳號 <span class="caret"></span>
 							</button>
-							<ul id="ul_accounts" class="dropdown-menu" role="menu">
+							<ul id="ul_accounts" class="dropdown-menu">
 								<c:forEach items="${RESPONSE_MAP.accounts }" var="account">
 									<li>
-										<a><img src="http://graph.facebook.com/<c:out value="${account.id}"/>/picture?width=12&height=14">&nbsp;<c:out value="${account.name}"/></a>
+										<a><img src="http://graph.facebook.com/<c:out value="${account.id}"/>/picture?width=14&height=14">&nbsp;<c:out value="${account.name}"/></a>
 										<input type="hidden" id="input_accounts_userId"      value="<c:out value="${account.userId}"/>">
 										<input type="hidden" id="input_accounts_accountId"   value="<c:out value="${account.id}"/>">
 										<input type="hidden" id="input_accounts_accountName" value="<c:out value="${account.name}"/>">
@@ -34,12 +35,13 @@
 				
 				<div class="form-group">
 					<div class="col-md-6">
-						<div class="dropdown">
+						<div class="btn-group">
 							<button type="button" id="btn_queueTypes" class="btn btn-default dropdown-toggle"
-								data-toggle="dropdown" aria-expanded="true">
-								請選擇&nbsp;<span class="caret"></span>
+								data-toggle="dropdown" aria-haspopup="true"
+								aria-expanded="false">
+								類別 <span class="caret"></span>
 							</button>
-							<ul id="ul_queueTypes" class="dropdown-menu" role="menu">
+							<ul id="ul_queueTypes" class="dropdown-menu">
 								<c:forEach items="${RESPONSE_MAP.queueTypes }" var="queueType">
 									<li>
 										<a><i class="fa <c:out value="${queueType.iconClass }"/>"></i>&nbsp;<c:out value="${queueType.dscr }"/></a>
@@ -50,6 +52,7 @@
 								</c:forEach>
 							</ul>
 						</div>
+
 					</div>
 				</div>
 			
@@ -69,19 +72,19 @@
 				
 				<div class="form-group">
 					<div class="col-md-12">
-						<input type="text" class="form-control" id="input_title" name="title" maxlength="45" placeholder="名稱">
+						<input type="text" class="form-control" id="input_title" maxlength="10" placeholder="名稱">
 					</div>
 				</div>
 				
 				<div class="form-group">
 					<div class="col-md-12">
-						<input type="text" class="form-control" id="input_phone" name="title" maxlength="45" placeholder="電話">
+						<input type="text" class="form-control" id="input_phone" maxlength="45" placeholder="電話">
 					</div>
 				</div>
 				
 				<div class="form-group">
 					<div class="col-md-12">
-						<input type="text" class="form-control" id="input_address" name="title" maxlength="45" placeholder="地址">
+						<input type="text" class="form-control" id="input_address" maxlength="45" placeholder="地址">
 					</div>
 				</div>
 				

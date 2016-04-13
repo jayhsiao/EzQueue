@@ -1,7 +1,5 @@
 package com.ezqueue.controller;
 
-import java.util.Map;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,8 +26,7 @@ public class EzQueueController extends BaseController {
 	
 	@RequestMapping(value = "/init/{userId}", method = RequestMethod.GET)
 	public String init(Model model, @PathVariable String userId) throws Exception{
-		Map<String, Object> responseMap = ezQueueService.init(userId);
-		model.addAttribute("RESPONSE_MAP", responseMap);
+		model.addAttribute("RESPONSE_MAP", ezQueueService.init(userId));
 		return "main";
 	}
 	
@@ -37,6 +34,12 @@ public class EzQueueController extends BaseController {
 	public String createQueue(Model model, @PathVariable String userId) throws Exception{
 		model.addAttribute("RESPONSE_MAP", ezQueueService.createQueue(userId));
         return "create";
+	}
+	
+	@RequestMapping(value = "/single/{userId}/{queueId}/{page}", method = RequestMethod.GET)
+	public String getSingleQueue(Model model, @PathVariable String userId, @PathVariable String queueId, @PathVariable int page) throws Exception{
+		model.addAttribute("RESPONSE_MAP", ezQueueService.getSingleQueue(userId, queueId, page));
+		return "single";
 	}
 	
 	@RequestMapping(value = "/myQueues/{userId}/{page}", method = RequestMethod.GET)

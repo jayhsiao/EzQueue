@@ -61,7 +61,7 @@ public class QueueController extends BaseController {
 			queue.setDscr((String) map.get("dscr"));
 			
 			QueueType queueType = new QueueType();
-			queueType.setQueueTypeId(Integer.valueOf((String) map.get("queueTypeId")));
+			queueType.setQueueTypeId((String) map.get("queueTypeId"));
 			queue.setQueueType(queueType);
 			
 			queue.setEnable(Boolean.valueOf((String) map.get("enable")));

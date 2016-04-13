@@ -50,6 +50,7 @@ public class QueueServiceImpl implements QueueService {
 	@Autowired
 	private QueueTypeService queueTypeService;
 	
+	@Override
 	public Map<String, Object> createQueue(String userId) throws Exception {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		List<User> accounts = new ArrayList<User>();
@@ -60,6 +61,50 @@ public class QueueServiceImpl implements QueueService {
 		return resultMap;
 	}
 	
+	@Override
+	public Map<String, Object> getSingleQueue(String userId, String queueId, int page) throws Exception {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		Queue queue = queueRepository.findOne(queueId);
+		Favorite favorite = favoriteService.getFavorite(userId, queue.getQueueId());
+		Promotion promotion = promotionService.getPromotion(queue.getQueueId());
+		List<Queuing> queuings = queuingService.getQueuingsByQueueId(queue.getQueueId(), QueuingStatus.WAITTING, page, EzQueueConstants.PAGE_SIZE);
+		Double avgSeconds = queuingService.getAvgWaittingTime(queue.getQueueId());
+		Star star = starsService.getStar(userId, queue.getQueueId());
+		Double avgStar = starsService.getAvgStar(queue.getQueueId());
+		
+		Integer queuingCount = 0;
+		if(queuings != null && queuings.size() > 1){
+			queuingCount = queuings.size() - 1;
+		}
+		
+		String queuingId = null;
+		Integer queueNum = null;
+		for(Queuing queuing: queuings){
+			if(userId.equals(queuing.getUser().getUserId())){
+				queuingId = queuing.getQueuingId();
+				queueNum = queuing.getQueueNum();
+				break;
+			}
+		}
+			
+		map.put("queue", queue);
+		map.put("star", star);
+		map.put("avgStar", avgStar);
+		map.put("queuingCount", queuingCount);
+		map.put("avgWaittingTime", this.getAvgWaittingTimeString(avgSeconds));
+		map.put("queueNum", queueNum);
+		map.put("queuings", queuings);
+		map.put("promotionId", promotion != null? promotion.getPromotionId(): null);
+		map.put("favoriteId", favorite != null? favorite.getFavoriteId(): null);
+		map.put("queuingId", queuingId);
+		map.put("isMyQueues", false);
+		map.put("isQueuing", false);
+			
+		return map;
+	}
+	
+	@Override
 	public List<Map<String, Object>> getMyQueues(String userId, int page) throws Exception {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
@@ -116,6 +161,7 @@ public class QueueServiceImpl implements QueueService {
 		return list;
 	}
 	
+	@Override
 	public List<Map<String, Object>> getPromotionQueues(String userId, int page) throws Exception {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
@@ -164,6 +210,7 @@ public class QueueServiceImpl implements QueueService {
 		return list;
 	}
 	
+	@Override
 	public List<Map<String, Object>> getQueuingQueues(String userId, int page) throws Exception {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
@@ -203,6 +250,7 @@ public class QueueServiceImpl implements QueueService {
 		return list;
 	}
 	
+	@Override
 	public List<Map<String, Object>> getFavoriteQueues(String userId, int page) throws Exception {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
@@ -251,6 +299,7 @@ public class QueueServiceImpl implements QueueService {
 		return list;
 	}
 	
+	@Override
 	public List<Map<String, Object>> getSearchQueues(String userId, String title, int page) throws Exception {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
@@ -300,6 +349,7 @@ public class QueueServiceImpl implements QueueService {
 		return list;
 	}
 	
+	@Override
 	public void addQueue(Queue queue) throws Exception {
 		Date now = Calendar.getInstance().getTime();
 		queue.setCreateDate(now);
@@ -309,10 +359,12 @@ public class QueueServiceImpl implements QueueService {
 		queueRepository.save(queue);
 	}
 	
+	@Override
 	public void removeQueue(String queueId) throws Exception {
 		queueRepository.delete(queueId);
 	}
 	
+	@Override
 	public void update(Queue queue) throws Exception {
 		Queue oldQueue = queueRepository.findOne(queue.getQueueId());
 		oldQueue.setPhone(queue.getPhone());

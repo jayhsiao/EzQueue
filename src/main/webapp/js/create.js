@@ -12,8 +12,8 @@ var createObj = {
 			var accountId = $(this).find("#input_accounts_accountId").val();
 			var accountName = $(this).find("#input_accounts_accountName").val();
 			
-			$("#btn_accounts").text("");
-			$("#btn_accounts").append("<img src='http://graph.facebook.com/"+accountId+"/picture?width=12&height=14'>&nbsp;"+accountName+"&nbsp;<span class='caret'></span>");
+			$("#btn_accounts").empty();
+			$("#btn_accounts").append("<img src='http://graph.facebook.com/"+accountId+"/picture?width=12&height=12'>&nbsp;"+accountName+"&nbsp;<span class='caret'></span>");
 			
 			$("#input_userId").val(userId);
 		});
@@ -23,7 +23,7 @@ var createObj = {
 			var queueTypeDscr = $(this).find("#input_queueType_dscr").val();
 			var queueTypeIconClass = $(this).find("#input_queueType_iconClass").val();
 			
-			$("#btn_queueTypes").text("");
+			$("#btn_queueTypes").empty();
 			$("#btn_queueTypes").append("<i class='fa "+queueTypeIconClass+"'></i>&nbsp;"+queueTypeDscr+"&nbsp;<span class='caret'></span>");
 			
 			$("#input_queueTypeId").val(queueTypeId);
@@ -39,15 +39,21 @@ var createObj = {
 	},
 	
 	validation: function(){
-		if($("#btn_accounts").text().indexOf("請選擇") > 0){
+		if($("#btn_accounts").text().indexOf("帳號") > 0){
 			$("#span_result").text("請選擇建立帳號");
 			return false;
 		} 
 		else {
-			$("#btn_accounts").parent().parent().parent().removeClass("has-error");
 			$("#span_result").text("");
 		}
 		
+		if($("#btn_queueTypes").text().indexOf("類別") > 0){
+			$("#span_result").text("請選擇類別");
+			return false;
+		} 
+		else {
+			$("#span_result").text("");
+		}
 		
 		if($("#input_title").val().length == 0){
 			$("#input_title").parent().parent().addClass("has-error");

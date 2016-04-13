@@ -83,10 +83,7 @@
 
 <div id="fb-root"></div>
 
-<input type="hidden" id="name"   value="<c:out value="${RESPONSE_MAP.user.name}"/>">
-<input type="hidden" id="userId" value="<c:out value="${RESPONSE_MAP.user.userId}"/>">
-
-<input type="hidden" id="input_userId"      value="">
+<input type="hidden" id="input_userId"      value="<c:out value="${RESPONSE_MAP.user.userId}"/>">
 <input type="hidden" id="input_queueTypeId" value="">
 <input type="hidden" id="input_queueId"     value="">
 <input type="hidden" id="input_starId"      value="">

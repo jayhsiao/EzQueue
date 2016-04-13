@@ -47,7 +47,6 @@ var ajaxUtilObj = {
 			beforeSend: function(){
 				if(disabledObj){
 					$(disabledObj).attr("disabled", true);
-					$(disabledObj).addClass("disabled");
 				}
 				if(spanObj){
 					$(spanObj).show();
@@ -56,7 +55,6 @@ var ajaxUtilObj = {
 			complete: function(){
 				if(disabledObj){
 					$(disabledObj).attr("disabled", false);
-					$(disabledObj).removeClass("disabled");
 				}
 				if(spanObj){
 					$(spanObj).hide();
