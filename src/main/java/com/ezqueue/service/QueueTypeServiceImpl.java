@@ -22,7 +22,8 @@ public class QueueTypeServiceImpl implements QueueTypeService {
 	@Autowired
 	private QueueTypeRepository queueTypeRepository;
 	
-	public List<QueueType> getQueueType() throws Exception {
+	@Override
+	public List<QueueType> getQueueTypes() throws Exception {
 		Sort sort = new Sort(new Order(Direction.ASC, "displayOrder"));
 		return  Lists.newArrayList(queueTypeRepository.findAll(sort).iterator());
 	}

@@ -19,10 +19,14 @@ public class EzQueueServiceImpl implements EzQueueService {
 	@Autowired
 	private QueueService queueService;
 	
+	@Autowired
+	private QueueTypeService queueTypeService;
+	
 	@Override
 	public Map<String, Object> init(String userId) throws Exception {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("user", userService.getUser(userId));
+		resultMap.put("queueTypes", queueTypeService.getQueueTypes());
 		return resultMap;
 	}
 	
@@ -32,8 +36,8 @@ public class EzQueueServiceImpl implements EzQueueService {
 	}
 	
 	@Override
-	public Map<String, Object> getSingleQueue(String userId, String queueId, int page) throws Exception{
-		return queueService.getSingleQueue(userId, queueId, page);
+	public List<Map<String, Object>> getAllQueues(String userId, String queueTypeId, int page) throws Exception {
+		return queueService.getAllQueues(userId, queueTypeId, page);
 	}
 	
 	@Override
@@ -54,6 +58,11 @@ public class EzQueueServiceImpl implements EzQueueService {
 	@Override
 	public List<Map<String, Object>> getFavoriteQueues(String userId, int page) throws Exception {
 		return queueService.getFavoriteQueues(userId, page);
+	}
+	
+	@Override
+	public List<Map<String, Object>> getUserQueues(String userId, int page) throws Exception {
+		return queueService.getUserQueues(userId, page);
 	}
 	
 	@Override

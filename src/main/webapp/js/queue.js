@@ -8,6 +8,7 @@ var queueObj = {
 	registerEvent: function(){
 		
 		$(document).on("mouseover", ".thumbnail", function(event){
+			$("#input_userAccountId").val("");
 			$("#input_queueId").val("");
 			$("#input_starId").val("");
 			$("#input_promotionId").val("");
@@ -15,6 +16,7 @@ var queueObj = {
 			$("#input_queuingId").val("");
 			$("#input_isMyQueues").val("");
 			
+			$("#input_userAccountId").val($(this).find("#input_map_userAccountId").val());
 			$("#input_queueId").val($(this).find("#input_map_queueId").val());
 			$("#input_starId").val($(this).find("#input_map_starId").val());
 			$("#input_promotionId").val($(this).find("#input_map_promotionId").val());
@@ -34,6 +36,10 @@ var queueObj = {
 				star = $(this).index() + 1;
 			}
 			queueObj.addStar(star);
+		});
+		
+		$(document).on("click", ".thumbnail #span_user", function(event){
+			mainObj.getHtml(null, null, "/ezqueue/user/"+$("#input_userAccountId").val());
 		});
 		
 		$(document).on("click", "button[name=btn_queuing]", function(event){
@@ -77,7 +83,7 @@ var queueObj = {
 	
 	queuing: function(btnObj){
 		var body = {
-			userId: $("#userId").val(),
+			userId: $("#input_userId").val(),
 			queueId: $("#input_queueId").val()
 		};
 		
@@ -138,7 +144,7 @@ var queueObj = {
 		}
 		else {
 			var body = {
-				userId: $("#userId").val(),
+				userId: $("#input_userId").val(),
 				queueId: $("#input_queueId").val()
 			};
 			
@@ -158,7 +164,7 @@ var queueObj = {
 	
 	addStar: function(star){
 		var body = {
-			userId: $("#userId").val(),
+			userId: $("#input_userId").val(),
 			queueId: $("#input_queueId").val(),
 			star: star
 		};

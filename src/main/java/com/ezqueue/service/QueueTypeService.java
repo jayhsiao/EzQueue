@@ -7,5 +7,5 @@ import com.ezqueue.model.QueueType;
 
 public interface QueueTypeService {
 	
-	public List<QueueType> getQueueType() throws Exception;
+	public List<QueueType> getQueueTypes() throws Exception;
 }

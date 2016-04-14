@@ -40,34 +40,54 @@
 			aria-expanded="false" style="height: 1px;">
 			<ul class="nav navbar-nav">
 				<li>
-					<a id="a_myQueue" style="cursor: pointer;"><img src="http://graph.facebook.com/<c:out value="${RESPONSE_MAP.user.id}"/>/picture?width=12&height=14">&nbsp;<c:out value="${RESPONSE_MAP.user.name}"/><span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+					<a id="a_myQueue" style="cursor: pointer;"><img src="http://graph.facebook.com/<c:out value="${RESPONSE_MAP.user.id}"/>/picture?width=12&height=14">&nbsp;<c:out value="${RESPONSE_MAP.user.name}"/><span id="span_spinner_myQueue" style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
 				</li>
 				<li>
-					<a id="a_promotion" style="cursor: pointer;"><i class="fa fa-thumbs-up"></i>強力推薦<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+					<a id="a_promotion" style="cursor: pointer;"><i class="fa fa-thumbs-up"></i>強力推薦<span id="span_spinner_promotion" style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+				</li>
+				<li class="dropdown">
+					<a class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-haspopup="true"
+					aria-expanded="false"><i class="fa fa-globe"></i>所有排隊&nbsp;<span class="caret"></span><span id="span_spinner_queueType" style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+					<ul class="dropdown-menu" id="ul_all">
+						<c:forEach items="${RESPONSE_MAP.queueTypes}" var="queueType">
+							<li><a id="<c:out value="${queueType.queueTypeId }"/>"><i class="fa <c:out value="${queueType.iconClass }"/>"></i>&nbsp;<c:out value="${queueType.dscr }"/></a></li>
+						</c:forEach>
+					</ul>
 				</li>
 				<li>
-					<a id="a_favorite" style="cursor: pointer;"><i class="fa fa-heart"></i>我的最愛<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+					<a id="a_favorite" style="cursor: pointer;"><i class="fa fa-heart"></i>我的最愛<span id="span_spinner_favorite" style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
 				</li>
 				<li>
-					<a id="a_queueing" style="cursor: pointer;"><i class="fa fa-clock-o"></i>正在排隊<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+					<a id="a_queueing" style="cursor: pointer;"><i class="fa fa-clock-o"></i>正在排隊<span id="span_spinner_queuing" style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
 				</li>
 				<li>
-					<a id="a_create" style="cursor: pointer;"><i class="fa fa-play"></i>建立排隊<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+					<a id="a_create" style="cursor: pointer;"><i class="fa fa-play"></i>建立排隊<span id="span_spinner_create" style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+				</li>
+				<li>
+					<a id="a_notice" style="cursor: pointer;"><i class="fa fa-envelope-o"></i>通知<span class="badge" style="background-color: red;">1</span><span id="span_spinner_notice" style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
 				</li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li>
-					<a id="a_setting" style="cursor: pointer;"><i class="fa fa-cog"></i>系統設定<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
-				</li>
-				<li>
-					<a id="a_logout" style="cursor: pointer;"><i class="fa fa-sign-out"></i>登出</a>
+				<li class="dropdown">
+					<a class="dropdown-toggle"
+					data-toggle="dropdown" role="button" aria-haspopup="true"
+					aria-expanded="false"><i class="fa fa-cog"></i>&nbsp;設定<span class="caret"></span><span id="span_spinner_setting" style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></a>
+					<ul class="dropdown-menu">
+						<li>
+							<a id="a_setting" style="cursor: pointer;"><i class="fa fa-cog"></i>系統設定</a>
+						</li>
+						<li>
+							<a id="a_logout" style="cursor: pointer;"><i class="fa fa-sign-out"></i>登出</a>
+						</li>
+					</ul>
 				</li>
 			</ul>
 			<div class="navbar-form navbar-right">
 				<div class="input-group">
 					<input type="text" id="input_search" class="form-control" placeholder="搜尋...">
 					<span class="input-group-btn">
-						<button type="button" id="btn_search" class="btn btn-default"><i class="fa fa-search"></i>&nbsp;<span style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></button>
+						<button type="button" id="btn_search" class="btn btn-default"><i class="fa fa-search"></i>&nbsp;<span id="span_spinner_search" style="display: none;"><i class="fa fa-spinner fa-spin"></i></span></button>
 					</span>
 				</div>
 			</div>
@@ -83,14 +103,15 @@
 
 <div id="fb-root"></div>
 
-<input type="hidden" id="input_userId"      value="<c:out value="${RESPONSE_MAP.user.userId}"/>">
-<input type="hidden" id="input_queueTypeId" value="">
-<input type="hidden" id="input_queueId"     value="">
-<input type="hidden" id="input_starId"      value="">
-<input type="hidden" id="input_promotionId" value="">
-<input type="hidden" id="input_favoriteId"  value="">
-<input type="hidden" id="input_queuingId"   value="">
-<input type="hidden" id="input_isMyQueues"  value="">
+<input type="hidden" id="input_userId"        value="<c:out value="${RESPONSE_MAP.user.userId}"/>">
+<input type="hidden" id="input_userAccountId" value="">
+<input type="hidden" id="input_queueTypeId"   value="">
+<input type="hidden" id="input_queueId"       value="">
+<input type="hidden" id="input_starId"        value="">
+<input type="hidden" id="input_promotionId"   value="">
+<input type="hidden" id="input_favoriteId"    value="">
+<input type="hidden" id="input_queuingId"     value="">
+<input type="hidden" id="input_isMyQueues"    value="">
 
 </body>
 </html>
