@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ezqueue.model.User;
 import com.ezqueue.service.UserService;
 import com.ezqueue.util.ResponseObject;
+import com.ezqueue.util.RetrunCode;
 
 @RestController
 @RequestMapping(value = "/user")
@@ -31,12 +32,12 @@ public class UserController extends BaseController {
 		try {
 			System.out.println(map.entrySet());
 			String userId = userService.check(map);
-			responseObject.setSuccess(true);
+			responseObject.setReturnCode(RetrunCode.SUCCESS);
 			responseObject.setReturnObject(userId);
 		}
 		catch (Exception e) {
 			logger.error(e, e);
-			responseObject.setSuccess(false);
+			responseObject.setReturnCode(RetrunCode.FAIL);
 			responseObject.setReturnMessage(e.getMessage());
 		}
         return this.getResponse(responseObject);
@@ -47,12 +48,12 @@ public class UserController extends BaseController {
 		ResponseObject responseObject = new ResponseObject();
 		try {
 			User user = userService.getUser(userId);
-			responseObject.setSuccess(true);
+			responseObject.setReturnCode(RetrunCode.SUCCESS);
 			responseObject.setReturnObject(user);
 		} 
 		catch (Exception e) {
 			logger.error(e, e);
-			responseObject.setSuccess(false);
+			responseObject.setReturnCode(RetrunCode.FAIL);
 			responseObject.setReturnMessage(e.getMessage());
 		}
         return this.getResponse(responseObject);

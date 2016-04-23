@@ -18,6 +18,7 @@ import com.ezqueue.service.QueuingService;
 import com.ezqueue.util.EzQueueConstants;
 import com.ezqueue.util.QueuingStatus;
 import com.ezqueue.util.ResponseObject;
+import com.ezqueue.util.RetrunCode;
 
 @RestController
 @RequestMapping(value = "/queuing")
@@ -33,12 +34,12 @@ public class QueuingController extends BaseController {
 		ResponseObject responseObject = new ResponseObject();
 		try {
 			List<Queuing> queuings = userQueueService.getQueuingsByUserId(userId, QueuingStatus.WAITTING, page, EzQueueConstants.PAGE_SIZE);
-			responseObject.setSuccess(true);
+			responseObject.setReturnCode(RetrunCode.SUCCESS);
 			responseObject.setReturnObject(queuings);
 		} 
 		catch (Exception e) {
 			logger.error(e, e);
-			responseObject.setSuccess(false);
+			responseObject.setReturnCode(RetrunCode.FAIL);
 			responseObject.setReturnMessage(e.getMessage());
 		}
 		return this.getResponse(responseObject);
@@ -49,12 +50,12 @@ public class QueuingController extends BaseController {
 		ResponseObject responseObject = new ResponseObject();
 		try {
 			Queuing queuing = userQueueService.queuing(map);
-			responseObject.setSuccess(true);
+			responseObject.setReturnCode(RetrunCode.SUCCESS);
 			responseObject.setReturnObject(queuing);
 		} 
 		catch (Exception e) {
 			logger.error(e, e);
-			responseObject.setSuccess(false);
+			responseObject.setReturnCode(RetrunCode.FAIL);
 			responseObject.setReturnMessage(e.getMessage());
 		}
 		return this.getResponse(responseObject);
@@ -65,11 +66,11 @@ public class QueuingController extends BaseController {
 		ResponseObject responseObject = new ResponseObject();
 		try {
 			userQueueService.updateStatus(queuing);
-			responseObject.setSuccess(true);
+			responseObject.setReturnCode(RetrunCode.SUCCESS);
 		} 
 		catch (Exception e) {
 			logger.error(e, e);
-			responseObject.setSuccess(false);
+			responseObject.setReturnCode(RetrunCode.FAIL);
 			responseObject.setReturnMessage(e.getMessage());
 		}
 		return this.getResponse(responseObject);

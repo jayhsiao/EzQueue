@@ -16,6 +16,7 @@ import com.ezqueue.model.Queue;
 import com.ezqueue.model.User;
 import com.ezqueue.service.FavoriteService;
 import com.ezqueue.util.ResponseObject;
+import com.ezqueue.util.RetrunCode;
 import com.ezqueue.util.StringUtil;
 
 @RestController
@@ -43,12 +44,12 @@ public class FavoriteController extends BaseController {
 			favorite.setQueue(queue);
 			
 			favoriteService.addFavorite(favorite);
-			responseObject.setSuccess(true);
+			responseObject.setReturnCode(RetrunCode.SUCCESS);
 			responseObject.setReturnObject(favorite.getFavoriteId());
 		} 
 		catch (Exception e) {
 			logger.error(e, e);
-			responseObject.setSuccess(false);
+			responseObject.setReturnCode(RetrunCode.FAIL);
 			responseObject.setReturnMessage(e.getMessage());
 		}
 		return this.getResponse(responseObject);
@@ -59,11 +60,11 @@ public class FavoriteController extends BaseController {
 		ResponseObject responseObject = new ResponseObject();
 		try {
 			favoriteService.removeFavorite((String) map.get("favoriteId"));
-			responseObject.setSuccess(true);
+			responseObject.setReturnCode(RetrunCode.SUCCESS);
 		} 
 		catch (Exception e) {
 			logger.error(e, e);
-			responseObject.setSuccess(false);
+			responseObject.setReturnCode(RetrunCode.FAIL);
 			responseObject.setReturnMessage(e.getMessage());
 		}
 		return this.getResponse(responseObject);

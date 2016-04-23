@@ -18,6 +18,7 @@ import com.ezqueue.model.QueueType;
 import com.ezqueue.model.User;
 import com.ezqueue.service.QueueService;
 import com.ezqueue.util.ResponseObject;
+import com.ezqueue.util.RetrunCode;
 import com.ezqueue.util.StringUtil;
 
 @RestController
@@ -34,12 +35,12 @@ public class QueueController extends BaseController {
 		ResponseObject responseObject = new ResponseObject();
 		try {
 			List<Map<String, Object>> queues = queueService.getPromotionQueues(userId, page);
-			responseObject.setSuccess(true);
+			responseObject.setReturnCode(RetrunCode.SUCCESS);
 			responseObject.setReturnObject(queues);
 		} 
 		catch (Exception e) {
 			logger.error(e, e);
-			responseObject.setSuccess(false);
+			responseObject.setReturnCode(RetrunCode.FAIL);
 			responseObject.setReturnMessage(e.getMessage());
 		}
 		return this.getResponse(responseObject);
@@ -67,11 +68,11 @@ public class QueueController extends BaseController {
 			queue.setEnable(Boolean.valueOf((String) map.get("enable")));
 			
 			queueService.addQueue(queue);
-			responseObject.setSuccess(true);
+			responseObject.setReturnCode(RetrunCode.SUCCESS);
 		} 
 		catch (Exception e) {
 			logger.error(e, e);
-			responseObject.setSuccess(false);
+			responseObject.setReturnCode(RetrunCode.FAIL);
 			responseObject.setReturnMessage(e.getMessage());
 		}
 		return this.getResponse(responseObject);
@@ -82,11 +83,11 @@ public class QueueController extends BaseController {
 		ResponseObject responseObject = new ResponseObject();
 		try {
 			queueService.removeQueue((String) map.get("queueId"));
-			responseObject.setSuccess(true);
+			responseObject.setReturnCode(RetrunCode.SUCCESS);
 		} 
 		catch (Exception e) {
 			logger.error(e, e);
-			responseObject.setSuccess(false);
+			responseObject.setReturnCode(RetrunCode.FAIL);
 			responseObject.setReturnMessage(e.getMessage());
 		}
 		return this.getResponse(responseObject);
@@ -97,11 +98,11 @@ public class QueueController extends BaseController {
 		ResponseObject responseObject = new ResponseObject();
 		try {
 			queueService.update(queue);
-			responseObject.setSuccess(true);
+			responseObject.setReturnCode(RetrunCode.SUCCESS);
 		} 
 		catch (Exception e) {
 			logger.error(e, e);
-			responseObject.setSuccess(false);
+			responseObject.setReturnCode(RetrunCode.FAIL);
 			responseObject.setReturnMessage(e.getMessage());
 		}
 		return this.getResponse(responseObject);
@@ -113,11 +114,11 @@ public class QueueController extends BaseController {
 		try {
 			queue.setEnable(false);
 			queueService.addQueue(queue);
-			responseObject.setSuccess(true);
+			responseObject.setReturnCode(RetrunCode.SUCCESS);
 		} 
 		catch (Exception e) {
 			logger.error(e, e);
-			responseObject.setSuccess(false);
+			responseObject.setReturnCode(RetrunCode.FAIL);
 			responseObject.setReturnMessage(e.getMessage());
 		}
 		return this.getResponse(responseObject);

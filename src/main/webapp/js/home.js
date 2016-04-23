@@ -31,7 +31,7 @@ var homeObj = {
 				};
 				
 				ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/user/check", JSON.stringify(body), null, $("#span_spin"), function(httpResponse){
-					if(!httpResponse.success){
+					if("0000" != httpResponse.returnCode){
 						$("#span_result").text(httpResponse.returnMessage);
 						return;
 					}

@@ -2,7 +2,7 @@ package com.ezqueue.util;
 
 public class ResponseObject {
 
-	private boolean isSuccess;
+	private RetrunCode returnCode;
 	private String returnMessage;
 	private Object returnObject;
 	
@@ -10,11 +10,11 @@ public class ResponseObject {
 	public String toString() {
 		return StringUtil.reflectionToString(this);
 	}
-	public boolean isSuccess() {
-		return isSuccess;
+	public RetrunCode getReturnCode() {
+		return returnCode;
 	}
-	public void setSuccess(boolean isSuccess) {
-		this.isSuccess = isSuccess;
+	public void setReturnCode(RetrunCode returnCode) {
+		this.returnCode = returnCode;
 	}
 	public String getReturnMessage() {
 		return returnMessage;

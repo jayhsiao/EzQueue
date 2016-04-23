@@ -4,7 +4,7 @@
 
 <div class="row">
 <c:forEach items="${RESPONSE_MAP}" var="map">
-	<div id="div_<c:out value="${map.queue.queueId}"/>" class="col-sm-6 col-md-4" style="display: block;">
+	<div id="div_<c:out value="${map.queue.queueId}"/>" class="col-sm-6 col-md-3" style="display: block;">
 		<div class="thumbnail">
 			<img style="cursor: pointer;" src="http://graph.facebook.com/<c:out value="${map.queue.user.id}"/>/picture?width=245&height=245" data-toggle="modal" data-target="#div_info_<c:out value="${map.queue.queueId}"/>">
 			<div class="caption">
@@ -13,9 +13,9 @@
 						<span class="label label-danger">Hot</span>
 					</c:if>
 					<span class="label label-default"><i class="fa <c:out value="${map.queue.queueType.iconClass}"/>"></i></span>
-					<span id="span_user" style="cursor: pointer;"><img class="img-circle" src="http://graph.facebook.com/<c:out value="${map.queue.user.id}"/>/picture?width=12&height=12">&nbsp;<c:out value="${map.queue.user.name}"/></span>
+					<span class="label label-default" id="span_user" style="cursor: pointer;"><c:out value="${map.queue.user.name}"/></span>
 				</h4>
-				<h3><c:out value="${map.queue.title}"/></h3>
+				<h3 style="height: 50px;"><c:out value="${map.queue.title}"/></h3>
 				<p><%@include file="/jsp/queue_star.jsp" %></p>
 				<p><%@include file="/jsp/queue_count.jsp" %></p>
 				

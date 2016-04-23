@@ -16,6 +16,7 @@ import com.ezqueue.model.Star;
 import com.ezqueue.model.User;
 import com.ezqueue.service.StarService;
 import com.ezqueue.util.ResponseObject;
+import com.ezqueue.util.RetrunCode;
 
 @RestController
 @RequestMapping(value = "/star")
@@ -42,11 +43,11 @@ public class StarController extends BaseController {
 			star.setStar((Integer) map.get("star"));
 			
 			starService.addStar(star);
-			responseObject.setSuccess(true);
+			responseObject.setReturnCode(RetrunCode.SUCCESS);
 		} 
 		catch (Exception e) {
 			logger.error(e, e);
-			responseObject.setSuccess(false);
+			responseObject.setReturnCode(RetrunCode.FAIL);
 			responseObject.setReturnMessage(e.getMessage());
 		}
 		return this.getResponse(responseObject);

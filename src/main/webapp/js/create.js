@@ -112,7 +112,7 @@ var createObj = {
 		
 		var spanObj = $("#span_spinner");
 		ajaxUtilObj.callJsonAJAX("POST", "/queue/add", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
-			if(!httpResponse.success){
+			if("0000" != httpResponse.returnCode){
 				$("#span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
 				return;
 			}
