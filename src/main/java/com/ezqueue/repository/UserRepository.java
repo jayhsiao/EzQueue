@@ -16,4 +16,6 @@ public interface UserRepository extends CrudRepository<User, String>{
 	public User findByParentAndId(String parent, String id);
 	
 	public List<User> findByParentAndIdNotIn(String parent, List<String> users);
+	
+	public User findByEmail(String email);
 }

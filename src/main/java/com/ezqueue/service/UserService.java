@@ -7,9 +7,11 @@ import com.ezqueue.model.User;
 
 public interface UserService {
 	
-	public String check(Map<String, Object> map) throws Exception;
+	public String check(Map<String, Object> map);
 	
-	public User getUser(String userId) throws Exception;
+	public User getUser(String userId);
 	
-	public List<User> getUserAccount(String userId) throws Exception;
+	public List<User> getUserAccount(String userId);
+	
+	public User getUserByEmail(String email);
 }

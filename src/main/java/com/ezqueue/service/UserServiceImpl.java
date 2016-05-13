@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public String check(Map<String, Object> map) throws Exception {
+	public String check(Map<String, Object> map) {
 		
 		String id = (String) map.get("id");
 		String name = (String) map.get("name");
@@ -80,11 +80,15 @@ public class UserServiceImpl implements UserService {
 		return userId;
 	}
 	
-	public User getUser(String userId) throws Exception {
+	public User getUser(String userId) {
 		return userRepository.findOne(userId);
 	}
 	
-	public List<User> getUserAccount(String userId) throws Exception {
+	public List<User> getUserAccount(String userId) {
 		return userRepository.findByParent(userId);
+	}
+	
+	public User getUserByEmail(String email) {
+		return userRepository.findByEmail(email);
 	}
 }
