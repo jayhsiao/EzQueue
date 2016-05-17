@@ -10,6 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
+<link rel="shortcut icon" href="<c:url value="/img/favicon.ico"/>"/>
+<link rel="bookmark"      href="<c:url value="/img/favicon.ico"/>"/>
 <link rel="stylesheet" href="<c:url value="/css/ezqueue.css"/>">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
