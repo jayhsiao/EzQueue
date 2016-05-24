@@ -9,13 +9,13 @@ import com.ezqueue.model.User;
 
 public interface UserRepository extends CrudRepository<User, String>{
 	
-	public User findById(String id);
+	public User findByFbId(String FbId);
 	
 	public List<User> findByParent(String parent);
 	
-	public User findByParentAndId(String parent, String id);
+	public User findByParentAndFbId(String parent, String fbId);
 	
-	public List<User> findByParentAndIdNotIn(String parent, List<String> users);
+	public List<User> findByParentAndFbIdNotIn(String parent, List<String> users);
 	
 	public User findByEmail(String email);
 }

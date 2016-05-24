@@ -22,17 +22,17 @@ public class UserServiceImpl implements UserService {
 	
 	public String check(Map<String, Object> map) {
 		
-		String id = (String) map.get("id");
+		String fbId = (String) map.get("fbId");
 		String name = (String) map.get("name");
 		String email = (String) map.get("email");
 		List<Map<String, Object>> accounts = (List<Map<String, Object>>) map.get("accounts");
 		
 		String userId = null;
-		User oldUser = userRepository.findById(id);
+		User oldUser = userRepository.findByFbId(fbId);
 		if(oldUser == null){
 			User newUser = new User();
 			newUser.setUserId(StringUtil.getUUID());
-			newUser.setId(id);
+			newUser.setFbId(fbId);
 			newUser.setName(name);
 			newUser.setEmail(email);
 			userRepository.save(newUser);
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 				for(Map<String, Object> accountMap: accounts){
 					User newAccountUser = new User();
 					newAccountUser.setUserId(StringUtil.getUUID());
-					newAccountUser.setId((String) accountMap.get("id"));
+					newAccountUser.setFbId((String) accountMap.get("id"));
 					newAccountUser.setName((String) accountMap.get("name"));
 					newAccountUser.setParent(userId);
 					userRepository.save(newAccountUser);
@@ -59,11 +59,11 @@ public class UserServiceImpl implements UserService {
 					String accountId = (String) accountMap.get("id");
 					String accountName = (String) accountMap.get("name");
 					
-					User accountUser = userRepository.findByParentAndId(userId, accountId);
+					User accountUser = userRepository.findByParentAndFbId(userId, accountId);
 					if(accountUser == null){
 						User newAccountUser = new User();
 						newAccountUser.setUserId(StringUtil.getUUID());
-						newAccountUser.setId(accountId);
+						newAccountUser.setFbId(accountId);
 						newAccountUser.setName(accountName);
 						newAccountUser.setParent(userId);
 						userRepository.save(newAccountUser);
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
 					ids.add(accountId);
 				}
 				
-				List<User> accountUsers = userRepository.findByParentAndIdNotIn(userId, ids);
+				List<User> accountUsers = userRepository.findByParentAndFbIdNotIn(userId, ids);
 				userRepository.delete(accountUsers);
 			}
 		}

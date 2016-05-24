@@ -29,6 +29,9 @@
 	<span id="span_result" class="label label-default"></span>
 	<br/>
 	<br/>
+	<span id="span_result" class="label label-default"><c:out value="${profile.id }"/></span>
+	<span id="span_result" class="label label-default"><c:out value="${profile.name }"/></span>
+	<span id="span_result" class="label label-default"><c:out value="${profile.email }"/></span>
 	<br/>
 	<br/>
 </div>

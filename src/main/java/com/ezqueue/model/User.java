@@ -23,8 +23,8 @@ public class User extends ModelBase implements Serializable{
 	@Id
 	@Column(name = "user_id")
 	private String userId;
-	@Column(name = "id")
-	private String id;
+	@Column(name = "fb_id")
+	private String fbId;
 	@Column(name = "email")
 	private String email;
 	@Column(name = "name")
@@ -49,12 +49,12 @@ public class User extends ModelBase implements Serializable{
 		this.userId = userId;
 	}
 
-	public String getId() {
-		return id;
+	public String getFbId() {
+		return fbId;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setFbId(String fbId) {
+		this.fbId = fbId;
 	}
 
 	public String getEmail() {

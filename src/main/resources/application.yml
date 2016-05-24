@@ -2,6 +2,10 @@ spring:
     view:
         prefix: /jsp/
         suffix: .jsp
+    social:
+        facebook:
+            appId: 592070890950054
+            appSecret: 175168bcf89d3332eace778f8ecd5a39
     datasource:
         url: jdbc:log4jdbc:mysql://jj.cuo6cy8ytavy.ap-northeast-1.rds.amazonaws.com:3306/ezqueue?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
         username: root
