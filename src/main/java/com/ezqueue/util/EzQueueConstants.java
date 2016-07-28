@@ -1,6 +1,8 @@
 package com.ezqueue.util;
 
 public class EzQueueConstants {
-	public static final int PAGE_INIT = 0;
-	public static final int PAGE_SIZE = 12;
+	public static final String INIT_LIMIT = "12";
+	public static final String INIT_OFFSET = "0";
+	
+	public static final double TOTAL_STAR = 5.0;
 }

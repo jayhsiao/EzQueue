@@ -1,10 +1,15 @@
 package com.ezqueue;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.security.SecurityAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
 
-@SpringBootApplication
+@ComponentScan(basePackages = {"com.ezqueue"})
+@EnableAutoConfiguration(exclude = {
+    SecurityAutoConfiguration.class,
+})
 public class Application extends SpringBootServletInitializer {
 	
 	@Override

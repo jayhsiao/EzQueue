@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +14,10 @@ import com.ezqueue.util.StringUtil;
 @Service
 public class UserServiceImpl implements UserService {
 	
-	private final Logger logger = Logger.getLogger(this.getClass());
-	
 	@Autowired
 	private UserRepository userRepository;
 	
+	@Override
 	public String check(Map<String, Object> map) {
 		
 		String fbId = (String) map.get("fbId");
@@ -80,14 +78,22 @@ public class UserServiceImpl implements UserService {
 		return userId;
 	}
 	
+	@Override
 	public User getUser(String userId) {
 		return userRepository.findOne(userId);
 	}
 	
+	@Override
+	public User getUserByFbId(String userId) {
+		return userRepository.findByFbId(userId);
+	}
+	
+	@Override
 	public List<User> getUserAccount(String userId) {
 		return userRepository.findByParent(userId);
 	}
 	
+	@Override
 	public User getUserByEmail(String email) {
 		return userRepository.findByEmail(email);
 	}

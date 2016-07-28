@@ -27,8 +27,8 @@ public class Star extends ModelBase implements Serializable{
 	@OneToOne
 	@JoinColumn(name = "queue_id")
 	private Queue queue;
-	@Column(name = "star")
-	private Integer star;
+	@Column(name = "star_num")
+	private Integer starNum;
 	
 	@Override
 	public String toString() {
@@ -59,12 +59,12 @@ public class Star extends ModelBase implements Serializable{
 		this.queue = queue;
 	}
 
-	public Integer getStar() {
-		return star;
+	public Integer getStarNum() {
+		return starNum;
 	}
 
-	public void setStar(Integer star) {
-		this.star = star;
+	public void setStarNum(Integer starNum) {
+		this.starNum = starNum;
 	}
 
 }

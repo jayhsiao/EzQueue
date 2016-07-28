@@ -5,12 +5,13 @@ import java.util.List;
 import com.ezqueue.model.Promotion;
 
 public interface PromotionService {
+	
+	public Promotion getPromotion(String queueId);
 
-	public List<Promotion> getPromotions(int page, int size) throws Exception;
+	public List<Promotion> getPromotions(int limit, int offset);
 	
-	public Promotion getPromotion(String queueId) throws Exception;
+	public void addPromotion(List<String> queueIds);
 	
-	public void addPromotion(Promotion promotion) throws Exception;
+	public void removePromotion(List<String> queueIds);
 	
-	public void removePromotion(String promotionId) throws Exception;
 }

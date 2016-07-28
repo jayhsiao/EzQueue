@@ -8,7 +8,7 @@
 	</appender>
 	
 	<appender name="rolling_file" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>c:/logs/HelloCatchPlay_LOG/helloCatchPlay.log</file>
+		<file>c:/logs/EzQueue_LOG/ezQueue.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">        
 	        <!-- daily rollover -->
 	        <fileNamePattern>c:/logs/HelloCatchPlay_LOG/helloCatchPlay_%d{yyyy-MM-dd-HH-mm}.log</fileNamePattern>

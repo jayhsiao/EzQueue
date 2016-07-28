@@ -7,9 +7,11 @@ import com.ezqueue.model.User;
 
 public interface UserService {
 	
+	public User getUser(String userId);
+	
 	public String check(Map<String, Object> map);
 	
-	public User getUser(String userId);
+	public User getUserByFbId(String fbId);
 	
 	public List<User> getUserAccount(String userId);
 	

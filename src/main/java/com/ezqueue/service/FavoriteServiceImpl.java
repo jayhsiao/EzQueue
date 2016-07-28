@@ -2,10 +2,7 @@ package com.ezqueue.service;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.ezqueue.model.Favorite;
@@ -16,20 +13,11 @@ import com.ezqueue.repository.FavoriteRepository;
 @Service
 public class FavoriteServiceImpl implements FavoriteService {
 	
-	private final Logger logger = Logger.getLogger(this.getClass());
-	
 	@Autowired
 	private FavoriteRepository favoriteRepository;
 	
-	public List<Favorite> getFavorites(String userId, int page, int size) throws Exception {
-		User user = new User();
-		user.setUserId(userId);
-		
-		PageRequest pageRequest = new PageRequest(page, size, Direction.DESC, "createDate");
-		return favoriteRepository.findByUser(user, pageRequest);
-	}
-	
-	public Favorite getFavorite(String userId, String queueId) throws Exception {
+	@Override
+	public Favorite getFavorite(String userId, String queueId) {
 		User user = new User();
 		user.setUserId(userId);
 		
@@ -39,11 +27,26 @@ public class FavoriteServiceImpl implements FavoriteService {
 		return favoriteRepository.findByUserAndQueue(user, queue);
 	}
 	
-	public void addFavorite(Favorite favorite) throws Exception {
+	@Override
+	public List<Favorite> getFavorites(String userId) {
+		User user = new User();
+		user.setUserId(userId);
+		
+		return favoriteRepository.findByUser(user);
+	}
+	
+	@Override
+	public int getFavoriteCount(Queue queue) {
+		return favoriteRepository.countByQueue(queue);
+	}
+	
+	@Override
+	public void addFavorite(Favorite favorite) {
 		favoriteRepository.save(favorite);
 	}
 	
-	public void removeFavorite(String favoriteId) throws Exception {
+	@Override
+	public void removeFavorite(String favoriteId) {
 		favoriteRepository.delete(favoriteId);
 	}
 }

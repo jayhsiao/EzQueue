@@ -5,11 +5,14 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.ezqueue.util.QueuingStatus;
 import com.ezqueue.util.StringUtil;
 
 
@@ -30,12 +33,15 @@ public class Queuing extends ModelBase implements Serializable{
 	private Queue queue;
 	@Column(name = "queue_num")
 	private Integer queueNum;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status")
+	private QueuingStatus status;
+	
 	@Column(name = "start_date")
 	private Date startDate;
 	@Column(name = "end_date")
 	private Date endDate;
-	@Column(name = "status")
-	private Integer status;
 	
 	@Override
 	public String toString() {
@@ -65,6 +71,12 @@ public class Queuing extends ModelBase implements Serializable{
 	public void setQueueNum(Integer queueNum) {
 		this.queueNum = queueNum;
 	}
+	public QueuingStatus getStatus() {
+		return status;
+	}
+	public void setStatus(QueuingStatus status) {
+		this.status = status;
+	}
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -77,10 +89,5 @@ public class Queuing extends ModelBase implements Serializable{
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	public Integer getStatus() {
-		return status;
-	}
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+	
 }

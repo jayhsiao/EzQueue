@@ -1,17 +1,20 @@
 package com.ezqueue.service;
 
-
 import java.util.List;
 
 import com.ezqueue.model.Favorite;
+import com.ezqueue.model.Queue;
 
 public interface FavoriteService {
+	
+	public Favorite getFavorite(String userId, String queueId);
+	
+	public List<Favorite> getFavorites(String userId);
+	
+	public int getFavoriteCount(Queue queue);
 
-	public List<Favorite> getFavorites(String userId, int page, int size) throws Exception;
+	public void addFavorite(Favorite favorite);
 	
-	public Favorite getFavorite(String userId, String queueId) throws Exception;
+	public void removeFavorite(String favoriteId);
 	
-	public void addFavorite(Favorite favorite) throws Exception;
-	
-	public void removeFavorite(String favoriteId) throws Exception;
 }

@@ -38,7 +38,6 @@ window.fbAsyncInit = function() {
 
 //This is called with the results from from FB.getLoginStatus().
 function statusChangeCallback(response) {
-	console.log('statusChangeCallback');
 	console.log(response);
 	// The response object is returned with a status field that lets the
 	// app know the current login status of the person.
@@ -46,7 +45,6 @@ function statusChangeCallback(response) {
 	// for FB.getLoginStatus().
 	if (response.status === 'connected') {
 		// Logged into your app and Facebook.
-		homeObj.login();
 	} else if (response.status === 'not_authorized') {
 		// The person is logged into Facebook, but not your app.
 	} else {

@@ -1,14 +1,12 @@
 package com.ezqueue.service;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import com.ezqueue.model.User;
@@ -21,84 +19,105 @@ import com.ezqueue.util.StringUtil;
 @Service
 public class QueuingServiceImpl implements QueuingService {
 	
-	private final Logger logger = Logger.getLogger(this.getClass());
-	
 	@Autowired
 	private QueuingRepository queuingRepository;
 	
-	public List<Queuing> getQueuingsByUserId(String userId, int status, int page, int size) throws Exception {
+	@Autowired
+	private QueueService queueService;
+	
+	@Override
+	public List<Queuing> getQueuingsByUser(String userId, int limit, int offset) {
 		User user = new User();
 		user.setUserId(userId);
 		
-		PageRequest pageRequest = new PageRequest(page, size, Direction.DESC, "createDate");
-		return queuingRepository.findByUserAndStatus(user, status, pageRequest);
+		PageRequest pageRequest = new PageRequest(offset, limit);
+		return queuingRepository.findByUser(user, pageRequest);
 	}
 	
-	public List<Queuing> getQueuingsByQueueId(String queueId, int status, int page, int size) throws Exception {
+	@Override
+	public List<Queuing> getQueuingsByQueue(String queueId, int limit, int offset) {
 		Queue queue = new Queue();
 		queue.setQueueId(queueId);
 		
-		PageRequest pageRequest = new PageRequest(page, size, Direction.ASC, "queueNum");
-		return queuingRepository.findByQueueAndStatus(queue, status, pageRequest);
+		PageRequest pageRequest = new PageRequest(offset, limit);
+		return queuingRepository.findByQueue(queue, pageRequest);
 	}
 	
-	public Queuing getQueuing(String userId, String queueId, int status) throws Exception {
+	@Override
+	public Queuing getQueuing(String userId, String queueId) {
 		User user = new User();
 		user.setUserId(userId);
 		
 		Queue queue = new Queue();
 		queue.setQueueId(queueId);
 		
-		return queuingRepository.findByUserAndQueueAndStatus(user, queue, status);
+		return queuingRepository.findByUserAndQueue(user, queue);
 	}
 	
-	synchronized public Queuing queuing(Map<String, Object> map) throws Exception {
-		User user = new User();
-		user.setUserId((String) map.get("userId"));
+	@Override
+	public int getQueuingCount(Queue queue) {
+		List<QueuingStatus> queuingStatuss = new ArrayList<>();
+		queuingStatuss.add(QueuingStatus.WAITTING);
+		queuingStatuss.add(QueuingStatus.PASS);
 		
+		int queuingCount = queuingRepository.countByQueueAndStatusIn(queue, queuingStatuss);
+		if(queuingCount > 0){
+			return queuingCount - 1;
+		}
+		return queuingCount;
+	}
+	
+	@Override
+	synchronized public Queuing queuing(String userId, String queueId) {
+		
+		Queue updateQueue = queueService.getQueue(queueId);
+		Integer queueNum = updateQueue.getQueueNum() + 1;
+		updateQueue.setQueueNum(queueNum);
+		queueService.addQueue(updateQueue);
+		
+		User user = new User();
+		user.setUserId(userId);
 		Queue queue = new Queue();
-		queue.setQueueId((String) map.get("queueId"));
+		queue.setQueueId(queueId);
 		
 		Calendar calendar = Calendar.getInstance();
-		
 		Date now = calendar.getTime();
 		
 		Queuing queuing = new Queuing();
 		queuing.setQueuingId(StringUtil.getUUID());
 		queuing.setUser(user);
 		queuing.setQueue(queue);
-		queuing.setStatus(QueuingStatus.WAITTING);
 		queuing.setStartDate(now);
+		queuing.setQueueNum(queueNum);
+		queuing.setStatus(QueuingStatus.WAITTING);
 		
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
-		Date startDate = calendar.getTime();
-		
-		calendar.add(Calendar.DAY_OF_MONTH, +1);
-		Date endDate = calendar.getTime();
-		
-		Integer maxQueueNum = queuingRepository.getMaxQueueNum(now, startDate, endDate, queue.getQueueId());
-		maxQueueNum = maxQueueNum == null? 1: maxQueueNum + 1;
-		queuing.setQueueNum(maxQueueNum);
 		
 		this.addQueuing(queuing);
 		return queuing;
 	}
 	
-	public void addQueuing(Queuing queuing) throws Exception {
-		queuingRepository.save(queuing);
-	}
-	
-	public Double getAvgWaittingTime(String queueId) throws Exception {
+	@Override
+	public Double getAvgWaittingTime(String queueId) {
 		return queuingRepository.getAvgWaittingTime(queueId);
 	}
 	
-	public void updateStatus(Queuing queuing) throws Exception {
-		Queuing oldQueuing = queuingRepository.findOne(queuing.getQueuingId());
-		oldQueuing.setEndDate(Calendar.getInstance().getTime());
-		oldQueuing.setStatus(queuing.getStatus());
-		
-		this.addQueuing(oldQueuing);
+	@Override
+	public void addQueuing(Queuing queuing) {
+		queuingRepository.save(queuing);
+	}
+	
+	@Override
+	public void updateStatus(String userId, String queuingId, QueuingStatus queuingStatus) {
+		Queuing queuing = queuingRepository.findOne(queuingId);
+		queuing.setStatus(queuingStatus);
+		this.addQueuing(queuing);
+	}
+	
+	@Override
+	public void removeQueuing(String queuingId) {
+		queuingRepository.delete(queuingId);
 	}
 }

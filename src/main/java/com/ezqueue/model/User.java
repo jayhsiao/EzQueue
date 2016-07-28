@@ -3,7 +3,6 @@ package com.ezqueue.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -32,9 +31,21 @@ public class User extends ModelBase implements Serializable{
 	@Column(name = "parent")
 	private String parent;
 	
-	@OneToMany(cascade = CascadeType.REMOVE)
+	@OneToMany
 	@JoinColumn(name = "user_id")
-	private List<Queue> queues;	
+	private List<Queue> queues;
+	
+	@OneToMany
+	@JoinColumn(name = "user_id")
+	private List<Favorite> favorites;
+	
+	@OneToMany
+	@JoinColumn(name = "user_id")
+	private List<Queuing> queuings;
+	
+	@OneToMany
+	@JoinColumn(name = "user_id")
+	private List<Star> stars;
 	
 	@Override
 	public String toString() {
@@ -87,6 +98,30 @@ public class User extends ModelBase implements Serializable{
 
 	public void setQueues(List<Queue> queues) {
 		this.queues = queues;
+	}
+
+	public List<Favorite> getFavorites() {
+		return favorites;
+	}
+
+	public void setFavorites(List<Favorite> favorites) {
+		this.favorites = favorites;
+	}
+
+	public List<Queuing> getQueuings() {
+		return queuings;
+	}
+
+	public void setQueuings(List<Queuing> queuings) {
+		this.queuings = queuings;
+	}
+
+	public List<Star> getStars() {
+		return stars;
+	}
+
+	public void setStars(List<Star> stars) {
+		this.stars = stars;
 	}
 
 }

@@ -15,31 +15,30 @@ var mainObj = {
 		
 		$(document).on("click", "#ul_all a", function(event){
 			var queryJson = {
-				userId: $("#input_userId").val(),
 				queueTypeId: $(this).attr("id")
 			};
-			var url = "/ezqueue/all/?"+$.param(queryJson);
-			mainObj.getHtml($(this).parent(), $("#span_spinner_queueType"), url);
+			var url = "/ezqueue/all/"+$("#input_userId").val()+"?"+$.param(queryJson)+"&limit=12&offset=0";
+			commonObj.getQueueList(url);
 		});
 		
 		$(document).on("click", "#a_promotion", function(event){
-			mainObj.getHtml($(this).parent(), $("#span_spinner_promotion"), "/ezqueue/promotion/"+$("#input_userId").val());
+			commonObj.getQueueList("/ezqueue/promotion/"+$("#input_userId").val()+"?limit=12&offset=0");
 		});
 		
 		$(document).on("click", "#a_favorite", function(event){
-			mainObj.getHtml($(this).parent(), $("#span_spinner_favorite"), "/ezqueue/favorite/"+$("#input_userId").val());
+			commonObj.getQueueList("/ezqueue/favorite/"+$("#input_userId").val()+"?limit=12&offset=0");
 		});
 		
 		$(document).on("click", "#a_myQueue", function(event){
-			mainObj.getHtml($(this).parent(), $("#span_spinner_myQueue"), "/ezqueue/myQueues/"+$("#input_userId").val());
+			commonObj.getQueueList("/ezqueue/myQueues/"+$("#input_userId").val()+"?limit=12&offset=0");
 		});
 		
 		$(document).on("click", "#a_queueing", function(event){
-			mainObj.getHtml($(this).parent(), $("#span_spinner_queueing"), "/ezqueue/queuing/"+$("#input_userId").val());
+			commonObj.getQueueList("/ezqueue/queuing/"+$("#input_userId").val()+"?limit=12&offset=0");
 		});
 		
 		$(document).on("click", "#a_create", function(event){
-			mainObj.getHtml($(this).parent(), $("#span_spinner_create"), "/ezqueue/createQueue/"+$("#input_userId").val());
+			commonObj.getQueueList("/ezqueue/createQueue/"+$("#input_userId").val()+"?limit=12&offset=0");
 		});
 		
 		$(document).on("click", "#btn_search", function(event){
@@ -50,7 +49,7 @@ var mainObj = {
 					text: $("#input_search").val()
 				};
 				var url = "/ezqueue/search/?"+$.param(queryJson);
-				mainObj.getHtml($(this), $("#span_spinner_search"), url);
+				commonObj.getQueueList(url);
 			}
 		});
 		
@@ -69,13 +68,6 @@ var mainObj = {
 	
 	init: function(){
 		$("#a_promotion").click();
-	},
-	
-	getHtml: function(liObj, spanObj, url){
-		ajaxUtilObj.callHtmlAJAX(ajaxUtilObj.GET, url, liObj, spanObj, function(httpResponse){
-			$("#div_main").empty();
-			$("#div_main").html(httpResponse);
-			FB.XFBML.parse();
-		});
 	}
+	
 }

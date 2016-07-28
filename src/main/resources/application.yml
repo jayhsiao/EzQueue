@@ -1,11 +1,15 @@
+my:
+    servers:
+        dev:dev.ezqueue.com:8080
+        sit:sit.ezqueue.com:8080
 spring:
-    view:
-        prefix: /jsp/
-        suffix: .jsp
     social:
         facebook:
             appId: 592070890950054
             appSecret: 175168bcf89d3332eace778f8ecd5a39
+    view:
+        prefix: /jsp/
+        suffix: .jsp
     datasource:
         url: jdbc:log4jdbc:mysql://jj.cuo6cy8ytavy.ap-northeast-1.rds.amazonaws.com:3306/ezqueue?useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull
         username: root
@@ -18,5 +22,5 @@ spring:
         validation-query: select 1
         test-on-borrow: true
     jpa:
-        show-sql: false
+        show-sql: true
         database-platform: org.hibernate.dialect.MySQLDialect

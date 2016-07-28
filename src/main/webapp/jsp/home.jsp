@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 <script type="text/javascript" src="<c:url value="/js/jquery-1.11.3.min.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/js/fb_home.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/home.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/ajax_util.js"/>"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -23,7 +22,8 @@
 	<br/>
 	<br/>
 	<br/>
-	<fb:login-button scope="public_profile,email" onlogin="checkLoginState();"></fb:login-button><span id="span_spin" style="display: none;"><i class="fa fa-spinner fa-spin"></i></span>
+		<p><button id="btn_login" type="button">Connect to Facebook</button></p>
+		<input id="scope" value="public_profile">
 	<br/>
 	<br/>
 	<span id="span_result" class="label label-default"></span>
@@ -34,6 +34,13 @@
 	<span id="span_result" class="label label-default"><c:out value="${profile.email }"/></span>
 	<br/>
 	<br/>
+	<form action="/connect/facebook" method="POST">
+         <input type="hidden" name="scope" value="email,public_profile" />
+         <div class="formInfo">
+             <p>You aren't connected to Facebook yet. Click the button to connect this application with your Facebook account.</p>
+         </div>
+         <p><button type="submit">Connect to Facebook</button></p>
+     </form>
 </div>
 </div>
 </body>

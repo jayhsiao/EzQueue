@@ -14,8 +14,6 @@ var createObj = {
 			
 			$("#btn_accounts").empty();
 			$("#btn_accounts").append("<img src='http://graph.facebook.com/"+accountId+"/picture?width=12&height=12'>&nbsp;"+accountName+"&nbsp;<span class='caret'></span>");
-			
-			$("#input_userId").val(userId);
 		});
 		
 		$(document).on("click", "#ul_queueTypes li", function(){
@@ -35,6 +33,7 @@ var createObj = {
 	},
 	
 	init: function(){
+		$('#input_startDate').datepicker({ dateFormat: 'yyyy-MM-dd' });
 		$("#span_title").text($("#name", window.parent.document).val());
 	},
 	
@@ -55,6 +54,15 @@ var createObj = {
 			$("#span_result").text("");
 		}
 		
+		if($("#input_startDate").val().length == 0){
+			$("#input_startDate").parent().parent().addClass("has-error");
+			$("#span_result").text("請選擇開啟日期");
+			return false;
+		} 
+		else {
+			$("#input_startDate").parent().parent().removeClass("has-error");
+			$("#span_result").text("");
+		}
 		if($("#input_title").val().length == 0){
 			$("#input_title").parent().parent().addClass("has-error");
 			$("#span_result").text("請輸入名稱");
@@ -106,19 +114,23 @@ var createObj = {
 			phone: $("#input_phone").val(),
 			address: $("#input_address").val(),
 			dscr: $("#textarea_dscr").val(),
-			queueTypeId: $("#input_queueTypeId").val(),
-			enable: $("input[name=enable]:checked").val()
+			queueTypeId: $("#input_queueTypeId").val()
 		};
 		
 		var spanObj = $("#span_spinner");
-		ajaxUtilObj.callJsonAJAX("POST", "/queue/add", JSON.stringify(body), btnObj, spanObj, function(httpResponse){
-			if("0000" != httpResponse.returnCode){
-				$("#span_result").addClass("label").addClass("label-danger").text(httpResponse.returnMessage);
-				return;
+		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/queues/add", JSON.stringify(body), btnObj, spanObj)
+		.done(function(httpResponse){
+			$("div .panel-body").empty();
+			$("div .panel-body").append("<h1>建立成功</h1>");
+		})
+		.always(function(){
+			if(btnObj){
+				$(btnObj).attr("disabled", false);
+				$(btnObj).removeClass("disabled");
 			}
-			
-			$(".panel-body").empty();
-			$(".panel-body").append("<h1>建立成功</h1>");
+			if(spanObj){
+				$(spanObj).hide();
+			}
 		});
 	}
 }

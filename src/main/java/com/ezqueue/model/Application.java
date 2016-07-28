@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.CollectionUtils;
 
+import com.ezqueue.util.StringUtil;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Sets;
@@ -22,10 +23,10 @@ public class Application extends ModelBase {
 	private static final long serialVersionUID = 9102699426415067190L;
 
 	@Id
-    @Column(name = "application_id", length = 11)
+    @Column(name = "application_id")
     private String applicationId;
     
-    @Column(name = "secret", length = 11)
+    @Column(name = "secret")
     private String secret;
     
     @Column(name = "scopes")
@@ -34,8 +35,16 @@ public class Application extends ModelBase {
     @Column(name = "grant_types")
     private String grantTypes;
     
+    @Column(name = "description")
+    private String description;
+    
     @Column(name = "redirect_uri")
     private String redirectUri;
+    
+    @Override
+	public String toString() {
+		return StringUtil.reflectionToString(this);
+	}
     
     public String getApplicationId() {
         return applicationId;
@@ -52,7 +61,7 @@ public class Application extends ModelBase {
     public void setSecret(String secret) {
         this.secret = secret;
     }
-
+    
     public String getScopes() {
         return scopes;
     }
@@ -86,22 +95,30 @@ public class Application extends ModelBase {
     public void setGrantTypes(String grantTypes) {
         this.grantTypes = grantTypes;
     }
-
+    
     public void setGrantTypeSet(Set<String> grantTypes) {
-        setGrantTypes(Joiner.on(",").join(grantTypes));
+        this.setGrantTypes(Joiner.on(",").join(grantTypes));
     }
     
     public Set<String> getGrantTypeSet() {
         Iterable<String> grantTypes = Splitter.on(',').trimResults().omitEmptyStrings().split(getGrantTypes());
         return Sets.newHashSet(grantTypes);
     }
-    
-    public String getRedirectUri() {
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	
+	public String getRedirectUri() {
         return redirectUri;
     }
 
     public void setRedirectUri(String redirectUri) {
         this.redirectUri = redirectUri;
     }
-    
+
 }

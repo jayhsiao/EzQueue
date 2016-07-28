@@ -1,13 +1,21 @@
 package com.ezqueue.service;
 
 
+import com.ezqueue.model.Queue;
 import com.ezqueue.model.Star;
 
 public interface StarService {
 	
-	public Double getAvgStar(String queueId) throws Exception;
+	public Double getAvgStar(String queueId);
 	
-	public Star getStar(String userId, String queueId) throws Exception;
+	public int getStarsCount(Queue queue);
 	
-	public void addStar(Star star) throws Exception;
+	public Star getStar(String userId, String queueId);
+	
+	public String addStar(String userId, String queueId, Integer starNum);
+	
+	public void updateStar(String starId, Integer starNum);
+	
+	public void removeStar(String starId);
+	
 }

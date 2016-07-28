@@ -11,8 +11,10 @@ import com.ezqueue.model.User;
 
 public interface StarRepository extends CrudRepository<Star, String>{
 	
-	@Query("select AVG(s.star) from Star s where s.queue.queueId = :queueId")
+	@Query("select AVG(s.starNum) from Star s where s.queue.queueId = :queueId")
 	public Double getAvgStar(@Param("queueId") String queueId);
 	
 	public Star findByUserAndQueue(User user, Queue queue);
+	
+	public int countByQueue(Queue queue);
 }

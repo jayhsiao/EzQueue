@@ -1,23 +1,29 @@
 package com.ezqueue.service;
 
 import java.util.List;
-import java.util.Map;
 
+import com.ezqueue.model.Queue;
 import com.ezqueue.model.Queuing;
+import com.ezqueue.util.QueuingStatus;
 
 public interface QueuingService {
 	
-	public List<Queuing> getQueuingsByUserId(String userId, int status, int page, int size) throws Exception;
+	public List<Queuing> getQueuingsByUser(String userId, int limit, int offset);
 	
-	public List<Queuing> getQueuingsByQueueId(String queueId, int status, int page, int size) throws Exception;
+	public List<Queuing> getQueuingsByQueue(String queueId, int limit, int offset);
 	
-	public Queuing getQueuing(String userId, String queueId, int status) throws Exception;
+	public Queuing getQueuing(String userId, String queueId);
 	
-	public Queuing queuing(Map<String, Object> map) throws Exception;
+	public int getQueuingCount(Queue queue);
 	
-	public void addQueuing(Queuing queuing) throws Exception;
+	public Queuing queuing(String userId, String queueId);
 	
-	public Double getAvgWaittingTime(String queueId) throws Exception;
+	public void updateStatus(String userId, String queuingId, QueuingStatus queuingStatus);
 	
-	public void updateStatus(Queuing queuing) throws Exception;
+	public Double getAvgWaittingTime(String queueId);
+	
+	public void addQueuing(Queuing queuing);
+	
+	public void removeQueuing(String queuingId);
+	
 }

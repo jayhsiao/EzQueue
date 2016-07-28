@@ -19,4 +19,5 @@ public interface QueueRepository extends PagingAndSortingRepository<Queue, Strin
 	public List<Queue> getQueueByText(@Param("text") String text, Pageable pageable);
 	
 	public List<Queue> findByQueueType(QueueType queueType, Pageable pageable);
+	
 }

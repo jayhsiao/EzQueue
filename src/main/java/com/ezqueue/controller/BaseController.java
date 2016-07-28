@@ -7,9 +7,20 @@ import org.springframework.http.ResponseEntity;
 
 public class BaseController {
 	
-	public Locale getLocale() {
-		return LocaleContextHolder.getLocale();
+	public Locale getLocale(String localeString) {
+		Locale locale;
+		if(localeString == null){
+			locale = LocaleContextHolder.getLocale();
+		}
+		else{
+			locale = new Locale(localeString);
+		}
+		return locale;
 	}
+	
+	public ResponseEntity<Object> getResponse() {
+        return this.getResponse(null);
+    }
 	
 	public ResponseEntity<Object> getResponse(Object object) {
         return ResponseEntity.ok(object);

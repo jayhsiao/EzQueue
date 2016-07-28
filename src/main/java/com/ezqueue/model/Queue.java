@@ -3,9 +3,10 @@ package com.ezqueue.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
@@ -13,6 +14,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import com.ezqueue.util.QueueStatus;
 import com.ezqueue.util.StringUtil;
 
 
@@ -41,25 +43,32 @@ public class Queue extends ModelBase implements Serializable{
 	@JoinColumn(name = "queue_type_id")
 	private QueueType queueType;
 	
-	@Column(name = "read_count")
-	private long readCount;
+	@Column(name = "queue_num")
+	private Integer queueNum;
 	
-	@Column(name = "enable")
-	private boolean enable;
+	@Enumerated(EnumType.STRING)
+	@Column(name = "status")
+	private QueueStatus status;
 	
-	@OneToMany(cascade = CascadeType.REMOVE)
+	@Column(name = "start_date")
+	private String startDate;
+	
+	@Column(name = "end_date")
+	private String endDate;
+	
+	@OneToMany
 	@JoinColumn(name = "queue_id")
 	private List<Favorite> favorites;
 	
-	@OneToMany(cascade = CascadeType.REMOVE)
+	@OneToOne
 	@JoinColumn(name = "queue_id")
-	private List<Promotion> promotions;
+	private Promotion promotion;
 	
-	@OneToMany(cascade = CascadeType.REMOVE)
+	@OneToMany
 	@JoinColumn(name = "queue_id")
 	private List<Queuing> queuings;
 	
-	@OneToMany(cascade = CascadeType.REMOVE)
+	@OneToMany
 	@JoinColumn(name = "queue_id")
 	private List<Star> stars;
 	
@@ -127,20 +136,40 @@ public class Queue extends ModelBase implements Serializable{
 		this.queueType = queueType;
 	}
 
-	public long getReadCount() {
-		return readCount;
+	public Integer getQueueNum() {
+		return queueNum;
 	}
 
-	public void setReadCount(long readCount) {
-		this.readCount = readCount;
+	public void setQueueNum(Integer queueNum) {
+		this.queueNum = queueNum;
 	}
 
-	public boolean isEnable() {
-		return enable;
+	public QueueStatus getStatus() {
+		return status;
 	}
 
-	public void setEnable(boolean enable) {
-		this.enable = enable;
+	public void setStatus(QueueStatus status) {
+		this.status = status;
+	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+
+	public void setPromotion(Promotion promotion) {
+		this.promotion = promotion;
 	}
 
 	public Double getAvgWaittingTime() {
@@ -167,12 +196,12 @@ public class Queue extends ModelBase implements Serializable{
 		this.stars = stars;
 	}
 
-	public List<Promotion> getPromotions() {
-		return promotions;
+	public Promotion getPromotion() {
+		return promotion;
 	}
 
-	public void setPromotions(List<Promotion> promotions) {
-		this.promotions = promotions;
+	public void setPromotions(Promotion promotion) {
+		this.promotion = promotion;
 	}
 
 	public List<Queuing> getQueuings() {
