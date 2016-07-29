@@ -20,9 +20,14 @@ public class UserController extends BaseController {
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value = "/check", method = RequestMethod.POST)
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public ResponseEntity<Object> check(@RequestBody Map<String, Object> map) throws Exception{
-        return this.getResponse(userService.check(map));
+		String id = (String) map.get("id");
+		String name = (String) map.get("name");
+		String email = (String) map.get("email");
+		Map<String, Object> accounts = (Map<String, Object>) map.get("accounts");
+        return this.getResponse(userService.check(id, name, email, accounts));
 	}
 	
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)

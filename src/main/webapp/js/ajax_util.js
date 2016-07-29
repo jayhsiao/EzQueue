@@ -36,18 +36,10 @@ var ajaxUtilObj = {
             dataType: "html",
 			async : true,
 			beforeSend: function(){
-				$.blockUI({ css: { 
-		            border: 'none', 
-		            padding: '15px', 
-		            backgroundColor: '#000', 
-		            '-webkit-border-radius': '10px', 
-		            '-moz-border-radius': '10px', 
-		            opacity: .5, 
-		            color: '#fff' 
-		        } }); 
+				commonObj.blockUI();
 			},
 			complete: function(){
-				$.unblockUI();
+				commonObj.unblockUI();
 			}
 		});
 	}

@@ -20,6 +20,7 @@ import com.ezqueue.model.QueueType;
 import com.ezqueue.model.Queuing;
 import com.ezqueue.model.Star;
 import com.ezqueue.model.User;
+import com.ezqueue.model.UserAccountMap;
 import com.ezqueue.repository.QueueRepository;
 import com.ezqueue.util.EzQueueConstants;
 
@@ -47,12 +48,20 @@ public class QueueServiceImpl implements QueueService {
 	@Autowired
 	private QueueTypeService queueTypeService;
 	
+	@Autowired
+	private UserAccountMapService userAccountMapService;
+	
 	@Override
 	public Map<String, Object> createQueue(String userId) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		List<User> accounts = new ArrayList<User>();
 		accounts.add(userService.getUser(userId));
-		accounts.addAll(userService.getUserAccount(userId));
+		
+		List<UserAccountMap> userAccountMaps= userAccountMapService.getUserAccountMaps(userId);
+		for(UserAccountMap userAccountMap: userAccountMaps){
+			accounts.add(userService.getUser(userAccountMap.getUserAccountId()));
+		}
+		
 		resultMap.put("accounts", accounts);
 		resultMap.put("queueTypes", queueTypeService.getQueueTypes());
 		return resultMap;
@@ -84,7 +93,11 @@ public class QueueServiceImpl implements QueueService {
 		
 		List<User> users = new ArrayList<User>();
 		users.add(userService.getUser(userId));
-		users.addAll(userService.getUserAccount(userId));
+		
+		List<UserAccountMap> userAccountMaps= userAccountMapService.getUserAccountMaps(userId);
+		for(UserAccountMap userAccountMap: userAccountMaps){
+			users.add(userService.getUser(userAccountMap.getUserAccountId()));
+		}
 		
 		PageRequest pageRequest = new PageRequest(offset, limit, Direction.DESC, "createDate");
 		List<Queue> queues = queueRepository.findByUserIn(users, pageRequest);

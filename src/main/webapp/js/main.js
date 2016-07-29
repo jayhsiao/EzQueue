@@ -60,14 +60,52 @@ var mainObj = {
 		$(document).on("click", "#a_logout", function(event){
 			$("#span_spinner_setting").show();
 			FB.logout(function(response) {
-				window.location = "/ezqueue/home";
+				mainObj.login_not();
 			});
 		});
 		
 	},
 	
 	init: function(){
-		$("#a_promotion").click();
+//		$("#a_promotion").click();
+	}, 
+	
+	login: function(){
+		console.log("login");
+		
+		FB.api(
+			"/me?fields=id,name,email,accounts",
+		    function (response) {
+		    	if (response && !response.error) {
+		    		console.log(response);
+		    		/* handle the result */
+		    		var id = response.id;
+		    		var name = response.name;
+		    		var email = response.email;
+		    		var accounts = response.accounts;
+		    		
+		    		commonObj.blockUI();
+		    		commonObj.checkUser(id, name, email, accounts)
+		    		.done(function(user){
+		    			console.log(user);
+		    			
+		    			$("#img_facebook_user").attr("src", commonObj.facebookImg(user.facebookId, 12));
+		    			$("#span_facebook_user_name").text(user.name);
+		    			
+		    			$("#a_myQueue").show();
+		    			$("#a_fbLogin").hide();
+		    			
+		    			commonObj.unblockUI();
+		    		});
+		    	}
+		    }
+	    );
+	}, 
+	
+	login_not: function(){
+		console.log("login_not");
+		$("#a_myQueue").hide();
+		$("#a_fbLogin").show();
 	}
 	
 }

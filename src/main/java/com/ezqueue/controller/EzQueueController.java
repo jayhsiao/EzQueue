@@ -20,14 +20,9 @@ public class EzQueueController extends BaseController {
 	private EzQueueService ezQueueService;
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String home() throws Exception{
-        return "home";
-	}
-	
-	@RequestMapping(value = "/init/{userId}", method = RequestMethod.GET)
-	public String init(Model model, @PathVariable String userId) {
-		model.addAttribute("RESPONSE_MAP", ezQueueService.init(userId));
-		return "main";
+	public String home(Model model) throws Exception{
+		model.addAttribute("RESPONSE_MAP", ezQueueService.init());
+        return "main";
 	}
 	
 	@RequestMapping(value = "/createQueue/{userId}", method = RequestMethod.GET)

@@ -22,30 +22,16 @@ public class User extends ModelBase implements Serializable{
 	@Id
 	@Column(name = "user_id")
 	private String userId;
-	@Column(name = "fb_id")
-	private String fbId;
+	@Column(name = "facebook_id")
+	private String facebookId;
 	@Column(name = "email")
 	private String email;
 	@Column(name = "name")
 	private String name;
-	@Column(name = "parent")
-	private String parent;
 	
 	@OneToMany
 	@JoinColumn(name = "user_id")
-	private List<Queue> queues;
-	
-	@OneToMany
-	@JoinColumn(name = "user_id")
-	private List<Favorite> favorites;
-	
-	@OneToMany
-	@JoinColumn(name = "user_id")
-	private List<Queuing> queuings;
-	
-	@OneToMany
-	@JoinColumn(name = "user_id")
-	private List<Star> stars;
+	private List<UserAccountMap> userAccountMaps;
 	
 	@Override
 	public String toString() {
@@ -60,12 +46,12 @@ public class User extends ModelBase implements Serializable{
 		this.userId = userId;
 	}
 
-	public String getFbId() {
-		return fbId;
+	public String getFacebookId() {
+		return facebookId;
 	}
 
-	public void setFbId(String fbId) {
-		this.fbId = fbId;
+	public void setFacebookId(String facebookId) {
+		this.facebookId = facebookId;
 	}
 
 	public String getEmail() {
@@ -84,44 +70,12 @@ public class User extends ModelBase implements Serializable{
 		this.name = name;
 	}
 
-	public String getParent() {
-		return parent;
+	public List<UserAccountMap> getUserAccountMaps() {
+		return userAccountMaps;
 	}
 
-	public void setParent(String parent) {
-		this.parent = parent;
-	}
-
-	public List<Queue> getQueues() {
-		return queues;
-	}
-
-	public void setQueues(List<Queue> queues) {
-		this.queues = queues;
-	}
-
-	public List<Favorite> getFavorites() {
-		return favorites;
-	}
-
-	public void setFavorites(List<Favorite> favorites) {
-		this.favorites = favorites;
-	}
-
-	public List<Queuing> getQueuings() {
-		return queuings;
-	}
-
-	public void setQueuings(List<Queuing> queuings) {
-		this.queuings = queuings;
-	}
-
-	public List<Star> getStars() {
-		return stars;
-	}
-
-	public void setStars(List<Star> stars) {
-		this.stars = stars;
+	public void setUserAccountMaps(List<UserAccountMap> userAccountMaps) {
+		this.userAccountMaps = userAccountMaps;
 	}
 
 }

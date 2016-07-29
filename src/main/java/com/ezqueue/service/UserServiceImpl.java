@@ -1,6 +1,5 @@
 package com.ezqueue.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ezqueue.model.User;
+import com.ezqueue.model.UserAccountMap;
 import com.ezqueue.repository.UserRepository;
 import com.ezqueue.util.StringUtil;
 
@@ -15,67 +15,60 @@ import com.ezqueue.util.StringUtil;
 public class UserServiceImpl implements UserService {
 	
 	@Autowired
+	private UserAccountMapService userAccountMapService;
+	
+	@Autowired
 	private UserRepository userRepository;
 	
 	@Override
-	public String check(Map<String, Object> map) {
+	@SuppressWarnings("unchecked")
+	public User check(String id, String name, String email, Map<String, Object> accounts) {
 		
-		String fbId = (String) map.get("fbId");
-		String name = (String) map.get("name");
-		String email = (String) map.get("email");
-		List<Map<String, Object>> accounts = (List<Map<String, Object>>) map.get("accounts");
-		
-		String userId = null;
-		User oldUser = userRepository.findByFbId(fbId);
-		if(oldUser == null){
-			User newUser = new User();
-			newUser.setUserId(StringUtil.getUUID());
-			newUser.setFbId(fbId);
-			newUser.setName(name);
-			newUser.setEmail(email);
-			userRepository.save(newUser);
-			
-			userId = newUser.getUserId();
-			
-			if(accounts != null && !accounts.isEmpty()){
-				for(Map<String, Object> accountMap: accounts){
-					User newAccountUser = new User();
-					newAccountUser.setUserId(StringUtil.getUUID());
-					newAccountUser.setFbId((String) accountMap.get("id"));
-					newAccountUser.setName((String) accountMap.get("name"));
-					newAccountUser.setParent(userId);
-					userRepository.save(newAccountUser);
-				}
-			}
+		User user = userRepository.findByFacebookId(id);
+		if(user == null){
+			user = new User();
+			user.setUserId(StringUtil.getUUID());
+			user.setFacebookId(id);
+			user.setEmail(email);
+			user.setName(name);
+			userRepository.save(user);
 		}
 		else{
-			userId = oldUser.getUserId();
+			user.setEmail(email);
+			user.setName(name);
+			userRepository.save(user);
+		}
+		
+		if(accounts != null && !accounts.isEmpty()){
 			
-			if(accounts != null && !accounts.isEmpty()){
-				List<String> ids = new ArrayList<String>();
-				for(Map<String, Object> accountMap: accounts){
-					String accountId = (String) accountMap.get("id");
-					String accountName = (String) accountMap.get("name");
-					
-					User accountUser = userRepository.findByParentAndFbId(userId, accountId);
-					if(accountUser == null){
-						User newAccountUser = new User();
-						newAccountUser.setUserId(StringUtil.getUUID());
-						newAccountUser.setFbId(accountId);
-						newAccountUser.setName(accountName);
-						newAccountUser.setParent(userId);
-						userRepository.save(newAccountUser);
-					}
-					
-					ids.add(accountId);
-				}
+			userAccountMapService.removeByUser(user.getUserId());
+			
+			List<Map<String, String>> datas = (List<Map<String, String>>) accounts.get("data");
+			for(Map<String, String> data: datas){
+				String accountfacebookId = (String) data.get("id");
+				String accountfacebookName = (String) data.get("name");
 				
-				List<User> accountUsers = userRepository.findByParentAndFbIdNotIn(userId, ids);
-				userRepository.delete(accountUsers);
+				User userAccount = userRepository.findByFacebookId(accountfacebookId);
+				if(userAccount == null){
+					userAccount = new User();
+					userAccount.setUserId(StringUtil.getUUID());
+					userAccount.setFacebookId(accountfacebookId);
+					userAccount.setName(accountfacebookName);
+				}
+				else{
+					userAccount.setName(accountfacebookName);
+				}
+				userRepository.save(userAccount);
+				
+				UserAccountMap userAccountMap = new UserAccountMap();
+				userAccountMap.setUserAccountMapId(StringUtil.getUUID());
+				userAccountMap.setUserId(user.getUserId());
+				userAccountMap.setUserAccountId(userAccount.getUserId());
+				userAccountMapService.addUserAccountMap(userAccountMap);
 			}
 		}
 		
-		return userId;
+		return user;
 	}
 	
 	@Override
@@ -84,13 +77,8 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public User getUserByFbId(String userId) {
-		return userRepository.findByFbId(userId);
-	}
-	
-	@Override
-	public List<User> getUserAccount(String userId) {
-		return userRepository.findByParent(userId);
+	public User getUserByFacebookId(String userId) {
+		return userRepository.findByFacebookId(userId);
 	}
 	
 	@Override

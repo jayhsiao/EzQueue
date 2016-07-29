@@ -5,7 +5,7 @@ import java.util.Map;
 
 public interface EzQueueService {
 	
-	public Map<String, Object> init(String userId);
+	public Map<String, Object> init();
 	
 	public Map<String, Object> createQueue(String userId);
 	

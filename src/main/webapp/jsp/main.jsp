@@ -19,7 +19,7 @@
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="<c:url value="/js/jquery.blockUI.js"/>"></script>
-<script type="text/javascript" src="<c:url value="/js/fb_home.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/facebook.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/common.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/main.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/create.js"/>"></script>
@@ -46,8 +46,11 @@
 			aria-expanded="false" style="height: 1px;">
 			<ul class="nav navbar-nav">
 				<li>
-					<a id="a_myQueue" style="cursor: pointer;">
+					<a id="a_myQueue" style="cursor: pointer; display: none;">
 						<%@include file="/jsp/facebook_user.jsp" %>
+					</a>
+					<a id="a_fbLogin" style="cursor: pointer; display: none;">
+						<fb:login-button scope="public_profile,email,manage_pages" onlogin="checkLoginState();"></fb:login-button>
 					</a>
 				</li>
 				<li class="dropdown">
@@ -71,35 +74,33 @@
 						<i class="fa fa-thumbs-up"></i>&nbsp;強力推薦
 					</a>
 				</li>
-				<li>
+				<li style="display: none;">
 					<a id="a_favorite" style="cursor: pointer;">
 						<i class="fa fa-heart"></i>&nbsp;我的最愛
 					</a>
 				</li>
-				<li>
+				<li style="display: none;">
 					<a id="a_queueing" style="cursor: pointer;">
 						<i class="fa fa-clock-o"></i>&nbsp;正在排隊
 					</a>
 				</li>
-				<li>
+				<li style="display: none;">
 					<a id="a_create" style="cursor: pointer;">
 						<i class="fa fa-play"></i>&nbsp;建立排隊
 					</a>
 				</li>
-				<li>
-					<a id="a_notice" style="cursor: pointer;">
-						<i class="fa fa-envelope-o"></i>&nbsp;通知
-					</a>
-				</li>
-			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li class="dropdown">
+				<li class="dropdown" style="display: none;">
 					<a class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">
 						<i class="fa fa-cog"></i>&nbsp;設定<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
+						<li>
+							<a id="a_notice" style="cursor: pointer;">
+								<i class="fa fa-envelope-o"></i>&nbsp;通知
+							</a>
+						</li>
 						<li>
 							<a id="a_setting" style="cursor: pointer;">
 								<i class="fa fa-cog"></i>&nbsp;系統設定
@@ -112,17 +113,20 @@
 						</li>
 					</ul>
 				</li>
+				<li style="display: none;">
+					<div class="navbar-form navbar-right">
+						<div class="input-group">
+							<input type="text" id="input_search" class="form-control" placeholder="搜尋...">
+							<span class="input-group-btn">
+								<button type="button" id="btn_search" class="btn btn-default">
+									<i class="fa fa-search"></i>&nbsp;
+								</button>
+							</span>
+						</div>
+					</div>
+				</li>
 			</ul>
-			<div class="navbar-form navbar-right">
-				<div class="input-group">
-					<input type="text" id="input_search" class="form-control" placeholder="搜尋...">
-					<span class="input-group-btn">
-						<button type="button" id="btn_search" class="btn btn-default">
-							<i class="fa fa-search"></i>&nbsp;
-						</button>
-					</span>
-				</div>
-			</div>
+			
 		</div>
 	</div>
 </nav>
@@ -134,7 +138,7 @@
 
 </form>
 
-<input type="hidden" id="input_userId"        value="<c:out value="${RESPONSE_MAP.user.userId}"/>">
+<input type="hidden" id="input_userId"        value="">
 <input type="hidden" id="input_userAccountId" value="">
 <input type="hidden" id="input_queueTypeId"   value="">
 <input type="hidden" id="input_queueId"       value="">
