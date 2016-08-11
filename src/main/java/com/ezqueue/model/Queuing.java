@@ -1,7 +1,6 @@
 package com.ezqueue.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -38,11 +37,6 @@ public class Queuing extends ModelBase implements Serializable{
 	@Column(name = "status")
 	private QueuingStatus status;
 	
-	@Column(name = "start_date")
-	private Date startDate;
-	@Column(name = "end_date")
-	private Date endDate;
-	
 	@Override
 	public String toString() {
 		return StringUtil.reflectionToString(this);
@@ -76,18 +70,6 @@ public class Queuing extends ModelBase implements Serializable{
 	}
 	public void setStatus(QueuingStatus status) {
 		this.status = status;
-	}
-	public Date getStartDate() {
-		return startDate;
-	}
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-	public Date getEndDate() {
-		return endDate;
-	}
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
 	}
 	
 }

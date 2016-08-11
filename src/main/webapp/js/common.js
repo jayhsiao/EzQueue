@@ -8,14 +8,10 @@ var commonObj = {
 		
 		$(document).on("click", "#span_facebook_user", function(event){
 			$("#navbar li").removeClass("active");
-			commonObj.getQueueList("/ezqueue/myQueues/"+$("#input_userAccountId").val()+"?limit=12&offset=0");
+			commonObj.getQueueList("/ezqueue/me/"+$(this).find("#input_userAccountId").val()+"?limit=12&offset=0");
 		});
 		
 	}, 
-	
-	facebookImg: function(fbId, size){
-		return "http://graph.facebook.com/"+fbId+"/picture?width="+size+"&height="+size;
-	},
 	
 	blockUI: function(){
 		$.blockUI({ css: { 
@@ -43,20 +39,46 @@ var commonObj = {
 		return ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/users/add", JSON.stringify(body), null);
 	},
 	
-	getQueueList: function(url){
+	getInitQueueList: function(url){
 		ajaxUtilObj.callHtmlAJAX(url)
 		.done(function(page){
-			$("#div_main").empty().html(page).show();
 			$("#div_detail").empty();
+			$("#div_list").empty();
+			$("#div_list").show();
+			if($.trim(page).length == 0){
+				$("#btn_more").hide();
+			}
+			else{
+				$("#div_list").append(page);
+				$("#btn_more").show();
+			}
+		});
+	}, 
+	
+	getMoreQueueList: function(url){
+		ajaxUtilObj.callHtmlAJAX(url)
+		.done(function(page){
+			if($.trim(page).length == 0){
+				$("#btn_more").hide();
+			}
+			else{
+				$("#div_list").append(page);
+				$("#btn_more").show();
+			}
 		});
 	}, 
 
 	getQueueDetail: function(url){
 		ajaxUtilObj.callHtmlAJAX(url)
 		.done(function(page){
-			$("#div_main").hide();
-			$("#div_detail").empty().html(page);
+			$("#div_list").hide();
+			$("#btn_more").hide();
+			
+			$("#div_detail").empty();
+			$("#div_detail").append(page);
 			FB.XFBML.parse();
+			
+			queueDetailObj.init();
 		});
 	}
 	

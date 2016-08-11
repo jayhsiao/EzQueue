@@ -24,17 +24,9 @@ public class EzQueueServiceImpl implements EzQueueService {
 		resultMap.put("queueTypes", queueTypeService.getQueueTypes());
 		resultMap.put("limit", EzQueueConstants.INIT_LIMIT);
 		resultMap.put("offset", EzQueueConstants.INIT_OFFSET);
+		resultMap.put("queuingLimit", EzQueueConstants.INIT_QUEUING_LIMIT);
+		resultMap.put("queuingOffset", EzQueueConstants.INIT_QUEUING_OFFSET);
 		return resultMap;
-	}
-	
-	@Override
-	public Map<String, Object> createQueue(String userId) {
-		return queueService.createQueue(userId);
-	}
-	
-	@Override
-	public List<Map<String, Object>> getAllQueues(String userId, String queueTypeId, int limit, int offset) {
-		return queueService.getAllQueues(userId, queueTypeId, limit, offset);
 	}
 	
 	@Override
@@ -43,13 +35,13 @@ public class EzQueueServiceImpl implements EzQueueService {
 	}
 	
 	@Override
-	public List<Map<String, Object>> getPromotionQueues(String userId, int limit, int offset) {
-		return queueService.getPromotionQueues(userId, limit, offset);
+	public List<Map<String, Object>> getPromotionQueues(int limit, int offset) {
+		return queueService.getPromotionQueues(limit, offset);
 	}
 	
 	@Override
-	public List<Map<String, Object>> getQueuingQueues(String userId, int limit, int offset) {
-		return queueService.getQueuingQueues(userId, limit, offset);
+	public List<Map<String, Object>> getTypeQueues(String queueTypeId, int limit, int offset) {
+		return queueService.getTypeQueues(queueTypeId, limit, offset);
 	}
 	
 	@Override
@@ -58,18 +50,28 @@ public class EzQueueServiceImpl implements EzQueueService {
 	}
 	
 	@Override
+	public List<Map<String, Object>> getQueuingQueues(String userId, int limit, int offset) {
+		return queueService.getQueuingQueues(userId, limit, offset);
+	}
+	
+	@Override
+	public List<Map<String, Object>> getSearchQueues(String text, int limit, int offset) {
+		return queueService.getSearchQueues(text, limit, offset);
+	}
+	
+	@Override
 	public List<Map<String, Object>> getUserQueues(String userId, int limit, int offset) {
 		return queueService.getUserQueues(userId, limit, offset);
 	}
 	
 	@Override
-	public List<Map<String, Object>> getSearchQueues(String userId, String text, int limit, int offset) {
-		return queueService.getSearchQueues(userId, text, limit, offset);
+	public Map<String, Object> createQueue(String userId) {
+		return queueService.createQueue(userId);
 	}
 	
 	@Override
-	public Map<String, Object> getQueueDetail(String userId, String queueId, boolean canEdit) {
-		return queueService.getQueueDetail(userId, queueId, canEdit);
+	public Map<String, Object> getQueueDetail(String userId, String queueId) {
+		return queueService.getQueueDetail(userId, queueId);
 	}
 	
 }

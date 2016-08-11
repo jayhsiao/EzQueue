@@ -3,10 +3,8 @@
 
 <span class="star-color" style="font-weight: bold;">
 	<i class="fa fa-heart"></i>
-	&nbsp;
 	<c:out value="${RESPONSE_MAP.favoriteCount}"/>
 	&nbsp;
 	<i class="fa fa-users"></i>
-	&nbsp;
 	<c:out value="${RESPONSE_MAP.queuingCount}"/>
 </span>

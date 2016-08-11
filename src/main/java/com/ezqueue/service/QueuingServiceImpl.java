@@ -1,9 +1,9 @@
 package com.ezqueue.service;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -35,12 +35,37 @@ public class QueuingServiceImpl implements QueuingService {
 	}
 	
 	@Override
-	public List<Queuing> getQueuingsByQueue(String queueId, int limit, int offset) {
+	public List<Queuing> getQueuingsByQueue(String queueId, QueuingStatus queuingStatus, int limit, int offset) {
 		Queue queue = new Queue();
 		queue.setQueueId(queueId);
 		
 		PageRequest pageRequest = new PageRequest(offset, limit);
-		return queuingRepository.findByQueue(queue, pageRequest);
+		return queuingRepository.findByQueueAndStatusOrderByQueueNumAsc(queue, queuingStatus, pageRequest);
+	}
+	
+	@Override
+	public Map<String, Object> getNext(String queueId, QueuingStatus queuingStatus, int limit, int offset) {
+		Map<String, Object> resultMap = new HashMap<>();
+		
+		Queue queue = new Queue();
+		queue.setQueueId(queueId);
+		
+		List<QueuingStatus> queuingStatuss = new ArrayList<>();
+		queuingStatuss.add(QueuingStatus.WAITING);
+		int waitingCount = this.getQueuingCount(queue, queuingStatuss);
+		
+		queuingStatuss.clear();
+		queuingStatuss.add(QueuingStatus.PASS);
+		int passCount = this.getQueuingCount(queue, queuingStatuss);
+		
+		queuingStatuss.add(QueuingStatus.WAITING);
+		int queuingCount = this.getQueuingCount(queue, queuingStatuss);
+		
+		resultMap.put("queuings", this.getQueuingsByQueue(queueId, queuingStatus, limit, offset));
+		resultMap.put("queuingCount", queuingCount);
+		resultMap.put("waitingCount", waitingCount);
+		resultMap.put("passCount", passCount);
+		return resultMap;
 	}
 	
 	@Override
@@ -55,16 +80,8 @@ public class QueuingServiceImpl implements QueuingService {
 	}
 	
 	@Override
-	public int getQueuingCount(Queue queue) {
-		List<QueuingStatus> queuingStatuss = new ArrayList<>();
-		queuingStatuss.add(QueuingStatus.WAITTING);
-		queuingStatuss.add(QueuingStatus.PASS);
-		
-		int queuingCount = queuingRepository.countByQueueAndStatusIn(queue, queuingStatuss);
-		if(queuingCount > 0){
-			return queuingCount - 1;
-		}
-		return queuingCount;
+	public int getQueuingCount(Queue queue, List<QueuingStatus> queuingStatuss) {
+		return queuingRepository.countByQueueAndStatusIn(queue, queuingStatuss);
 	}
 	
 	@Override
@@ -80,28 +97,15 @@ public class QueuingServiceImpl implements QueuingService {
 		Queue queue = new Queue();
 		queue.setQueueId(queueId);
 		
-		Calendar calendar = Calendar.getInstance();
-		Date now = calendar.getTime();
-		
 		Queuing queuing = new Queuing();
 		queuing.setQueuingId(StringUtil.getUUID());
 		queuing.setUser(user);
 		queuing.setQueue(queue);
-		queuing.setStartDate(now);
 		queuing.setQueueNum(queueNum);
-		queuing.setStatus(QueuingStatus.WAITTING);
-		
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
+		queuing.setStatus(QueuingStatus.WAITING);
 		
 		this.addQueuing(queuing);
 		return queuing;
-	}
-	
-	@Override
-	public Double getAvgWaittingTime(String queueId) {
-		return queuingRepository.getAvgWaittingTime(queueId);
 	}
 	
 	@Override
@@ -110,14 +114,15 @@ public class QueuingServiceImpl implements QueuingService {
 	}
 	
 	@Override
-	public void updateStatus(String userId, String queuingId, QueuingStatus queuingStatus) {
+	public void updateStatus(String queuingId, QueuingStatus queuingStatus) {
 		Queuing queuing = queuingRepository.findOne(queuingId);
 		queuing.setStatus(queuingStatus);
 		this.addQueuing(queuing);
 	}
 	
 	@Override
-	public void removeQueuing(String queuingId) {
+	public void removeQueuing(String queuingId, QueuingStatus queuingStatus) {
 		queuingRepository.delete(queuingId);
 	}
+	
 }

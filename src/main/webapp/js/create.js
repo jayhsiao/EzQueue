@@ -1,8 +1,3 @@
-$(document).ready(function(){
-	createObj.registerEvent();
-	createObj.init();
-});
-
 var createObj = {
 	
 	registerEvent: function(){
@@ -11,6 +6,8 @@ var createObj = {
 			var userId = $(this).find("#input_accounts_userId").val();
 			var accountId = $(this).find("#input_accounts_accountId").val();
 			var accountName = $(this).find("#input_accounts_accountName").val();
+			
+			$("#input_create_userId").val(userId);
 			
 			$("#btn_accounts").empty();
 			$("#btn_accounts").append("<img src='http://graph.facebook.com/"+accountId+"/picture?width=12&height=12'>&nbsp;"+accountName+"&nbsp;<span class='caret'></span>");
@@ -24,7 +21,7 @@ var createObj = {
 			$("#btn_queueTypes").empty();
 			$("#btn_queueTypes").append("<i class='fa "+queueTypeIconClass+"'></i>&nbsp;"+queueTypeDscr+"&nbsp;<span class='caret'></span>");
 			
-			$("#input_queueTypeId").val(queueTypeId);
+			$("#input_create_queueTypeId").val(queueTypeId);
 		});
 		
 		$(document).on("click", "#btn_create", function(){
@@ -54,15 +51,6 @@ var createObj = {
 			$("#span_result").text("");
 		}
 		
-		if($("#input_startDate").val().length == 0){
-			$("#input_startDate").parent().parent().addClass("has-error");
-			$("#span_result").text("請選擇開啟日期");
-			return false;
-		} 
-		else {
-			$("#input_startDate").parent().parent().removeClass("has-error");
-			$("#span_result").text("");
-		}
 		if($("#input_title").val().length == 0){
 			$("#input_title").parent().parent().addClass("has-error");
 			$("#span_result").text("請輸入名稱");
@@ -109,28 +97,23 @@ var createObj = {
 		}
 		
 		var body = {
-			userId: $("#input_userId").val(),
+			userId: $("#input_create_userId").val(),
 			title: $("#input_title").val(),
 			phone: $("#input_phone").val(),
 			address: $("#input_address").val(),
 			dscr: $("#textarea_dscr").val(),
-			queueTypeId: $("#input_queueTypeId").val()
+			queueTypeId: $("#input_create_queueTypeId").val()
 		};
 		
-		var spanObj = $("#span_spinner");
-		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/queues/add", JSON.stringify(body), btnObj, spanObj)
+		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/queues/add", JSON.stringify(body))
 		.done(function(httpResponse){
 			$("div .panel-body").empty();
 			$("div .panel-body").append("<h1>建立成功</h1>");
-		})
-		.always(function(){
-			if(btnObj){
-				$(btnObj).attr("disabled", false);
-				$(btnObj).removeClass("disabled");
-			}
-			if(spanObj){
-				$(spanObj).hide();
-			}
 		});
 	}
 }
+
+$(document).ready(function(){
+	createObj.registerEvent();
+	createObj.init();
+});

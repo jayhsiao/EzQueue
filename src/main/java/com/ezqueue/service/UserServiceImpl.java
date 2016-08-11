@@ -1,5 +1,6 @@
 package com.ezqueue.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -74,6 +75,18 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getUser(String userId) {
 		return userRepository.findOne(userId);
+	}
+	
+	@Override
+	public List<User> getUserList(String userId) {
+		List<User> accounts = new ArrayList<>();
+		accounts.add(this.getUser(userId));
+		
+		List<UserAccountMap> userAccountMaps = userAccountMapService.getUserAccountMaps(userId);
+		for(UserAccountMap userAccountMap: userAccountMaps){
+			accounts.add(this.getUser(userAccountMap.getUserAccountId()));
+		}
+		return accounts;
 	}
 	
 	@Override

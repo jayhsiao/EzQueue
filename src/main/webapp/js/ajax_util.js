@@ -6,7 +6,7 @@ var ajaxUtilObj = {
 	PUT:    "PUT",
 	PATCH:  "PATCH",
 	
-	callJsonAJAX: function(method, url, body, disabledObj){
+	callJsonAJAX: function(method, url, body){
 		return $.ajax({
 			type : method,
 			url : url,
@@ -14,16 +14,10 @@ var ajaxUtilObj = {
 			contentType: "application/json",
 			async : true,
 			beforeSend: function(){
-				if(disabledObj){
-					$(disabledObj).attr("disabled", true);
-					$(disabledObj).addClass("disabled");
-				}
+				commonObj.blockUI();
 			},
 			complete: function(){
-				if(disabledObj){
-					$(disabledObj).attr("disabled", false);
-					$(disabledObj).removeClass("disabled");
-				}
+				commonObj.unblockUI();
 			}
 		});
 	}, 

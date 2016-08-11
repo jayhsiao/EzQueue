@@ -44,14 +44,14 @@ function statusChangeCallback(response) {
 	// for FB.getLoginStatus().
 	if (response.status === 'connected') {
 		// Logged into your app and Facebook.
-		mainObj.login();
+		mainObj.doLogin();
 	} else if (response.status === 'not_authorized') {
 		// The person is logged into Facebook, but not your app.
-		mainObj.login_not();
+		mainObj.doNoLogin();
 	} else {
 		// The person is not logged into Facebook, so we're not sure if
 		// they are logged into this app or not.
-		mainObj.login_not();
+		mainObj.doNoLogin();
 	}
 }
 

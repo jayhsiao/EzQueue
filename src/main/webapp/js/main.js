@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	mainObj.registerEvent();
-	mainObj.init();
+	queueObj.registerEvent();
+	queueDetailObj.registerEvent();
 });
 
 var mainObj = {
@@ -14,42 +15,66 @@ var mainObj = {
 		});
 		
 		$(document).on("click", "#ul_all a", function(event){
-			var queryJson = {
-				queueTypeId: $(this).attr("id")
-			};
-			var url = "/ezqueue/all/"+$("#input_userId").val()+"?"+$.param(queryJson)+"&limit=12&offset=0";
-			commonObj.getQueueList(url);
+			var url = "/ezqueue/type/"+$(this).attr("id")+"?";
+			commonObj.getInitQueueList(url + mainObj.initParam($("#input_init_limit").val(), $("#input_init_offset").val()));
+			$("btn_more").show();
+			
+			$("#input_url").val(url);
+			$("#input_offset").val(parseInt($("#input_init_offset").val()) + 1);
 		});
 		
 		$(document).on("click", "#a_promotion", function(event){
-			commonObj.getQueueList("/ezqueue/promotion/"+$("#input_userId").val()+"?limit=12&offset=0");
+			var url = "/ezqueue/promotion?";
+			commonObj.getInitQueueList(url + mainObj.initParam($("#input_init_limit").val(), $("#input_init_offset").val()));
+			$("btn_more").show();
+			
+			$("#input_url").val(url);
+			$("#input_offset").val(parseInt($("#input_init_offset").val()) + 1);
+		});
+		
+		$(document).on("click", "#a_me", function(event){
+			var url = "/ezqueue/me/"+$("#input_userId").val()+"?";
+			commonObj.getInitQueueList(url + mainObj.initParam($("#input_init_limit").val(), $("#input_init_offset").val()));
+			$("btn_more").show();
+			
+			$("#input_url").val(url);
+			$("#input_offset").val(parseInt($("#input_init_offset").val()) + 1);
 		});
 		
 		$(document).on("click", "#a_favorite", function(event){
-			commonObj.getQueueList("/ezqueue/favorite/"+$("#input_userId").val()+"?limit=12&offset=0");
-		});
-		
-		$(document).on("click", "#a_myQueue", function(event){
-			commonObj.getQueueList("/ezqueue/myQueues/"+$("#input_userId").val()+"?limit=12&offset=0");
+			var url = "/ezqueue/favorite/"+$("#input_userId").val()+"?";
+			commonObj.getInitQueueList(url + mainObj.initParam($("#input_init_limit").val(), $("#input_init_offset").val()));
+			$("btn_more").show();
+			
+			$("#input_url").val(url);
+			$("#input_offset").val(parseInt($("#input_init_offset").val()) + 1);
 		});
 		
 		$(document).on("click", "#a_queueing", function(event){
-			commonObj.getQueueList("/ezqueue/queuing/"+$("#input_userId").val()+"?limit=12&offset=0");
+			var url = "/ezqueue/queuing/"+$("#input_userId").val()+"?";
+			commonObj.getInitQueueList(url + mainObj.initParam($("#input_init_limit").val(), $("#input_init_offset").val()));
+			$("btn_more").show();
+			
+			$("#input_url").val(url);
+			$("#input_offset").val(parseInt($("#input_init_offset").val()) + 1);
 		});
 		
 		$(document).on("click", "#a_create", function(event){
-			commonObj.getQueueList("/ezqueue/createQueue/"+$("#input_userId").val()+"?limit=12&offset=0");
+			var url = "/ezqueue/create/"+$("#input_userId").val();
+			commonObj.getInitQueueList(url);
+			$("btn_more").hide();
 		});
 		
 		$(document).on("click", "#btn_search", function(event){
 			$("#navbar li").removeClass("active");
-			if($("#input_search").val().length > 0){
-				var queryJson = {
-					userId: $("#input_userId").val(),
-					text: $("#input_search").val()
-				};
-				var url = "/ezqueue/search/?"+$.param(queryJson);
-				commonObj.getQueueList(url);
+			var searchText = $("#input_search").val();
+			if(searchText.length > 0){
+				var url = "/ezqueue/search/"+searchText+"?";
+				commonObj.getInitQueueList(url + mainObj.initParam($("#input_init_limit").val(), $("#input_init_offset").val()));
+				$("btn_more").show();
+				
+				$("#input_url").val(url);
+				$("#input_offset").val(parseInt($("#input_init_offset").val()) + 1);
 			}
 		});
 		
@@ -58,54 +83,91 @@ var mainObj = {
 		});
 		
 		$(document).on("click", "#a_logout", function(event){
-			$("#span_spinner_setting").show();
 			FB.logout(function(response) {
-				mainObj.login_not();
+				mainObj.doNoLogin();
 			});
+		});
+		
+		$(document).on("click", "#btn_more", function(event){
+			var url = $("#input_url").val() + mainObj.initParam($("#input_init_limit").val(), $("#input_offset").val());
+			commonObj.getMoreQueueList(url);
+			
+			$("#input_offset").val(parseInt($("#input_offset").val()) + 1);
 		});
 		
 	},
 	
-	init: function(){
-//		$("#a_promotion").click();
+	initParam: function(limit, offset){
+		var initParam = {
+			limit: limit,
+			offset: offset
+		}
+		return $.param(initParam);
 	}, 
 	
-	login: function(){
-		console.log("login");
+	init: function(){
+		var queueDetailId = $("#input_queueDetailId").val();
+		if(queueDetailId.length > 0){
+			var jsonObj = {
+				queueId: queueDetailId
+			};
+			var url = "/ezqueue/queue?"+$.param(jsonObj);
+			commonObj.getQueueDetail(url);
+			$("#input_queueDetailId").val("");
+			return;
+		}
 		
+		$("#a_promotion").click();
+	}, 
+	
+	doLogin: function(){
 		FB.api(
 			"/me?fields=id,name,email,accounts",
 		    function (response) {
 		    	if (response && !response.error) {
-		    		console.log(response);
 		    		/* handle the result */
 		    		var id = response.id;
 		    		var name = response.name;
 		    		var email = response.email;
 		    		var accounts = response.accounts;
 		    		
-		    		commonObj.blockUI();
 		    		commonObj.checkUser(id, name, email, accounts)
 		    		.done(function(user){
-		    			console.log(user);
 		    			
-		    			$("#img_facebook_user").attr("src", commonObj.facebookImg(user.facebookId, 12));
-		    			$("#span_facebook_user_name").text(user.name);
+		    			$("#img_header_facebook_user").attr("src", "http://graph.facebook.com/"+user.facebookId+"/picture?width=12&height=12");
+		    			$("#span_header_facebook_user_name").text(user.name);
 		    			
-		    			$("#a_myQueue").show();
-		    			$("#a_fbLogin").hide();
-		    			
-		    			commonObj.unblockUI();
+		    			mainObj.showLogin(user);
+		    			mainObj.init();
 		    		});
 		    	}
 		    }
 	    );
 	}, 
 	
-	login_not: function(){
-		console.log("login_not");
-		$("#a_myQueue").hide();
-		$("#a_fbLogin").show();
+	doNoLogin: function(){
+		mainObj.showNologin();
+		mainObj.init();
+	}, 
+	
+	showLogin: function(user){
+		$("#input_userId").val(user.userId);
+		
+		$("#li_facebook_login").hide();
+		$("#li_facebook_user").show();
+		
+		$("#li_search").show();
+		$("#btn_more").show();
+	}, 
+	
+	showNologin: function(){
+		$("#input_userId").val("");
+		
+		$("#li_facebook_login").show();
+		$("#li_facebook_user").hide();
+		
+		$("#li_search").hide();
+		$("#btn_more").show();
 	}
 	
 }

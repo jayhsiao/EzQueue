@@ -23,9 +23,9 @@
 								<ul id="ul_accounts" class="dropdown-menu">
 									<c:forEach items="${RESPONSE_MAP.accounts }" var="account">
 										<li>
-											<a><img src="http://graph.facebook.com/<c:out value="${account.fbId}"/>/picture?width=14&height=14">&nbsp;<c:out value="${account.name}"/></a>
+											<a><img src="http://graph.facebook.com/<c:out value="${account.facebookId}"/>/picture?width=14&height=14">&nbsp;<c:out value="${account.name}"/></a>
 											<input type="hidden" id="input_accounts_userId"      value="<c:out value="${account.userId}"/>">
-											<input type="hidden" id="input_accounts_accountId"   value="<c:out value="${account.fbId}"/>">
+											<input type="hidden" id="input_accounts_accountId"   value="<c:out value="${account.facebookId}"/>">
 											<input type="hidden" id="input_accounts_accountName" value="<c:out value="${account.name}"/>">
 										</li>
 									</c:forEach>
@@ -55,12 +55,12 @@
 				<div class="form-group">
 					<div class="col-lg-4">
 						<div class="input-group">
-							<input type="text" id="input_startDate" class="form-control" placeholder="開啟時間">
+							<input type="date" id="input_startDate" class="form-control" placeholder="開啟時間">
 						</div>
 					</div>
 					<div class="col-lg-4">
 						<div class="input-group">
-							<input type="text" id="input_endDate" class="form-control" placeholder="結束時間(可不輸入)">
+							<input type="date" id="input_endDate" class="form-control" placeholder="結束時間(可不輸入)">
 						</div>
 					</div>
 				</div>
@@ -102,3 +102,6 @@
 		</div>
 	</div>
 </div>
+
+<input type="hidden" id="input_create_userId"      value="">
+<input type="hidden" id="input_create_queueTypeId" value="">

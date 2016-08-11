@@ -15,12 +15,12 @@ import com.ezqueue.model.Queuing;
 
 public interface QueuingRepository extends PagingAndSortingRepository<Queuing, String>{
 	
-	@Query("select AVG(q.endDate - q.startDate) from Queuing q where q.queue.queueId = :queueId")
-	public Double getAvgWaittingTime(@Param("queueId") String queueId);
+//	@Query("select AVG(q.endDate - q.startDate) from Queuing q where q.queue.queueId = :queueId")
+//	public Double getAvgWaittingTime(@Param("queueId") String queueId);
 	
 	public List<Queuing> findByUser(User user, Pageable pageable);
 	
-	public List<Queuing> findByQueue(Queue queue, Pageable pageable);
+	public List<Queuing> findByQueueAndStatusOrderByQueueNumAsc(Queue queue, QueuingStatus queuingStatus, Pageable pageable);
 	
 	public Queuing findByUserAndQueue(User user, Queue queue);
 	

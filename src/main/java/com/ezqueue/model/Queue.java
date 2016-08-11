@@ -3,6 +3,7 @@ package com.ezqueue.model;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -12,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.ezqueue.util.QueueStatus;
 import com.ezqueue.util.StringUtil;
@@ -56,24 +56,21 @@ public class Queue extends ModelBase implements Serializable{
 	@Column(name = "end_date")
 	private String endDate;
 	
-	@OneToMany
-	@JoinColumn(name = "queue_id")
-	private List<Favorite> favorites;
-	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "queue_id")
 	private Promotion promotion;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "queue_id")
-	private List<Queuing> queuings;
+	private List<Favorite> favorites;
 	
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "queue_id")
 	private List<Star> stars;
 	
-	@Transient
-	private Double avgWaittingTime;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "queue_id")
+	private List<Queuing> queuings;
 	
 	@Override
 	public String toString() {
@@ -168,16 +165,12 @@ public class Queue extends ModelBase implements Serializable{
 		this.endDate = endDate;
 	}
 
+	public Promotion getPromotion() {
+		return promotion;
+	}
+
 	public void setPromotion(Promotion promotion) {
 		this.promotion = promotion;
-	}
-
-	public Double getAvgWaittingTime() {
-		return avgWaittingTime;
-	}
-
-	public void setAvgWaittingTime(Double avgWaittingTime) {
-		this.avgWaittingTime = avgWaittingTime;
 	}
 
 	public List<Favorite> getFavorites() {
@@ -194,14 +187,6 @@ public class Queue extends ModelBase implements Serializable{
 
 	public void setStars(List<Star> stars) {
 		this.stars = stars;
-	}
-
-	public Promotion getPromotion() {
-		return promotion;
-	}
-
-	public void setPromotions(Promotion promotion) {
-		this.promotion = promotion;
 	}
 
 	public List<Queuing> getQueuings() {

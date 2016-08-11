@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -27,10 +26,10 @@ public class QueueController extends BaseController {
 	private QueueService queueService;
 	
 	@RequestMapping(value = "/promotion/{userId}", method = RequestMethod.GET)
-	public ResponseEntity<Object> getPromotionsQueues(@PathVariable String userId, 
+	public ResponseEntity<Object> getPromotionsQueues(
 			@RequestParam(value = "limit", required = false, defaultValue = "limit") int limit,
 			@RequestParam(value = "offset", required = false, defaultValue = "offset") int offset){
-		return this.getResponse(queueService.getPromotionQueues(userId, limit, offset));
+		return this.getResponse(queueService.getPromotionQueues(limit, offset));
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -50,6 +49,7 @@ public class QueueController extends BaseController {
 		queueType.setQueueTypeId((String) map.get("queueTypeId"));
 		queue.setQueueType(queueType);
 		
+		queue.setQueueNum(0);
 		queue.setStatus(QueueStatus.OPEN);
 		queue.setStartDate((String) map.get("startDate"));
 		queue.setEndDate((String) map.get("endDate"));
@@ -64,10 +64,13 @@ public class QueueController extends BaseController {
 		return this.getResponse();
 	}
 	
-	@RequestMapping(value = "/update", method = RequestMethod.PATCH)
-	public ResponseEntity<Object> update(@RequestBody Queue queue){
-		queueService.update(queue);
-		return this.getResponse();
+	@RequestMapping(value = "/edit", method = RequestMethod.PATCH)
+	public ResponseEntity<Object> edit(@RequestBody Map<String, Object> map){
+		String queueId = (String) map.get("queueId");
+		String phone = (String) map.get("phone");
+		String address = (String) map.get("address");
+		String dscr = (String) map.get("dscr");
+		return this.getResponse(queueService.edit(queueId, phone, address, dscr));
 	}
 	
 }
