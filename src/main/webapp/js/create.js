@@ -30,8 +30,7 @@ var createObj = {
 	},
 	
 	init: function(){
-		$('#input_startDate').datepicker({ dateFormat: 'yyyy-MM-dd' });
-		$("#span_title").text($("#name", window.parent.document).val());
+		
 	},
 	
 	validation: function(){
@@ -112,8 +111,3 @@ var createObj = {
 		});
 	}
 }
-
-$(document).ready(function(){
-	createObj.registerEvent();
-	createObj.init();
-});

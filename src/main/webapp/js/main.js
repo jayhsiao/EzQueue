@@ -1,7 +1,9 @@
 $(document).ready(function(){
+	commonObj.registerEvent();
 	mainObj.registerEvent();
 	queueObj.registerEvent();
 	queueDetailObj.registerEvent();
+	createObj.registerEvent();
 });
 
 var mainObj = {
@@ -17,7 +19,6 @@ var mainObj = {
 		$(document).on("click", "#ul_all a", function(event){
 			var url = "/ezqueue/type/"+$(this).attr("id")+"?";
 			commonObj.getInitQueueList(url + mainObj.initParam($("#input_init_limit").val(), $("#input_init_offset").val()));
-			$("btn_more").show();
 			
 			$("#input_url").val(url);
 			$("#input_offset").val(parseInt($("#input_init_offset").val()) + 1);
@@ -26,7 +27,6 @@ var mainObj = {
 		$(document).on("click", "#a_promotion", function(event){
 			var url = "/ezqueue/promotion?";
 			commonObj.getInitQueueList(url + mainObj.initParam($("#input_init_limit").val(), $("#input_init_offset").val()));
-			$("btn_more").show();
 			
 			$("#input_url").val(url);
 			$("#input_offset").val(parseInt($("#input_init_offset").val()) + 1);
@@ -35,7 +35,6 @@ var mainObj = {
 		$(document).on("click", "#a_me", function(event){
 			var url = "/ezqueue/me/"+$("#input_userId").val()+"?";
 			commonObj.getInitQueueList(url + mainObj.initParam($("#input_init_limit").val(), $("#input_init_offset").val()));
-			$("btn_more").show();
 			
 			$("#input_url").val(url);
 			$("#input_offset").val(parseInt($("#input_init_offset").val()) + 1);
@@ -44,7 +43,6 @@ var mainObj = {
 		$(document).on("click", "#a_favorite", function(event){
 			var url = "/ezqueue/favorite/"+$("#input_userId").val()+"?";
 			commonObj.getInitQueueList(url + mainObj.initParam($("#input_init_limit").val(), $("#input_init_offset").val()));
-			$("btn_more").show();
 			
 			$("#input_url").val(url);
 			$("#input_offset").val(parseInt($("#input_init_offset").val()) + 1);
@@ -53,7 +51,6 @@ var mainObj = {
 		$(document).on("click", "#a_queueing", function(event){
 			var url = "/ezqueue/queuing/"+$("#input_userId").val()+"?";
 			commonObj.getInitQueueList(url + mainObj.initParam($("#input_init_limit").val(), $("#input_init_offset").val()));
-			$("btn_more").show();
 			
 			$("#input_url").val(url);
 			$("#input_offset").val(parseInt($("#input_init_offset").val()) + 1);
@@ -61,8 +58,7 @@ var mainObj = {
 		
 		$(document).on("click", "#a_create", function(event){
 			var url = "/ezqueue/create/"+$("#input_userId").val();
-			commonObj.getInitQueueList(url);
-			$("btn_more").hide();
+			commonObj.getCreate(url);
 		});
 		
 		$(document).on("click", "#btn_search", function(event){
@@ -71,7 +67,6 @@ var mainObj = {
 			if(searchText.length > 0){
 				var url = "/ezqueue/search/"+searchText+"?";
 				commonObj.getInitQueueList(url + mainObj.initParam($("#input_init_limit").val(), $("#input_init_offset").val()));
-				$("btn_more").show();
 				
 				$("#input_url").val(url);
 				$("#input_offset").val(parseInt($("#input_init_offset").val()) + 1);
@@ -157,7 +152,6 @@ var mainObj = {
 		$("#li_facebook_user").show();
 		
 		$("#li_search").show();
-		$("#btn_more").show();
 	}, 
 	
 	showNologin: function(){
@@ -167,7 +161,6 @@ var mainObj = {
 		$("#li_facebook_user").hide();
 		
 		$("#li_search").hide();
-		$("#btn_more").show();
 	}
 	
 }

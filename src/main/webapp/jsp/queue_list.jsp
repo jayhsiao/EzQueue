@@ -2,7 +2,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <c:forEach items="${RESPONSE_LIST}" var="RESPONSE_MAP">
-<div class="col-sm-6 col-md-3">
+<div class="queue col-sm-6 col-md-3">
 	<div class="thumbnail">
 		<div>
 			<table style="width: 100%;">
