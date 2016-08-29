@@ -167,7 +167,7 @@
 	<div class="fb-comments" data-width="100%" data-href="http://local.ezqueue.com:8080/ezqueue/home/<c:out value="${QUEUE_DETAIL.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
 	<div class="fb-comments" data-width="100%" data-href="http://ezqueue-dev.ap-northeast-1.elasticbeanstalk.com/ezqueue/home/<c:out value="${QUEUE_DETAIL.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
 	 -->
-	<div class="fb-comments" data-width="100%" data-href="http://local.ezqueue.com:8080/ezqueue/home/<c:out value="${QUEUE_DETAIL.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
+	<div class="fb-comments" data-width="100%" data-href="http://ezqueue-dev.ap-northeast-1.elasticbeanstalk.com/ezqueue/home/<c:out value="${QUEUE_DETAIL.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
 	
 	<input type="hidden" id="input_detail_userAccountId" value="<c:out value="${QUEUE_DETAIL.queue.user.userId}"/>">
 	<input type="hidden" id="input_detail_queueId"       value="<c:out value="${QUEUE_DETAIL.queue.queueId}"/>">
