@@ -300,9 +300,9 @@ public class QueueServiceImpl implements QueueService {
 //			long minutes = TimeUnit.SECONDS.toMinutes(avgSeconds.intValue()) - (TimeUnit.SECONDS.toHours(avgSeconds.intValue()) * 60);
 //			long seconds = TimeUnit.SECONDS.toSeconds(avgSeconds.intValue()) - (TimeUnit.SECONDS.toMinutes(avgSeconds.intValue()) * 60);
 //			
-//			if(hours > 0) avgWaittingTimeSb.append(hours).append(" 時 ");
-//			if(minutes > 0) avgWaittingTimeSb.append(minutes).append(" 分 ");
-//			if(seconds > 0) avgWaittingTimeSb.append(seconds).append(" 秒");
+//			if(hours > 0) avgWaittingTimeSb.append(hours).append("  ");
+//			if(minutes > 0) avgWaittingTimeSb.append(minutes).append("  ");
+//			if(seconds > 0) avgWaittingTimeSb.append(seconds).append(" ");
 //			avgWaittingTimeString = avgWaittingTimeSb.toString();
 //		}
 //		return avgWaittingTimeString;
