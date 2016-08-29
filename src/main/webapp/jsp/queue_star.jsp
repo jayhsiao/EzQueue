@@ -3,8 +3,8 @@
 
 <span class="star-color" style="font-weight: bold;">
 	<i class="star-color fa fa-star"></i>
-	<c:out value="${RESPONSE_MAP.avgStar}"/>
+	<c:out value="${QUEUE_DETAIL.avgStar}"/>
 	/
-	<c:out value="${RESPONSE_MAP.totalStar}"/>
-	<span class="badge"><c:out value="${RESPONSE_MAP.starsCount}"/></span>
+	<c:out value="${QUEUE_DETAIL.totalStar}"/>
+	<span class="badge"><c:out value="${QUEUE_DETAIL.starsCount}"/></span>
 </span>

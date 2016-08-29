@@ -4,11 +4,11 @@
 <span id="span_star">
 	您的評分
 	<c:choose>
-		<c:when test="${not empty RESPONSE_MAP.star}">
-			<c:forEach begin="1" end="${RESPONSE_MAP.star.starNum}" step="1">
+		<c:when test="${not empty QUEUE_DETAIL.star}">
+			<c:forEach begin="1" end="${QUEUE_DETAIL.star.starNum}" step="1">
 				<i style="cursor: pointer;" class="star-color fa fa-star"></i>
 			</c:forEach>
-			<c:forEach begin="1" end="${5 - RESPONSE_MAP.star.starNum}" step="1">
+			<c:forEach begin="1" end="${5 - QUEUE_DETAIL.star.starNum}" step="1">
 				<i style="cursor: pointer;" class="star-color fa fa-star-o"></i>
 			</c:forEach>
 		</c:when>
