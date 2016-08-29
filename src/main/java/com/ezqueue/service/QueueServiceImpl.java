@@ -276,6 +276,7 @@ public class QueueServiceImpl implements QueueService {
 		int queuingCount = queuingService.getQueuingCount(queue, queuingStatuss);
 		
 		queueMap.put("queue", queue);
+		queueMap.put("user", queue.getUser());
 		
 		queueMap.put("waitingCount", StringUtil.formatNumber(waitingCount));
 		queueMap.put("passCount", StringUtil.formatNumber(passCount));

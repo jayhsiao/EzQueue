@@ -15,11 +15,7 @@
 					</p>
 				</td>
 				<td width="90%" style="padding-left: 15px; vertical-align: top;">
-					<p><%@include file="/jsp/facebook_user.jsp" %>
-						<c:if test="${QUEUE_DETAIL.user.isVerified}">
-							<img width="16px" height="16px" src="<c:url value="/img/facebook-verified.png"/>">
-						</c:if>
-					</p>
+					<p><%@include file="/jsp/facebook_user.jsp" %></p>
 					<p style="font-size: x-large;"><c:out value="${QUEUE_DETAIL.queue.title}"/></p>
 					<p><%@include file="/jsp/queue_count.jsp" %></p>
 				</td>
