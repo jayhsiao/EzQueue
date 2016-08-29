@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ezqueue.exception.EzQueueException;
 import com.ezqueue.model.User;
 import com.ezqueue.model.UserAccountMap;
 import com.ezqueue.repository.UserRepository;
@@ -48,6 +49,7 @@ public class UserServiceImpl implements UserService {
 			for(Map<String, String> data: datas){
 				String accountfacebookId = (String) data.get("id");
 				String accountfacebookName = (String) data.get("name");
+				String isVerified = String.valueOf(data.get("is_verified"));
 				
 				User userAccount = userRepository.findByFacebookId(accountfacebookId);
 				if(userAccount == null){
@@ -55,9 +57,11 @@ public class UserServiceImpl implements UserService {
 					userAccount.setUserId(StringUtil.getUUID());
 					userAccount.setFacebookId(accountfacebookId);
 					userAccount.setName(accountfacebookName);
+					userAccount.setIsVerified(isVerified);
 				}
 				else{
 					userAccount.setName(accountfacebookName);
+					userAccount.setIsVerified(isVerified);
 				}
 				userRepository.save(userAccount);
 				
@@ -90,12 +94,20 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public User getUserByFacebookId(String userId) {
-		return userRepository.findByFacebookId(userId);
+	public User getUserByFacebookId(String facebookId) {
+		User user = userRepository.findByFacebookId(facebookId);
+		if(user == null){
+			throw new EzQueueException(String.format("User %s does not exist!", facebookId));
+		}
+		return user;
 	}
 	
 	@Override
 	public User getUserByEmail(String email) {
-		return userRepository.findByEmail(email);
+		User user = userRepository.findByEmail(email);
+		if(user == null){
+			throw new EzQueueException(String.format("User %s does not exist!", email));
+		}
+		return user;
 	}
 }

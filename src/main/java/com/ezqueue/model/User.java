@@ -28,6 +28,8 @@ public class User extends ModelBase implements Serializable{
 	private String email;
 	@Column(name = "name")
 	private String name;
+	@Column(name = "is_verified")
+	private String isVerified;
 	
 	@OneToMany
 	@JoinColumn(name = "user_id")
@@ -70,6 +72,14 @@ public class User extends ModelBase implements Serializable{
 		this.name = name;
 	}
 
+	public boolean getIsVerified() {
+		return Boolean.valueOf(isVerified);
+	}
+
+	public void setIsVerified(String isVerified) {
+		this.isVerified = isVerified;
+	}
+
 	public List<UserAccountMap> getUserAccountMaps() {
 		return userAccountMaps;
 	}
@@ -77,5 +87,5 @@ public class User extends ModelBase implements Serializable{
 	public void setUserAccountMaps(List<UserAccountMap> userAccountMaps) {
 		this.userAccountMaps = userAccountMaps;
 	}
-
+	
 }

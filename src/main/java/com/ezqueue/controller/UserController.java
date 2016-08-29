@@ -21,7 +21,7 @@ public class UserController extends BaseController {
 	private UserService userService;
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/add", method = RequestMethod.POST)
+	@RequestMapping(value = "/check", method = RequestMethod.POST)
 	public ResponseEntity<Object> check(@RequestBody Map<String, Object> map) throws Exception{
 		String id = (String) map.get("id");
 		String name = (String) map.get("name");

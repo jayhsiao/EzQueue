@@ -1,3 +1,10 @@
 .star-color{
 	color: #777777;
 }
+
+.queue-top-buffer { margin-top: 10px; }
+
+.mouse-hover { background-color: #F0F0F0; }
+.choose-queue { background-color: #e0e0e0; }
+
+.margin_top_20 { margin-top: 20px; }

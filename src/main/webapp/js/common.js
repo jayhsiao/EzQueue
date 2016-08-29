@@ -4,21 +4,24 @@ var commonObj = {
 		
 		$(document).on("click", "#span_facebook_user", function(event){
 			$("#navbar li").removeClass("active");
-			commonObj.getQueueList("/ezqueue/me/"+$(this).find("#input_userAccountId").val()+"?limit=12&offset=0");
+			commonObj.getInitQueueList("/ezqueue/user/"+$(this).find("#input_userAccountId").val()+"?limit="+$("#input_init_limit").val()+"&offset="+$("#input_init_offset").val());
 		});
 		
 	}, 
 	
 	blockUI: function(){
-		$.blockUI({ css: { 
-            border: 'none', 
-            padding: '15px', 
-            backgroundColor: '#000', 
-            '-webkit-border-radius': '10px', 
-            '-moz-border-radius': '10px', 
-            opacity: .5, 
-            color: '#fff' 
-        } });
+		$.blockUI.defaults.css = {}
+		$.blockUI({ 
+			css: { 
+				padding:	0,
+				margin:		0,
+				width:		'30%',
+				top:		'40%',
+				left:		'35%',
+				textAlign:	'center',
+				cursor:		'wait'
+	        },
+	        message: '<h1><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></h1>' });
 	},
 	
 	unblockUI: function(){
@@ -32,14 +35,14 @@ var commonObj = {
 			email: email,
 			accounts: accounts
 		};
-		return ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/users/add", JSON.stringify(body), null);
+		return ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/users/check", JSON.stringify(body), null);
 	},
 	
 	getInitQueueList: function(url){
 		ajaxUtilObj.callHtmlAJAX(url)
 		.done(function(page){
 			$("#div_detail").empty();
-			$("#div_list").empty();
+			$("#div_list_queue").empty();
 			$("#div_list").show();
 			commonObj.initPage(page);
 		});
@@ -56,9 +59,9 @@ var commonObj = {
 		ajaxUtilObj.callHtmlAJAX(url)
 		.done(function(page){
 			$("#div_detail").empty();
-			$("#div_list").empty();
-			$("#div_list").append(page);
+			$("#div_list_queue").empty();
 			$("btn_more").hide();
+			$("#div_list_queue").append(page);
 			$("#div_list").show();
 		});
 	}, 
@@ -67,35 +70,31 @@ var commonObj = {
 		ajaxUtilObj.callHtmlAJAX(url)
 		.done(function(page){
 			$("#div_list").hide();
-			$("#btn_more").hide();
-			
 			$("#div_detail").empty();
-			$("#div_detail").append(page);
-			FB.XFBML.parse();
 			
-			queueDetailObj.init();
+			$("#div_detail").html(page).promise()
+			.done(function(){
+				commonObj.unblockUI();
+				
+				FB.XFBML.parse();
+				queueDetailObj.init();
+			});
 		});
 	}, 
 	
 	initPage: function(page){
-		if($.trim(page).length == 0){
-			$("#btn_more").hide();
-		}
-		else{
-			var length = 0;
-			$(page + " .queue").each(function(){
-				var textLength = $.trim($(this).text()).length;
-				if(textLength > 0) length++;
-			});
-			if(length < $("#input_init_limit").val()) {
-				$("#btn_more").hide();
+		$("#div_list_queue").append(page).promise()
+		.done(function(){
+			commonObj.unblockUI();
+			
+			if($("#input_list_size").val() == $("#input_init_limit").val()){
+				$("#btn_more").show();
+				$("#input_list_size").remove();
 			}
 			else{
-				$("#btn_more").show();
+				$("#btn_more").hide();
 			}
-			
-			$("#div_list").append(page);
-		}
+	    });
 	}
 	
 }

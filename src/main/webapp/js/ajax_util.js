@@ -13,11 +13,9 @@ var ajaxUtilObj = {
 			data: body,
 			contentType: "application/json",
 			async : true,
-			beforeSend: function(){
-				commonObj.blockUI();
-			},
-			complete: function(){
-				commonObj.unblockUI();
+			beforeSend: function(xhr){
+				var basic = btoa(facebookObj.id + ":" + facebookObj.password);
+				xhr.setRequestHeader("Authorization", "Basic " + basic);
 			}
 		});
 	}, 
@@ -31,9 +29,6 @@ var ajaxUtilObj = {
 			async : true,
 			beforeSend: function(){
 				commonObj.blockUI();
-			},
-			complete: function(){
-				commonObj.unblockUI();
 			}
 		});
 	}

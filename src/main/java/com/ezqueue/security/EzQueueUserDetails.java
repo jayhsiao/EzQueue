@@ -3,17 +3,21 @@ package com.ezqueue.security;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.social.security.SocialUserDetails;
+import org.springframework.stereotype.Service;
 
 import com.ezqueue.model.User;
-import com.google.common.collect.ImmutableList;
 
-public class EzQueueUserDetails implements UserDetails {
+@Service
+public class EzQueueUserDetails implements SocialUserDetails {
 	
-	private static final long serialVersionUID = -4968222183342448287L;
+	private static final long serialVersionUID = 4468977728695649270L;
 	
 	private User user;
+	
+	public EzQueueUserDetails() {
+		
+	}
 	
 	public EzQueueUserDetails(User user) {
 		this.user = user;
@@ -21,21 +25,17 @@ public class EzQueueUserDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return ImmutableList.of(new SimpleGrantedAuthority("user"));
+		return null;
 	}
-	
-	public String getUserId() {
-		return this.user.getUserId();
+
+	@Override
+	public String getPassword() {
+		return null;
 	}
 
 	@Override
 	public String getUsername() {
-		return this.user.getEmail();
-	}
-	
-	@Override
-	public String getPassword() {
-		return null;
+		return this.user.getName();
 	}
 
 	@Override
@@ -58,4 +58,10 @@ public class EzQueueUserDetails implements UserDetails {
 		return true;
 	}
 
+	@Override
+	public String getUserId() {
+		return this.user.getFacebookId();
+	}
+
+	
 }

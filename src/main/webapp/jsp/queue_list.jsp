@@ -1,42 +1,34 @@
 <%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<c:forEach items="${RESPONSE_LIST}" var="RESPONSE_MAP">
-<div class="queue col-sm-6 col-md-3">
-	<div class="thumbnail">
-		<div>
-			<table style="width: 100%;">
-				<tr>
-					<td align="left" width="80%">
-						<p><%@include file="/jsp/facebook_user.jsp" %></p>
-					</td>
-					<td align="right"width="20%">
-						<p>
-							<c:if test="${not empty RESPONSE_MAP.promotion}">
-								<span class="label label-danger">Hot</span>
-							</c:if>
-						</p>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<img id="img_photo" style="cursor: pointer;" src="http://graph.facebook.com/<c:out value="${RESPONSE_MAP.queue.user.facebookId}"/>/picture?width=245&height=245">
-		<div class="caption">
-			<table style="width: 100%;">
-				<tr>
-					<td align="left" width="60%">
-						<p><%@include file="/jsp/queue_star.jsp" %></p>
-					</td>
-					<td align="right" width="40%">
-						<p><i class="fa <c:out value="${RESPONSE_MAP.queue.queueType.iconClass}"/>"></i></p>
-					</td>
-				</tr>
-			</table>
-			<h3 style="height: 50px;"><c:out value="${RESPONSE_MAP.queue.title}"/></h3>
-			<p><%@include file="/jsp/queue_count.jsp" %></p>
-		</div>
-		
-		<input type="hidden" id="input_list_queueId" value="<c:out value="${RESPONSE_MAP.queue.queueId}"/>">
+<c:forEach items="${QUEUES}" var="QUEUE_DETAIL" varStatus="status">
+<c:if test="${(status.index+1) % 3 == 1}">
+	<div class="row">
+</c:if>
+	<div id="div_<c:out value="${QUEUE.queue.queueId}"/>" class="queue margin_top_20 col-xs-12 col-sm-4 col-md-4">
+		<table style="width: 100%;" class="queue-top-buffer">
+			<tr>
+				<td width="10%" valign="top">
+					<p>
+						<img id="img_photo" style="cursor: pointer;" src="http://graph.facebook.com/<c:out value='${QUEUE_DETAIL.user.facebookId }'/>/picture?width=80&height=80">
+						<input type="hidden" id="input_list_queueId" value="<c:out value="${QUEUE_DETAIL.queue.queueId}"/>">
+					</p>
+				</td>
+				<td width="90%" style="padding-left: 15px; vertical-align: top;">
+					<p><%@include file="/jsp/facebook_user.jsp" %>
+						<c:if test="${QUEUE_DETAIL.user.isVerified}">
+							<img width="16px" height="16px" src="<c:url value="/img/facebook-verified.png"/>">
+						</c:if>
+					</p>
+					<p style="font-size: x-large;"><c:out value="${QUEUE_DETAIL.queue.title}"/></p>
+					<p><%@include file="/jsp/queue_count.jsp" %></p>
+				</td>
+			</tr>
+		</table>
 	</div>
-</div>
+<c:if test="${(status.index+1) % 3 == 0}">
+	</div>
+</c:if>
 </c:forEach>
+
+<input type="hidden" id="input_list_size" value="<c:out value="${QUEUES_SIZE}"/>">

@@ -3,7 +3,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
 <div class="row">
-	<div class="col-md-6">
+	<div class="col-md-6 col-md-offset-3">
 		<div class='panel panel-default'>
 			<div class='panel-heading'>
 				<div class='panel-title'>
@@ -67,7 +67,7 @@
 				
 				<div class="form-group">
 					<div class="col-md-12">
-						<input type="text" class="form-control" id="input_title" maxlength="10" placeholder="名稱">
+						<input type="text" class="form-control" id="input_title" maxlength="16" placeholder="名稱">
 					</div>
 				</div>
 				

@@ -50,7 +50,7 @@
 						<i class="fa fa-list"></i>&nbsp;分類&nbsp;<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu" id="ul_all">
-						<c:forEach items="${RESPONSE_MAP.queueTypes}" var="queueType">
+						<c:forEach items="${RESPONSE.queueTypes}" var="queueType">
 							<li>
 								<a id="<c:out value="${queueType.queueTypeId }"/>">
 									<i class="fa <c:out value="${queueType.iconClass }"/>"></i>&nbsp;<c:out value="${queueType.dscr }"/>
@@ -83,10 +83,11 @@
 						<fb:login-button scope="public_profile,email,manage_pages" onlogin="checkLoginState();"></fb:login-button>
 					</a>
 				</li>
-				<li id="li_facebook_user" style="display: none;" class="dropdown">
+				<li id="li_facebook_user" class="dropdown">
 					<a class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">
+					<i id="i_facebook" class="fa fa-spinner fa-spin"></i>
 						<img id="img_header_facebook_user" class="img-circle">
 						<span id="span_header_facebook_user_name"></span>
 					</a>
@@ -131,9 +132,11 @@
 </nav>
 
 <div class="container">
-	<div id="div_list" class="row"></div>
-	<div align="center">
-		<button id="btn_more" type="button" class="btn btn-default" style="width: 30%; display: none;">更多</button>
+	<div id="div_list">
+		<div id="div_list_queue"></div>
+		<div align="center" class="margin_top_20">
+			<button id="btn_more" type="button" class="btn btn-default" style="width: 40%; display: none;">更多</button>
+		</div>
 	</div>
 	<div id="div_detail"></div>
 </div>
@@ -142,10 +145,10 @@
 
 <input type="hidden" id="input_userId"              value="">
 <input type="hidden" id="input_queueDetailId"       value="<c:out value="${QUEUE_DETAIL_ID }"/>">
-<input type="hidden" id="input_init_limit"          value="<c:out value="${RESPONSE_MAP.limit }"/>">
-<input type="hidden" id="input_init_offset"         value="<c:out value="${RESPONSE_MAP.offset }"/>">
-<input type="hidden" id="input_init_queuing_limit"  value="<c:out value="${RESPONSE_MAP.queuingLimit }"/>">
-<input type="hidden" id="input_init_queuing_offset" value="<c:out value="${RESPONSE_MAP.queuingOffset }"/>">
+<input type="hidden" id="input_init_limit"          value="<c:out value="${RESPONSE.limit }"/>">
+<input type="hidden" id="input_init_offset"         value="<c:out value="${RESPONSE.offset }"/>">
+<input type="hidden" id="input_init_queuing_limit"  value="<c:out value="${RESPONSE.queuingLimit }"/>">
+<input type="hidden" id="input_init_queuing_offset" value="<c:out value="${RESPONSE.queuingOffset }"/>">
 <input type="hidden" id="input_offset"              value="">
 <input type="hidden" id="input_url"                 value="">
 </body>

@@ -26,6 +26,7 @@ import com.ezqueue.model.UserAccountMap;
 import com.ezqueue.repository.QueueRepository;
 import com.ezqueue.util.EzQueueConstants;
 import com.ezqueue.util.QueuingStatus;
+import com.ezqueue.util.StringUtil;
 
 @Service
 public class QueueServiceImpl implements QueueService {
@@ -221,7 +222,6 @@ public class QueueServiceImpl implements QueueService {
 		
 		Promotion promotion = promotionService.getPromotion(queueId);
 		
-		
 		List<QueuingStatus> queuingStatuss = new ArrayList<>();
 		queuingStatuss.add(QueuingStatus.WAITING);
 		queuingStatuss.add(QueuingStatus.PASS);
@@ -231,9 +231,9 @@ public class QueueServiceImpl implements QueueService {
 		queueMap.put("user", queue.getUser());
 		queueMap.put("promotion", promotion);
 		
-		queueMap.put("favoriteCount", favoriteService.getFavoriteCount(queue));
-		queueMap.put("queuingCount", queuingCount);
-		queueMap.put("starsCount", starsService.getStarsCount(queue));
+		queueMap.put("favoriteCount", StringUtil.formatNumber(favoriteService.getFavoriteCount(queue)));
+		queueMap.put("queuingCount", StringUtil.formatNumber(queuingCount));
+		queueMap.put("starsCount", StringUtil.formatNumber(starsService.getStarsCount(queue)));
 		
 		queueMap.put("totalStar", EzQueueConstants.TOTAL_STAR);
 		queueMap.put("avgStar", starsService.getAvgStar(queueId));
@@ -277,11 +277,11 @@ public class QueueServiceImpl implements QueueService {
 		
 		queueMap.put("queue", queue);
 		
-		queueMap.put("waitingCount", waitingCount);
-		queueMap.put("passCount", passCount);
-		queueMap.put("queuingCount", queuingCount);
-		queueMap.put("favoriteCount", favoriteService.getFavoriteCount(queue));
-		queueMap.put("starsCount", starsService.getStarsCount(queue));
+		queueMap.put("waitingCount", StringUtil.formatNumber(waitingCount));
+		queueMap.put("passCount", StringUtil.formatNumber(passCount));
+		queueMap.put("queuingCount", StringUtil.formatNumber(queuingCount));
+		queueMap.put("favoriteCount", StringUtil.formatNumber(favoriteService.getFavoriteCount(queue)));
+		queueMap.put("starsCount", StringUtil.formatNumber(starsService.getStarsCount(queue)));
 		
 		queueMap.put("totalStar", EzQueueConstants.TOTAL_STAR);
 		queueMap.put("avgStar", starsService.getAvgStar(queueId));

@@ -2,7 +2,15 @@ var queueObj = {
 	
 	registerEvent: function(){
 		
-		$(document).on("click", ".thumbnail #img_photo", function(event){
+		$(document).on("mouseover", ".queue", function(event){
+			$(this).addClass("mouse-hover");
+		});
+		
+		$(document).on("mouseout", ".queue", function(event){
+			$(this).removeClass("mouse-hover");
+		});
+		
+		$(document).on("click", ".queue #img_photo", function(event){
 			queueObj.getQueueDetail($(this));
 		});
 		
@@ -13,6 +21,9 @@ var queueObj = {
 	}, 
 	
 	getQueueDetail: function(imgObj){
+		$(".queue").removeClass("choose-queue");
+		$(imgObj).closest("div").addClass("choose-queue");
+		
 		var jsonObj = {
 			userId: $("#input_userId").val(),
 			queueId: $(imgObj).parent().find("#input_list_queueId").val()

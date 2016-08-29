@@ -56,6 +56,8 @@ var queueDetailObj = {
 			$("#btn_back").show();
 			$("#btn_favorite").show();
 			$("#btn_queuing").show();
+			
+			$("#btn_back").attr("href", "#div_"+$("#input_detail_queueId").val());
 		}
 	},
 	

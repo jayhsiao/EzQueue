@@ -5,16 +5,21 @@
 	<div class="col-md-8">
 		<div class="jumbotron">
 			<p><%@include file="/jsp/facebook_user.jsp" %></p>
-			<h1><c:out value="${RESPONSE_MAP.queue.title}"/></h1>
-			<p><%@include file="/jsp/queue_star.jsp" %></p>
+			<h1><c:out value="${QUEUE_DETAIL.queue.title}"/></h1>
+			<p><%@include file="/jsp/queue_star.jsp" %>&nbsp;<i class="fa <c:out value="${QUEUE_DETAIL.queue.queueType.iconClass}"/>"></i></p>
 			<p>
-				<span id="span_dscr"><c:out value="${RESPONSE_MAP.queue.dscr}" escapeXml="false"/></span>
-				<textarea id="textarea_dscr" class="form-control" style="display: none;" cols="10" rows="10" maxlength="500"><c:out value="${RESPONSE_MAP.queue.dscr}" escapeXml="false"/></textarea>
+				<span id="span_dscr"><c:out value="${QUEUE_DETAIL.queue.dscr}" escapeXml="false"/></span>
+				<textarea id="textarea_dscr" class="form-control" style="display: none;" cols="10" rows="10" maxlength="500"><c:out value="${QUEUE_DETAIL.queue.dscr}" escapeXml="false"/></textarea>
 			</p>
 			<p>
-				<span id="btn_back" class='btn btn-default' style="display: none;"><i class="fa fa-arrow-left"></i>&nbsp;回上頁</span>
+				<c:if test="${not empty QUEUE_DETAIL.promotion}">
+					<span class="label label-danger">Hot</span>
+				</c:if>
+			</p>
+			<p>
+				<a id="btn_back" class='btn btn-default' style="display: none;"><i class="fa fa-arrow-left"></i>&nbsp;回上頁</a>
 				<c:choose>
-					<c:when test="${RESPONSE_MAP.canEdit}">
+					<c:when test="${QUEUE_DETAIL.canEdit}">
 						<span id="btn_revert" class='btn btn-default' style="display: none;"><i class="fa fa-undo"></i>&nbsp;復原</span>
 						<span id="btn_save"   class='btn btn-default' style="display: none;"><i class="fa fa-floppy-o"></i>&nbsp;儲存</span>
 						<span id="btn_edit"   class='btn btn-default'><i class="fa fa-pencil"></i>&nbsp;修改</span>
@@ -23,7 +28,7 @@
 					<c:otherwise>
 						<span id="btn_favorite" class='btn btn-default' style="display: none;">
 							<c:choose>
-								<c:when test="${not empty RESPONSE_MAP.favorite}">
+								<c:when test="${not empty QUEUE_DETAIL.favorite}">
 									<i class="fa fa-heart"></i>&nbsp;<span id="span_favorite_dscr">不喜歡了</span>
 								</c:when>
 								<c:otherwise>
@@ -33,7 +38,7 @@
 						</span>
 						<span id="btn_queuing" class='btn btn-default' style="display: none;">
 							<c:choose>
-								<c:when test="${not empty RESPONSE_MAP.queuing}">
+								<c:when test="${not empty QUEUE_DETAIL.queuing}">
 									<i class="fa fa-user-times"></i>&nbsp;<span id="span_queuing_dscr">不想等了</span>
 								</c:when>
 								<c:otherwise>
@@ -49,58 +54,58 @@
 	
 	<div class="col-md-4">
 		<table style="width: 100%">
-			<c:if test="${not RESPONSE_MAP.canEdit}">
+			<c:if test="${not QUEUE_DETAIL.canEdit}">
 			<tr id="tr_user_star" style="display: none;">
 				<td width="15%" align="center"><h3><i class="fa fa-star"></i></h3></td>
 				<td width="85%"><h3><%@include file="/jsp/user_star.jsp" %></h3></td>
 			</tr>
 			<tr id="tr_queuing_num" style="display: none;">
 				<td align="center"><h3><i class="fa fa-list-ol"></i></h3></td>
-				<td><h3>排隊號碼&nbsp;&nbsp;<span id="span_queueNum" class="label label-default"><c:out value="${RESPONSE_MAP.queuing.queueNum}"/></span></h3></td>
+				<td><h3>排隊號碼&nbsp;&nbsp;<span id="span_queueNum" class="label label-default"><c:out value="${QUEUE_DETAIL.queuing.queueNum}"/></span></h3></td>
 			</tr>
 			</c:if>
 			<tr>
 				<td align="center"><h3><i class="fa fa-heart"></i></h3></td>
-				<td><h3>最愛人數&nbsp;&nbsp;<c:out value="${RESPONSE_MAP.favoriteCount}"/></h3></td>
+				<td><h3>最愛人數&nbsp;&nbsp;<c:out value="${QUEUE_DETAIL.favoriteCount}"/></h3></td>
 			</tr>
 			<tr>
 				<td align="center"><h3><i class="fa fa-users"></i></h3></td>
-				<td><h3>排隊人數&nbsp;&nbsp;<span id="span_queuing_count"><c:out value="${RESPONSE_MAP.queuingCount}"/></span></h3></td>
+				<td><h3>排隊人數&nbsp;&nbsp;<span id="span_queuing_count"><c:out value="${QUEUE_DETAIL.queuingCount}"/></span></h3></td>
 			</tr>
 			<tr>
 				<td align="center"><h3><i class="fa fa-clock-o"></i></h3></td>
-				<td><h3>平均等待&nbsp;&nbsp;<c:out value="${RESPONSE_MAP.avgWaittingTime}"/></h3></td>
+				<td><h3>平均等待&nbsp;&nbsp;<c:out value="${QUEUE_DETAIL.avgWaittingTime}"/></h3></td>
 			</tr>
 			<tr>
 				<td align="center"><h3><i class="fa fa-phone"></i></h3></td>
 				<td>
-					<h3><span id="span_phone"><c:out value="${RESPONSE_MAP.queue.phone}"/></span></h3>
-					<input type="text" id="input_phone" class="form-control" style="display: none;" maxlength="20" value="<c:out value="${RESPONSE_MAP.queue.phone}"/>">
+					<h3><span id="span_phone"><c:out value="${QUEUE_DETAIL.queue.phone}"/></span></h3>
+					<input type="text" id="input_phone" class="form-control" style="display: none;" maxlength="20" value="<c:out value="${QUEUE_DETAIL.queue.phone}"/>">
 				</td>
 			</tr>
 			<tr>
 				<td align="center"><h3><i class="fa fa-map-marker"></i></h3></td>
 				<td>
-					<h3><span id="span_address"><c:out value="${RESPONSE_MAP.queue.address}"/></span></h3>
-					<input type="text" id="input_address" class="form-control" style="display: none;" maxlength="100" value="<c:out value="${RESPONSE_MAP.queue.address}"/>">
+					<h3><span id="span_address"><c:out value="${QUEUE_DETAIL.queue.address}"/></span></h3>
+					<input type="text" id="input_address" class="form-control" style="display: none;" maxlength="100" value="<c:out value="${QUEUE_DETAIL.queue.address}"/>">
 				</td>
 			</tr>
 			<tr>
 				<td align="center" colspan="2" height="200">
-					<iframe id="iframe_map" width="90%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=<c:out value="${RESPONSE_MAP.queue.address}"/>&z=16&output=embed&t="></iframe>
+					<iframe id="iframe_map" width="90%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=<c:out value="${QUEUE_DETAIL.queue.address}"/>&z=16&output=embed&t="></iframe>
 				</td>
 			</tr>
 		</table>
 	</div>
 	
-	<c:if test="${RESPONSE_MAP.canEdit}">
+	<c:if test="${QUEUE_DETAIL.canEdit}">
 		<div class="col-md-6">
-			<h3>朕在排隊&nbsp;<span id="span_waiting_count"><c:out value="${RESPONSE_MAP.waitingCount}"/></span></h3>
+			<h3>朕在排隊&nbsp;<span id="span_waiting_count"><c:out value="${QUEUE_DETAIL.waitingCount}"/></span></h3>
 			<div class="table">
 				<table id="table_WAITING" class="table table-hover">
 					<c:choose>
-						<c:when test="${not empty RESPONSE_MAP.queuings_WAITING}">
-							<c:forEach items="${RESPONSE_MAP.queuings_WAITING}" var="queuing">
+						<c:when test="${not empty QUEUE_DETAIL.queuings_WAITING}">
+							<c:forEach items="${QUEUE_DETAIL.queuings_WAITING}" var="queuing">
 								<tr>
 									<td align="center" width="20%"><h1><span class="label label-default"><c:out value="${queuing.queueNum}"/></span></h1></td>
 									<td align="center" width="40%" style="word-break : break-all;">
@@ -126,12 +131,12 @@
 			</div>
 		</div>
 		<div class="col-md-6">
-			<h3>過客&nbsp;<span id="span_pass_count"><c:out value="${RESPONSE_MAP.passCount}"/></span></h3>
+			<h3>過客&nbsp;<span id="span_pass_count"><c:out value="${QUEUE_DETAIL.passCount}"/></span></h3>
 			<div class="table">
 				<table id="table_PASS" class="table table-hover">
 					<c:choose>
-						<c:when test="${not empty RESPONSE_MAP.queuings_PASS}">
-							<c:forEach items="${RESPONSE_MAP.queuings_PASS}" var="queuing">
+						<c:when test="${not empty QUEUE_DETAIL.queuings_PASS}">
+							<c:forEach items="${QUEUE_DETAIL.queuings_PASS}" var="queuing">
 								<tr>
 									<td align="center" width="20%"><h1><span class="label label-default"><c:out value="${queuing.queueNum}"/></span></h1></td>
 									<td align="center" width="40%" style="word-break : break-all;">
@@ -158,14 +163,18 @@
 	</c:if>
 	
 	<hr>
-	<div class="fb-comments" data-width="100%" data-href="http://local.ezqueue.com:8080/ezqueue/home/<c:out value="${RESPONSE_MAP.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
+	<!-- 
+	<div class="fb-comments" data-width="100%" data-href="http://local.ezqueue.com:8080/ezqueue/home/<c:out value="${QUEUE_DETAIL.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
+	<div class="fb-comments" data-width="100%" data-href="http://ezqueue-dev.ap-northeast-1.elasticbeanstalk.com/ezqueue/home/<c:out value="${QUEUE_DETAIL.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
+	 -->
+	<div class="fb-comments" data-width="100%" data-href="http://local.ezqueue.com:8080/ezqueue/home/<c:out value="${QUEUE_DETAIL.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
 	
-	<input type="hidden" id="input_detail_userAccountId" value="<c:out value="${RESPONSE_MAP.queue.user.userId}"/>">
-	<input type="hidden" id="input_detail_queueId"       value="<c:out value="${RESPONSE_MAP.queue.queueId}"/>">
-	<input type="hidden" id="input_detail_starId"        value="<c:if test="${not empty RESPONSE_MAP.star}"><c:out value="${RESPONSE_MAP.star.starId}"/></c:if>">
-	<input type="hidden" id="input_detail_promotionId"   value="<c:if test="${not empty RESPONSE_MAP.promotion}"><c:out value="${RESPONSE_MAP.promotion.promotionId}"/></c:if>">
-	<input type="hidden" id="input_detail_favoriteId"    value="<c:if test="${not empty RESPONSE_MAP.favorite}"><c:out value="${RESPONSE_MAP.favorite.favoriteId}"/></c:if>">
-	<input type="hidden" id="input_detail_queuingId"     value="<c:if test="${not empty RESPONSE_MAP.queuing}"><c:out value="${RESPONSE_MAP.queuing.queuingId}"/></c:if>">
+	<input type="hidden" id="input_detail_userAccountId" value="<c:out value="${QUEUE_DETAIL.queue.user.userId}"/>">
+	<input type="hidden" id="input_detail_queueId"       value="<c:out value="${QUEUE_DETAIL.queue.queueId}"/>">
+	<input type="hidden" id="input_detail_starId"        value="<c:if test="${not empty QUEUE_DETAIL.star}"><c:out value="${QUEUE_DETAIL.star.starId}"/></c:if>">
+	<input type="hidden" id="input_detail_promotionId"   value="<c:if test="${not empty QUEUE_DETAIL.promotion}"><c:out value="${QUEUE_DETAIL.promotion.promotionId}"/></c:if>">
+	<input type="hidden" id="input_detail_favoriteId"    value="<c:if test="${not empty QUEUE_DETAIL.favorite}"><c:out value="${QUEUE_DETAIL.favorite.favoriteId}"/></c:if>">
+	<input type="hidden" id="input_detail_queuingId"     value="<c:if test="${not empty QUEUE_DETAIL.queuing}"><c:out value="${QUEUE_DETAIL.queuing.queuingId}"/></c:if>">
 </div>
 
 <div id="fb-root"></div>

@@ -78,9 +78,7 @@ var mainObj = {
 		});
 		
 		$(document).on("click", "#a_logout", function(event){
-			FB.logout(function(response) {
-				mainObj.doNoLogin();
-			});
+			facebookObj.doLogout();
 		});
 		
 		$(document).on("click", "#btn_more", function(event){
@@ -116,38 +114,19 @@ var mainObj = {
 	}, 
 	
 	doLogin: function(){
-		FB.api(
-			"/me?fields=id,name,email,accounts",
-		    function (response) {
-		    	if (response && !response.error) {
-		    		/* handle the result */
-		    		var id = response.id;
-		    		var name = response.name;
-		    		var email = response.email;
-		    		var accounts = response.accounts;
-		    		
-		    		commonObj.checkUser(id, name, email, accounts)
-		    		.done(function(user){
-		    			
-		    			$("#img_header_facebook_user").attr("src", "http://graph.facebook.com/"+user.facebookId+"/picture?width=12&height=12");
-		    			$("#span_header_facebook_user_name").text(user.name);
-		    			
-		    			mainObj.showLogin(user);
-		    			mainObj.init();
-		    		});
-		    	}
-		    }
-	    );
+		mainObj.init();
+		facebookObj.getProfile();
 	}, 
 	
 	doNoLogin: function(){
-		mainObj.showNologin();
 		mainObj.init();
+		mainObj.showNologin();
 	}, 
 	
 	showLogin: function(user){
 		$("#input_userId").val(user.userId);
 		
+		$("#i_facebook").removeClass();
 		$("#li_facebook_login").hide();
 		$("#li_facebook_user").show();
 		
@@ -157,6 +136,7 @@ var mainObj = {
 	showNologin: function(){
 		$("#input_userId").val("");
 		
+		$("#i_facebook").removeClass();
 		$("#li_facebook_login").show();
 		$("#li_facebook_user").hide();
 		
