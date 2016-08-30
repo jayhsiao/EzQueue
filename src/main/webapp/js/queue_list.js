@@ -3,14 +3,14 @@ var queueObj = {
 	registerEvent: function(){
 		
 		$(document).on("mouseover", ".queue", function(event){
-			$(this).addClass("mouse-hover");
+			$(this).addClass("queue-mouse-hover");
 		});
 		
 		$(document).on("mouseout", ".queue", function(event){
-			$(this).removeClass("mouse-hover");
+			$(this).removeClass("queue-mouse-hover");
 		});
 		
-		$(document).on("click", ".queue #img_photo", function(event){
+		$(document).on("click", ".queue", function(event){
 			queueObj.getQueueDetail($(this));
 		});
 		
