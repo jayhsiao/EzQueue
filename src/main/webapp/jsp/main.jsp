@@ -9,9 +9,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="shortcut icon" href="<c:url value="/img/favicon.ico"/>"/>
 <link rel="bookmark"      href="<c:url value="/img/favicon.ico"/>"/>
-<link rel="apple-touch-icon" href="<c:url value="/img/ezqueue.png"/>"> <!-- 57×57px -->
-<link rel="apple-touch-icon" sizes="72×72" href="<c:url value="/img/ezqueue.png"/>"> <!-- 72×72px ipad-->
-<link rel="apple-touch-icon" sizes="114×114" href="<c:url value="/img/ezqueue.png"/>"> <!-- 114×114px iphone4-->
+<link rel="apple-touch-icon" href="<c:url value="/img/ezqueue_60x60.png"/>">
 <link rel="stylesheet" href="<c:url value="/css/ezqueue.css"/>">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
