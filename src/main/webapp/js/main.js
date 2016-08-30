@@ -32,7 +32,7 @@ var mainObj = {
 		});
 		
 		$(document).on("click", "#a_promotion", function(event){
-			var url = "/ezqueue/promotion?";
+			var url = "/ezqueue/promotion/"+$(this).attr("id")+"?";
 			commonObj.getInitQueueList(url + mainObj.initParam($("#input_init_limit").val(), $("#input_init_offset").val()));
 			
 			$("#input_url").val(url);
