@@ -25,8 +25,10 @@ import com.ezqueue.model.User;
 import com.ezqueue.model.UserAccountMap;
 import com.ezqueue.repository.QueueRepository;
 import com.ezqueue.util.EzQueueConstants;
+import com.ezqueue.util.QueueTypeStatus;
 import com.ezqueue.util.QueuingStatus;
 import com.ezqueue.util.StringUtil;
+import com.google.common.collect.Lists;
 
 @Service
 public class QueueServiceImpl implements QueueService {
@@ -63,7 +65,13 @@ public class QueueServiceImpl implements QueueService {
 		queueType.setQueueTypeId(queueTypeId);
 		
 		PageRequest pageRequest = new PageRequest(offset, limit, Direction.DESC, "createDate");
-		List<Queue> queues = queueRepository.findByQueueType(queueType, pageRequest);
+		List<Queue> queues = null;
+		if(queueTypeId.equals(QueueTypeStatus.ALL.name())){
+			queues = Lists.newArrayList(queueRepository.findAll(pageRequest));
+		}
+		else{
+			queues = queueRepository.findByQueueType(queueType, pageRequest);
+		}
 		
 		for(Queue queue: queues){
 			list.add(this.getQueueMap(queue));

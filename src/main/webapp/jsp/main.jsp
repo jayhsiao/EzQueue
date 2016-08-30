@@ -7,11 +7,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta property="og:title" content="排排"/> 
-<meta property="og:image" content="<c:url value="/img/ezqueue.png"/>"/>
-<meta property="og:description" content="抽號碼牌排隊囉">
 <link rel="shortcut icon" href="<c:url value="/img/favicon.ico"/>"/>
 <link rel="bookmark"      href="<c:url value="/img/favicon.ico"/>"/>
+<link rel="apple-touch-icon" href="<c:url value="/img/ezqueue.png"/>"> <!-- 57×57px -->
+<link rel="apple-touch-icon" sizes="72×72" href="<c:url value="/img/ezqueue.png"/>"> <!-- 72×72px ipad-->
+<link rel="apple-touch-icon" sizes="114×114" href="<c:url value="/img/ezqueue.png"/>"> <!-- 114×114px iphone4-->
 <link rel="stylesheet" href="<c:url value="/css/ezqueue.css"/>">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -29,7 +29,7 @@
 </head>
 <body style="font-family: 微軟正黑體;">
 <form id="submitForm" class="form-horizontal">
-<nav class="navbar navbar-default navbar-static-top">
+<nav class="navbar navbar-default navbar-fixed-top">
 	<div class="container">
 		<div class="navbar-header">
 			<button id="btn_navbar" type="button" class="navbar-toggle collapsed"
@@ -48,13 +48,14 @@
 					<a class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">
-						<i class="fa fa-list"></i>&nbsp;分類&nbsp;<span class="caret"></span>
+						<i id="i_type" class="fa fa-list"></i>&nbsp;<span id="span_type">分類</span>&nbsp;
+						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu" id="ul_all">
 						<c:forEach items="${RESPONSE.queueTypes}" var="queueType">
 							<li>
 								<a id="<c:out value="${queueType.queueTypeId }"/>">
-									<i class="fa <c:out value="${queueType.iconClass }"/>"></i>&nbsp;<c:out value="${queueType.dscr }"/>
+									<i class="fa <c:out value="${queueType.iconClass }"/>"></i>&nbsp;<span><c:out value="${queueType.dscr }"/></span>
 								</a>
 							</li>
 						</c:forEach>

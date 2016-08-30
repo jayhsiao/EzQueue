@@ -7,17 +7,24 @@ var commonObj = {
 			commonObj.getInitQueueList("/ezqueue/user/"+$(this).find("#input_userAccountId").val()+"?limit="+$("#input_init_limit").val()+"&offset="+$("#input_init_offset").val());
 		});
 		
+		$(document).on("mouseover", "#span_facebook_user", function(event){
+			$(this).addClass("user-mouse-hover");
+		});
+		
+		$(document).on("mouseout", "#span_facebook_user", function(event){
+			$(this).removeClass("user-mouse-hover");
+		});
 	}, 
 	
 	blockUI: function(){
 		$.blockUI.defaults.css = {}
 		$.blockUI({ 
+			baseZ: 9999,
 			css: { 
 				padding:	0,
 				margin:		0,
-				width:		'30%',
-				top:		'40%',
-				left:		'35%',
+				width:		'100%',
+				top:		'33%',
 				textAlign:	'center',
 				cursor:		'wait'
 	        },

@@ -43,7 +43,7 @@ public class EzQueueController extends BaseController {
         return EzQueueConstants.PAGE_QUEUE_LIST;
 	}
 	
-	@RequestMapping(value = "/promotion", method = RequestMethod.GET)
+	@RequestMapping(value = "/promotion/{queueTypeId}", method = RequestMethod.GET)
 	public String getPromotionsQueues(Model model, 
 			@RequestParam(value = "limit", required = false, defaultValue = "limit") int limit,
 			@RequestParam(value = "offset", required = false, defaultValue = "offset") int offset) {

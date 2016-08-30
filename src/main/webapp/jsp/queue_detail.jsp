@@ -2,7 +2,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <div class="row">
-	<div class="col-md-8">
+	<div class="margin-top-20 col-md-8">
 		<div class="jumbotron">
 			<p><%@include file="/jsp/facebook_user.jsp" %></p>
 			<h1><c:out value="${QUEUE_DETAIL.queue.title}"/></h1>
@@ -17,7 +17,6 @@
 				</c:if>
 			</p>
 			<p>
-				<a id="btn_back" class='btn btn-default' style="display: none;"><i class="fa fa-arrow-left"></i>&nbsp;回上頁</a>
 				<c:choose>
 					<c:when test="${QUEUE_DETAIL.canEdit}">
 						<span id="btn_revert" class='btn btn-default' style="display: none;"><i class="fa fa-undo"></i>&nbsp;復原</span>
@@ -48,6 +47,9 @@
 						</span>
 					</c:otherwise>
 				</c:choose>
+			</p>
+			<p>
+				<a id="btn_back" class='btn btn-default'><i class="fa fa-arrow-left"></i>&nbsp;回上頁</a>
 			</p>
 		</div>
 	</div>

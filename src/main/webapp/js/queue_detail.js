@@ -53,7 +53,6 @@ var queueDetailObj = {
 			$("#tr_user_star").show();
 			$("#tr_queuing_num").show();
 			
-			$("#btn_back").show();
 			$("#btn_favorite").show();
 			$("#btn_queuing").show();
 			
