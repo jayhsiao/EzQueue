@@ -20,13 +20,13 @@ var queueObj = {
 		
 	}, 
 	
-	getQueueDetail: function(imgObj){
+	getQueueDetail: function(queue){
 		$(".queue").removeClass("choose-queue");
-		$(imgObj).closest("div").addClass("choose-queue");
+		$(queue).closest("div").addClass("choose-queue");
 		
 		var jsonObj = {
 			userId: $("#input_userId").val(),
-			queueId: $(imgObj).parent().find("#input_list_queueId").val()
+			queueId: $(queue).find("#input_list_queueId").val()
 		};
 		var url = "/ezqueue/queue/detail?"+$.param(jsonObj);
 		commonObj.getQueueDetail(url);

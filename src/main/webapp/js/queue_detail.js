@@ -23,7 +23,11 @@ var queueDetailObj = {
 		});
 		
 		$(document).on("click", "#btn_delete", function(event){
-			queueDetailObj.delete();
+			queueDetailObj.deleteQueue();
+		});
+		
+		$(document).on("click", "#btn_open, #btn_close", function(event){
+			queueDetailObj.updateStatus();
 		});
 		
 		$(document).on("click", "#btn_save", function(event){
@@ -56,7 +60,11 @@ var queueDetailObj = {
 			$("#btn_favorite").show();
 			$("#btn_queuing").show();
 			
-			$("#btn_back").attr("href", "#div_"+$("#input_detail_queueId").val());
+			if($("#input_detail_queueStatus").val() == "CLOSE"){
+				$("#btn_favorite").attr("disabled", "disabled").addClass("disabled");
+				$("#btn_queuing").attr("disabled", "disabled").addClass("disabled");
+				$("#span_message").text("本日已結束排隊");
+			}
 		}
 	},
 	
@@ -114,12 +122,14 @@ var queueDetailObj = {
 				favoriteId: $("#input_detail_favoriteId").val()
 			};
 			
-			$(iObj).removeClass().addClass("fa").addClass("fa-spinner").addClass("fa-spin");
-			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.DELETE, "/favorites/remove", JSON.stringify(body), btnObj, iObj)
+			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.DELETE, "/favorites/remove", JSON.stringify(body))
 			.done(function(){
 				$(iObj).removeClass().addClass("fa").addClass("fa-heart-o");
 				$(spanDscrObj).text("加入最愛");
 				$("#input_detail_favoriteId").val("");
+			})
+			.always(function(){
+				commonObj.unblockUI();
 			});
 		}
 		else {
@@ -128,12 +138,14 @@ var queueDetailObj = {
 				queueId: $("#input_detail_queueId").val()
 			};
 			
-			$(iObj).removeClass().addClass("fa").addClass("fa-spinner").addClass("fa-spin");
-			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/favorites/add", JSON.stringify(body), btnObj, iObj)
+			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/favorites/add", JSON.stringify(body))
 			.done(function(favoriteId){
 				$(iObj).removeClass().addClass("fa").addClass("fa-heart");
 				$(spanDscrObj).text("不喜歡了");
 				$("#input_detail_favoriteId").val(favoriteId);
+			})
+			.always(function(){
+				commonObj.unblockUI();
 			});
 		}
 	}, 
@@ -148,13 +160,15 @@ var queueDetailObj = {
 				status: "WAITING"
 			};
 			
-			$(iObj).removeClass().addClass("fa").addClass("fa-spinner").addClass("fa-spin");
-			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.DELETE, "/queuings/remove", JSON.stringify(body), btnObj, iObj)
+			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.DELETE, "/queuings/remove", JSON.stringify(body))
 			.done(function(){
 				$(iObj).removeClass().addClass("fa").addClass("fa-user-plus");
 				$(spanDscrObj).text("抽號碼牌");
 				$("#input_detail_queuingId").val("");
 				$("#span_queueNum").text("");
+			})
+			.always(function(){
+				commonObj.unblockUI();
 			});
 		}
 		else {
@@ -163,7 +177,6 @@ var queueDetailObj = {
 				queueId: $("#input_detail_queueId").val()
 			};
 			
-			$(iObj).removeClass().addClass("fa").addClass("fa-spinner").addClass("fa-spin");
 			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/queuings/add", JSON.stringify(body))
 			.done(function(queuing){
 				$(iObj).removeClass().addClass("fa").addClass("fa-user-times");
@@ -171,6 +184,9 @@ var queueDetailObj = {
 				$("#input_detail_queuingId").val(queuing.queuingId);
 				
 				$("#span_queueNum").text(queuing.queueNum);
+			})
+			.always(function(){
+				commonObj.unblockUI();
 			});
 		}
 	}, 
@@ -203,6 +219,44 @@ var queueDetailObj = {
 		$("#btn_delete").show();
 	}, 
 	
+	deleteQueue: function(){
+		var body = {
+			queueId: $("#input_detail_queueId").val()
+		};
+		
+		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.DELETE, "/queues/remove", JSON.stringify(body))
+		.done(function(){
+			$("#div_detail").empty();
+			$("#div_detail").html("<h1>刪除成功</h1>");
+		})
+		.always(function(){
+			commonObj.unblockUI();
+		});
+	},
+	
+	updateStatus: function(){
+		var body = {
+			queueId: $("#input_detail_queueId").val(), 
+			queueStatus: $("#input_detail_queueStatus").val()
+		};
+		
+		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.PATCH, "/queues/updateStatus", JSON.stringify(body))
+		.done(function(){
+			$("#span_message").text("");
+			if($("#input_detail_queueStatus").val() == "OPEN"){
+				$("#btn_open_confirm").show();
+				$("#btn_close_confirm").hide();
+			}
+			else{
+				$("#btn_close_confirm").show();
+				$("#btn_open_confirm").hide();
+			}
+		})
+		.always(function(){
+			commonObj.unblockUI();
+		});
+	},
+	
 	save: function(){
 		var body = {
 			queueId: $("#input_detail_queueId").val(), 
@@ -226,6 +280,9 @@ var queueDetailObj = {
 			$("#btn_delete").show();
 			
 			$("#iframe_map").attr("src", "http://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q="+queue.address+"&z=16&output=embed&t=");
+		})
+		.always(function(){
+			commonObj.unblockUI();
 		});
 	}, 
 	
@@ -240,6 +297,9 @@ var queueDetailObj = {
 		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.DELETE, "/queuings/remove", JSON.stringify(body))
 		.done(function(){
 			queueDetailObj.getNext(btnObj, status);
+		})
+		.always(function(){
+			commonObj.unblockUI();
 		});
 	}, 
 	
@@ -255,6 +315,9 @@ var queueDetailObj = {
 		.done(function(){
 			queueDetailObj.getNext(btnObj, "WAITING");
 			queueDetailObj.getNext(btnObj, "PASS");
+		})
+		.always(function(){
+			commonObj.unblockUI();
 		});
 	}, 
 	
@@ -303,6 +366,9 @@ var queueDetailObj = {
 			$("#span_waiting_count").text(waitingCount);
 			$("#span_pass_count").text(passCount);
 			$("#span_queuing_count").text(queuingCount);
+		})
+		.always(function(){
+			commonObj.unblockUI();
 		});
 	}
 	

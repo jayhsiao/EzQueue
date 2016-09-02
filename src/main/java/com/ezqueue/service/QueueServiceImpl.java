@@ -25,6 +25,7 @@ import com.ezqueue.model.User;
 import com.ezqueue.model.UserAccountMap;
 import com.ezqueue.repository.QueueRepository;
 import com.ezqueue.util.EzQueueConstants;
+import com.ezqueue.util.QueueStatus;
 import com.ezqueue.util.QueueTypeStatus;
 import com.ezqueue.util.QueuingStatus;
 import com.ezqueue.util.StringUtil;
@@ -67,10 +68,10 @@ public class QueueServiceImpl implements QueueService {
 		PageRequest pageRequest = new PageRequest(offset, limit, Direction.DESC, "createDate");
 		List<Queue> queues = null;
 		if(queueTypeId.equals(QueueTypeStatus.ALL.name())){
-			queues = Lists.newArrayList(queueRepository.findAll(pageRequest));
+			queues = Lists.newArrayList(queueRepository.findAll(pageRequest)).stream().filter(queue -> QueueStatus.OPEN.equals(queue.getStatus())).collect(Collectors.toList());
 		}
 		else{
-			queues = queueRepository.findByQueueType(queueType, pageRequest);
+			queues = queueRepository.findByQueueType(queueType, pageRequest).stream().filter(queue -> QueueStatus.OPEN.equals(queue.getStatus())).collect(Collectors.toList());
 		}
 		
 		for(Queue queue: queues){
@@ -109,11 +110,9 @@ public class QueueServiceImpl implements QueueService {
 	public List<Map<String, Object>> getPromotionQueues(int limit, int offset) {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
-		List<Promotion> promotions = promotionService.getPromotions(offset, limit);
-		
+		List<Promotion> promotions = promotionService.getPromotions(offset, limit).stream().filter(promotion -> QueueStatus.OPEN.equals(promotion.getQueue().getStatus())).collect(Collectors.toList());
 		for(Promotion promotion: promotions){
-			Queue queue = promotion.getQueue();
-			list.add(this.getQueueMap(queue));
+			list.add(this.getQueueMap(promotion.getQueue()));
 		}
 		
 		return list;
@@ -123,11 +122,9 @@ public class QueueServiceImpl implements QueueService {
 	public List<Map<String, Object>> getFavoriteQueues(String userId, int limit, int offset) {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
-		List<Favorite> favorites = favoriteService.getFavorites(userId);
-		
+		List<Favorite> favorites = favoriteService.getFavorites(userId).stream().filter(favorite -> QueueStatus.OPEN.equals(favorite.getQueue().getStatus())).collect(Collectors.toList());
 		for(Favorite favorite: favorites){
-			Queue queue = favorite.getQueue();
-			list.add(this.getQueueMap(queue));
+			list.add(this.getQueueMap(favorite.getQueue()));
 		}
 		
 		return list;
@@ -137,11 +134,9 @@ public class QueueServiceImpl implements QueueService {
 	public List<Map<String, Object>> getQueuingQueues(String userId, int limit, int offset) {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
-		List<Queuing> queuings = queuingService.getQueuingsByUser(userId, limit, offset);
-		
+		List<Queuing> queuings = queuingService.getQueuingsByUser(userId, limit, offset).stream().filter(queuing -> QueueStatus.OPEN.equals(queuing.getQueue().getStatus())).collect(Collectors.toList());
 		for(Queuing queuing: queuings){
-			Queue queue = queuing.getQueue();
-			list.add(this.getQueueMap(queue));
+			list.add(this.getQueueMap(queuing.getQueue()));
 		}
 		
 		return list;
@@ -152,8 +147,7 @@ public class QueueServiceImpl implements QueueService {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
 		PageRequest pageRequest = new PageRequest(offset, limit, Direction.DESC, "createDate");
-		List<Queue> queues = queueRepository.getQueueByText("%"+title+"%", pageRequest);
-		
+		List<Queue> queues = queueRepository.getQueueByText("%"+title+"%", pageRequest).stream().filter(queue -> QueueStatus.OPEN.equals(queue.getStatus())).collect(Collectors.toList());
 		for(Queue queue: queues){
 			list.add(this.getQueueMap(queue));
 		}
@@ -176,12 +170,8 @@ public class QueueServiceImpl implements QueueService {
 		User user = new User();
 		user.setUserId(userId);
 		
-		List<User> users = new ArrayList<User>();
-		users.add(user);
-		
 		PageRequest pageRequest = new PageRequest(offset, limit, Direction.DESC, "createDate");
-		List<Queue> queues = queueRepository.findByUserIn(users, pageRequest);
-		
+		List<Queue> queues = queueRepository.findByUser(user, pageRequest).stream().filter(queue -> QueueStatus.OPEN.equals(queue.getStatus())).collect(Collectors.toList());
 		for(Queue queue: queues){
 			list.add(this.getQueueMap(queue));
 		}
@@ -200,13 +190,48 @@ public class QueueServiceImpl implements QueueService {
 	}
 	
 	@Override
+	public void addQueue(String userId, String queueTypeId, String startDate, String endDate, String title, String phone, String address, String dscr, int queueNum, QueueStatus queueStatus) {
+		Queue queue = new Queue();
+		queue.setQueueId(StringUtil.getUUID());
+		
+		User user = new User();
+		user.setUserId(userId);
+		queue.setUser(user);
+		
+		queue.setTitle(title);
+		queue.setPhone(phone);
+		queue.setAddress(address);
+		queue.setDscr(dscr);
+		
+		QueueType queueType = new QueueType();
+		queueType.setQueueTypeId(queueTypeId);
+		queue.setQueueType(queueType);
+		
+		queue.setQueueNum(queueNum);
+		queue.setStatus(queueStatus);
+		queue.setStartDate(startDate);
+		
+		if(!StringUtils.isEmpty(endDate)){
+			queue.setEndDate(endDate + " 23:59:59");
+		}
+		
+		this.addQueue(queue);
+	}
+	
+	@Override
 	public void addQueue(Queue queue) {
-		Date now = Calendar.getInstance().getTime();
+		Calendar calendar = Calendar.getInstance();
+		Date now = calendar.getTime();
 		queue.setCreateDate(now);
 		queue.setCreateUser(queue.getUser().getUserId());
 		queue.setUpdateDate(now);
 		queue.setUpdateUser(queue.getUser().getUserId());
 		queueRepository.save(queue);
+	}
+	
+	@Override
+	public void removeQueue(String queueId) {
+		queueRepository.delete(queueId);
 	}
 	
 	@Override
@@ -220,8 +245,15 @@ public class QueueServiceImpl implements QueueService {
 	}
 	
 	@Override
-	public void removeQueue(String queueId) {
-		queueRepository.delete(queueId);
+	public void updateStatus(String queueId, QueueStatus queueStatus) {
+		Queue queue = queueRepository.findOne(queueId);
+		if(QueueStatus.OPEN.equals(queueStatus)){
+			queue.setStatus(QueueStatus.CLOSE);
+		}
+		else{
+			queue.setStatus(QueueStatus.OPEN);
+		}
+		queueRepository.save(queue);
 	}
 	
 	private Map<String, Object> getQueueMap(Queue queue){
@@ -270,6 +302,8 @@ public class QueueServiceImpl implements QueueService {
 			queueMap.put("favorite", favorite);
 			queueMap.put("queuing", queuing);
 			queueMap.put("star", star);
+			
+			queueMap.put("isOpen", QueueStatus.OPEN.name().equals(queue.getStatus().name()));
 		}
 		
 		List<QueuingStatus> queuingStatuss = new ArrayList<>();

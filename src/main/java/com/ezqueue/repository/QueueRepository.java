@@ -13,6 +13,8 @@ import com.ezqueue.model.User;
 
 public interface QueueRepository extends PagingAndSortingRepository<Queue, String>{
 	
+	public List<Queue> findByUser(User user, Pageable pageable);
+	
 	public List<Queue> findByUserIn(List<User> users, Pageable pageable);
 	
 	@Query("select q from Queue q where q.title like :text or q.dscr like :text or q.address like :text")

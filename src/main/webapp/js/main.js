@@ -20,7 +20,7 @@ var mainObj = {
 			$("#input_search").val("");
 		});
 		
-		$(document).on("click", "#ul_all a", function(event){
+		$(document).on("click", "#ul_type_all a", function(event){
 			var url = "/ezqueue/type/"+$(this).attr("id")+"?";
 			commonObj.getInitQueueList(url + mainObj.initParam($("#input_init_limit").val(), $("#input_init_offset").val()));
 			
@@ -80,12 +80,8 @@ var mainObj = {
 			}
 		});
 		
-		$(document).on("click", "#a_setting", function(event){
-			
-		});
-		
 		$(document).on("click", "#a_logout", function(event){
-			facebookObj.doLogout();
+			mainObj.logout();
 		});
 		
 		$(document).on("click", "#btn_more", function(event){
@@ -120,12 +116,12 @@ var mainObj = {
 		$("#a_promotion").click();
 	}, 
 	
-	doLogin: function(){
+	login: function(){
 		mainObj.init();
 		facebookObj.getProfile();
 	}, 
 	
-	doNoLogin: function(){
+	noLogin: function(){
 		mainObj.init();
 		mainObj.showNologin();
 	}, 
@@ -133,6 +129,7 @@ var mainObj = {
 	showLogin: function(user){
 		$("#input_userId").val(user.userId);
 		
+		$("#span_user").show();
 		$("#i_facebook").removeClass();
 		$("#li_facebook_login").hide();
 		$("#li_facebook_user").show();
@@ -143,11 +140,16 @@ var mainObj = {
 	showNologin: function(){
 		$("#input_userId").val("");
 		
+		$("#span_user").hide();
 		$("#i_facebook").removeClass();
 		$("#li_facebook_login").show();
 		$("#li_facebook_user").hide();
 		
 		$("#li_search").hide();
+	}, 
+	
+	logout: function(){
+		facebookObj.logout();
 	}
 	
 }

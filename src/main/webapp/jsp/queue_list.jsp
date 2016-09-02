@@ -7,7 +7,7 @@
 		<c:if test="${(status.index+1) % 3 == 1}">
 			<div class="row">
 		</c:if>
-			<div id="div_<c:out value="${QUEUE_DETAIL.queue.queueId}"/>" class="queue margin-top-20 col-xs-12 col-sm-4 col-md-4" style="cursor: pointer;">
+			<div id="div_<c:out value="${QUEUE_DETAIL.queue.queueId}"/>" class="queue col-xs-12 col-sm-4 col-md-4" style="cursor: pointer;">
 				<table style="width: 100%;" class="queue-top-buffer">
 					<tr>
 						<td width="10%" valign="top">
@@ -24,7 +24,7 @@
 									<img width="16px" height="16px" src="<c:url value="/img/facebook-verified.png"/>">
 								</c:if>
 								<c:if test="${not empty QUEUE_DETAIL.promotion}">
-									<label class="label label-danger">Hot</label>
+									<span class="label label-danger"><i class="fa fa-thumbs-up"></i></span>
 								</c:if>
 							</p>
 							<p style="font-size: x-large;"><c:out value="${QUEUE_DETAIL.queue.title}"/></p>

@@ -19,13 +19,19 @@
 			<p>
 				<c:choose>
 					<c:when test="${QUEUE_DETAIL.canEdit}">
-						<span id="btn_revert" class='btn btn-default' style="display: none;"><i class="fa fa-undo"></i>&nbsp;復原</span>
-						<span id="btn_save"   class='btn btn-default' style="display: none;"><i class="fa fa-floppy-o"></i>&nbsp;儲存</span>
-						<span id="btn_edit"   class='btn btn-default'><i class="fa fa-pencil"></i>&nbsp;修改</span>
-						<span  id="btn_delete" class="btn btn-default" data-toggle="confirmation" data-original-title="" title=""><i class="fa fa-trash"></i>&nbsp;刪除</span>
+						<button id="btn_revert" class='btn btn-default' style="display: none;"><i class="fa fa-undo"></i>&nbsp;復原</button>
+						<button id="btn_save"   class='btn btn-default' style="display: none;"><i class="fa fa-floppy-o"></i>&nbsp;儲存</button>
+						<button id="btn_edit"   class='btn btn-default'><i class="fa fa-pencil"></i>&nbsp;修改</button>
+						<button class="btn btn-default" data-toggle="modal" data-target="#div_delete_modal"><i class="fa fa-trash"></i>&nbsp;刪除</button>
+						<button id="btn_open_confirm" class="btn btn-default" data-toggle="modal" data-target="#div_open_modal" style="<c:if test="${QUEUE_DETAIL.isOpen}">display: none;</c:if>">
+							<i class="fa fa-play"></i>&nbsp;開啟排隊
+						</button>
+						<button id="btn_close_confirm" class="btn btn-default" data-toggle="modal" data-target="#div_close_modal" style="<c:if test="${not QUEUE_DETAIL.isOpen}">display: none;</c:if>">
+							<i class="fa fa-pause"></i>&nbsp;結束今日排隊
+						</button>
 					</c:when>
 					<c:otherwise>
-						<span id="btn_favorite" class='btn btn-default' style="display: none;">
+						<button id="btn_favorite" class='btn btn-default' style="display: none;">
 							<c:choose>
 								<c:when test="${not empty QUEUE_DETAIL.favorite}">
 									<i class="fa fa-heart"></i>&nbsp;<span id="span_favorite_dscr">不喜歡了</span>
@@ -34,8 +40,8 @@
 									<i class="fa fa-heart-o"></i>&nbsp;<span id="span_favorite_dscr">加入最愛</span>
 								</c:otherwise>
 							</c:choose>
-						</span>
-						<span id="btn_queuing" class='btn btn-default' style="display: none;">
+						</button>
+						<button id="btn_queuing" class='btn btn-default' style="display: none;">
 							<c:choose>
 								<c:when test="${not empty QUEUE_DETAIL.queuing}">
 									<i class="fa fa-user-times"></i>&nbsp;<span id="span_queuing_dscr">不想等了</span>
@@ -44,12 +50,13 @@
 									<i class="fa fa-user-plus"></i>&nbsp;<span id="span_queuing_dscr">抽號碼牌</span>
 								</c:otherwise>
 							</c:choose>
-						</span>
+						</button>
 					</c:otherwise>
 				</c:choose>
 			</p>
 			<p>
-				<a id="btn_back" class='btn btn-default'><i class="fa fa-arrow-left"></i>&nbsp;回上頁</a>
+				<a id="btn_back" class='btn btn-default' href="#div_<c:out value="${QUEUE_DETAIL.queue.queueId}"/>"><i class="fa fa-arrow-left"></i>&nbsp;回上頁</a>
+				<span id="span_message" class="label label-danger"></span>
 			</p>
 		</div>
 	</div>
@@ -74,10 +81,12 @@
 				<td align="center"><h3><i class="fa fa-users"></i></h3></td>
 				<td><h3>排隊人數&nbsp;&nbsp;<span id="span_queuing_count"><c:out value="${QUEUE_DETAIL.queuingCount}"/></span></h3></td>
 			</tr>
+			<!-- 
 			<tr>
 				<td align="center"><h3><i class="fa fa-clock-o"></i></h3></td>
 				<td><h3>平均等待&nbsp;&nbsp;<c:out value="${QUEUE_DETAIL.avgWaittingTime}"/></h3></td>
 			</tr>
+			 -->
 			<tr>
 				<td align="center"><h3><i class="fa fa-phone"></i></h3></td>
 				<td>
@@ -171,12 +180,53 @@
 	 -->
 	<div class="fb-comments" data-width="100%" data-href="http://local.ezqueue.com:8080/ezqueue/home/<c:out value="${QUEUE_DETAIL.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
 	
+	<div id="div_delete_modal" class="modal fade bs-example-modal-sm" tabindex="-1"
+		role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">刪除排隊</div>
+				<div class="modal-body">確定刪除排隊?</div>
+				<div class="modal-footer">
+					<span class="btn btn-default" data-dismiss="modal">關閉視窗</span>
+					<span id="btn_delete" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-trash"></i>&nbsp;刪除</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="div_open_modal" class="modal fade bs-example-modal-sm" tabindex="-1"
+		role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">開啟排隊</div>
+				<div class="modal-body">確定開啟排隊?</div>
+				<div class="modal-footer">
+					<span class="btn btn-default" data-dismiss="modal">關閉視窗</span>
+					<span id="btn_open" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-play"></i>&nbsp;開啟</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="div_close_modal" class="modal fade bs-example-modal-sm" tabindex="-1"
+		role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header">結束今日排隊</div>
+				<div class="modal-body">確定結束今日排隊?</div>
+				<div class="modal-footer">
+					<span class="btn btn-default" data-dismiss="modal">關閉視窗</span>
+					<span id="btn_close" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-pause"></i>&nbsp;結束</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<input type="hidden" id="input_detail_userAccountId" value="<c:out value="${QUEUE_DETAIL.queue.user.userId}"/>">
 	<input type="hidden" id="input_detail_queueId"       value="<c:out value="${QUEUE_DETAIL.queue.queueId}"/>">
 	<input type="hidden" id="input_detail_starId"        value="<c:if test="${not empty QUEUE_DETAIL.star}"><c:out value="${QUEUE_DETAIL.star.starId}"/></c:if>">
 	<input type="hidden" id="input_detail_promotionId"   value="<c:if test="${not empty QUEUE_DETAIL.promotion}"><c:out value="${QUEUE_DETAIL.promotion.promotionId}"/></c:if>">
 	<input type="hidden" id="input_detail_favoriteId"    value="<c:if test="${not empty QUEUE_DETAIL.favorite}"><c:out value="${QUEUE_DETAIL.favorite.favoriteId}"/></c:if>">
 	<input type="hidden" id="input_detail_queuingId"     value="<c:if test="${not empty QUEUE_DETAIL.queuing}"><c:out value="${QUEUE_DETAIL.queuing.queuingId}"/></c:if>">
+	<input type="hidden" id="input_detail_queueStatus"   value="<c:out value="${QUEUE_DETAIL.queue.status}"/>">
 </div>
 
 <div id="fb-root"></div>

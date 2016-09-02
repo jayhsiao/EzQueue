@@ -42,6 +42,11 @@
 		<div id="navbar" class="navbar-collapse collapse"
 			aria-expanded="false" style="height: 1px;">
 			<ul class="nav navbar-nav">
+				<li id="li_promotion">
+					<a id="a_promotion" style="cursor: pointer;">
+						<i class="fa fa-thumbs-up"></i>&nbsp;精選推薦
+					</a>
+				</li>
 				<li id="li_type" class="dropdown">
 					<a class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -49,7 +54,12 @@
 						<i id="i_type" class="fa fa-list"></i>&nbsp;<span id="span_type">分類</span>&nbsp;
 						<span class="caret"></span>
 					</a>
-					<ul class="dropdown-menu" id="ul_all">
+					<ul class="dropdown-menu" id="ul_type_all">
+						<li>
+							<a id="ALL">
+								<i class="fa fa-th"></i>&nbsp;<span>全部</span>
+							</a>
+						</li>
 						<c:forEach items="${RESPONSE.queueTypes}" var="queueType">
 							<li>
 								<a id="<c:out value="${queueType.queueTypeId }"/>">
@@ -58,11 +68,6 @@
 							</li>
 						</c:forEach>
 					</ul>
-				</li>
-				<li id="li_promotion">
-					<a id="a_promotion" style="cursor: pointer;">
-						<i class="fa fa-thumbs-up"></i>&nbsp;精選推薦
-					</a>
 				</li>
 				<li id="li_search" style="display: none;">
 					<div class="navbar-form navbar-right">
@@ -87,9 +92,12 @@
 					<a class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">
-					<i id="i_facebook" class="fa fa-spinner fa-spin"></i>
-						<img id="img_header_facebook_user" class="img-circle">
-						<span id="span_header_facebook_user_name"></span>
+						<i id="i_facebook" class="fa fa-spinner fa-spin"></i>
+						<span id="span_user" style="display: none;">
+							<img id="img_header_facebook_user" class="img-circle">
+							<span id="span_header_facebook_user_name"></span>
+							<span class="caret"></span>
+						</span>
 					</a>
 					<ul class="dropdown-menu" id="ul_all">
 						<li class="dropdown-header">排隊</li>
@@ -115,11 +123,6 @@
 						</li>
 						<li class="dropdown-header">系統</li>
 						<li>
-							<a id="a_setting" style="cursor: pointer;">
-								<i class="fa fa-cog"></i>&nbsp;設定
-							</a>
-						</li>
-						<li>
 							<a id="a_logout" style="cursor: pointer;">
 								<i class="fa fa-sign-out"></i>&nbsp;登出
 							</a>
@@ -133,7 +136,7 @@
 
 <div class="container">
 	<div id="div_list">
-		<div id="div_list_queue"></div>
+		<div id="div_list_queue" class="margin-top-20"></div>
 		<div align="center" class="margin_top_20">
 			<button id="btn_more" type="button" class="btn btn-default" style="width: 40%; display: none;">更多</button>
 		</div>
