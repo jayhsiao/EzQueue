@@ -86,6 +86,9 @@ var queueDetailObj = {
 			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/stars/add", JSON.stringify(body))
 			.done(function(starId){
 				$("#input_detail_starId").val(starId);
+			})
+			.always(function(){
+				commonObj.unblockUI();
 			});
 		}
 		else{
@@ -98,6 +101,9 @@ var queueDetailObj = {
 				ajaxUtilObj.callJsonAJAX(ajaxUtilObj.DELETE, "/stars/remove", JSON.stringify(body))
 				.done(function(){
 					$("#input_detail_starId").val("");
+				})
+				.always(function(){
+					commonObj.unblockUI();
 				});
 			}
 			else{
@@ -108,7 +114,10 @@ var queueDetailObj = {
 					starId: $("#input_detail_starId").val(), 
 					starNum: $(iObj).index() + 1
 				};
-				ajaxUtilObj.callJsonAJAX(ajaxUtilObj.PATCH, "/stars/update", JSON.stringify(body));
+				ajaxUtilObj.callJsonAJAX(ajaxUtilObj.PATCH, "/stars/update", JSON.stringify(body))
+				.always(function(){
+					commonObj.unblockUI();
+				});
 			}
 		}
 	}, 
@@ -201,8 +210,7 @@ var queueDetailObj = {
 		
 		$("#btn_revert").show();
 		$("#btn_save").show();
-		$("#btn_edit").hide();
-		$("#btn_delete").hide();
+		$("#span_btn").hide();
 	}, 
 	
 	revert: function(){
@@ -215,8 +223,7 @@ var queueDetailObj = {
 		
 		$("#btn_revert").hide();
 		$("#btn_save").hide();
-		$("#btn_edit").show();
-		$("#btn_delete").show();
+		$("#span_btn").show();
 	}, 
 	
 	deleteQueue: function(){
