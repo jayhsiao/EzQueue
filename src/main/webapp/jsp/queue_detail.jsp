@@ -19,19 +19,19 @@
 			<p>
 				<c:choose>
 					<c:when test="${QUEUE_DETAIL.canEdit}">
-						<button id="btn_revert" class='btn btn-default' style="display: none;"><i class="fa fa-undo"></i>&nbsp;復原</button>
-						<button id="btn_save"   class='btn btn-default' style="display: none;"><i class="fa fa-floppy-o"></i>&nbsp;儲存</button>
-						<button id="btn_edit"   class='btn btn-default'><i class="fa fa-pencil"></i>&nbsp;修改</button>
-						<button class="btn btn-default" data-toggle="modal" data-target="#div_delete_modal"><i class="fa fa-trash"></i>&nbsp;刪除</button>
-						<button id="btn_open_confirm" class="btn btn-default" data-toggle="modal" data-target="#div_open_modal" style="<c:if test="${QUEUE_DETAIL.isOpen}">display: none;</c:if>">
+						<button type="button" id="btn_revert" class='btn btn-default' style="display: none;"><i class="fa fa-undo"></i>&nbsp;復原</button>
+						<button type="button" id="btn_save"   class='btn btn-default' style="display: none;"><i class="fa fa-floppy-o"></i>&nbsp;儲存</button>
+						<button type="button" id="btn_edit"   class='btn btn-default'><i class="fa fa-pencil"></i>&nbsp;修改</button>
+						<button type="button" class="btn btn-default" data-toggle="modal" data-target="#div_delete_modal"><i class="fa fa-trash"></i>&nbsp;刪除</button>
+						<button type="button" id="btn_open_confirm" class="btn btn-default" data-toggle="modal" data-target="#div_open_modal" style="<c:if test="${QUEUE_DETAIL.isOpen}">display: none;</c:if>">
 							<i class="fa fa-play"></i>&nbsp;開啟排隊
 						</button>
-						<button id="btn_close_confirm" class="btn btn-default" data-toggle="modal" data-target="#div_close_modal" style="<c:if test="${not QUEUE_DETAIL.isOpen}">display: none;</c:if>">
+						<button type="button" id="btn_close_confirm" class="btn btn-default" data-toggle="modal" data-target="#div_close_modal" style="<c:if test="${not QUEUE_DETAIL.isOpen}">display: none;</c:if>">
 							<i class="fa fa-pause"></i>&nbsp;結束今日排隊
 						</button>
 					</c:when>
 					<c:otherwise>
-						<button id="btn_favorite" class='btn btn-default' style="display: none;">
+						<button type="button" id="btn_favorite" class='btn btn-default' style="display: none;">
 							<c:choose>
 								<c:when test="${not empty QUEUE_DETAIL.favorite}">
 									<i class="fa fa-heart"></i>&nbsp;<span id="span_favorite_dscr">不喜歡了</span>
@@ -41,7 +41,7 @@
 								</c:otherwise>
 							</c:choose>
 						</button>
-						<button id="btn_queuing" class='btn btn-default' style="display: none;">
+						<button type="button" id="btn_queuing" class='btn btn-default' style="display: none;">
 							<c:choose>
 								<c:when test="${not empty QUEUE_DETAIL.queuing}">
 									<i class="fa fa-user-times"></i>&nbsp;<span id="span_queuing_dscr">不想等了</span>
