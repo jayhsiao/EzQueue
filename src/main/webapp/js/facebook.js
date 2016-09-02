@@ -44,14 +44,14 @@ function statusChangeCallback(response) {
 	// for FB.getLoginStatus().
 	if (response.status === 'connected') {
 		// Logged into your app and Facebook.
-		mainObj.doLogin();
+		mainObj.login();
 	} else if (response.status === 'not_authorized') {
 		// The person is logged into Facebook, but not your app.
-		mainObj.doNoLogin();
+		mainObj.noLogin();
 	} else {
 		// The person is not logged into Facebook, so we're not sure if
 		// they are logged into this app or not.
-		mainObj.doNoLogin();
+		mainObj.noLogin();
 	}
 }
 
@@ -75,17 +75,19 @@ var facebookObj = {
 		    function (response) {
 		    	if (response && !response.error) {
 		    		/* handle the result */
-		    		var id = response.id;
-		    		var name = response.name;
-		    		var email = response.email;
-		    		var accounts = response.accounts;
-		    		facebookObj.id = id;
+		    		facebookObj.id = response.id;
 		    		
-		    		commonObj.checkUser(id, name, email, accounts)
+		    		var body = {
+	    				id: response.id,
+	    				name: response.name, 
+	    				email: response.email,
+	    				accounts: response.accounts
+	    			};
+		    		
+		    		ajaxUtilObj.userCheck("/users/check", JSON.stringify(body))
 		    		.done(function(user){
 		    			$("#img_header_facebook_user").attr("src", "http://graph.facebook.com/"+user.facebookId+"/picture?width=12&height=12");
 		    			$("#span_header_facebook_user_name").text(user.name);
-		    			
 		    			mainObj.showLogin(user);
 		    		});
 		    	}
@@ -93,10 +95,10 @@ var facebookObj = {
 	    );
 	}, 
 	
-	doLogout: function(){
+	logout: function(){
 		FB.logout(function(response) {
 			facebookObj.id = "";
-			mainObj.doNoLogin();
+			window.location = "/ezqueue/home";
 		});
 	}
 }

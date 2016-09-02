@@ -30,7 +30,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.authorizeRequests()
 			.antMatchers("/version", "/favicon.ico").permitAll()
 			.antMatchers("/ezqueue/**", "/users/add").permitAll()
-			.anyRequest().authenticated();
+			.anyRequest().authenticated()
+			.and()
+				.logout()
+                .deleteCookies("JSESSIONID");
 	}
 	
 	@Override

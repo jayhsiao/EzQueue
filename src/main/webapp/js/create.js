@@ -50,42 +50,56 @@ var createObj = {
 			$("#span_result").text("");
 		}
 		
+		if($("#input_startDate").val().length == 0){
+			$("#input_startDate").parent().addClass("has-error");
+			$("#span_result").text("請輸入開始日期");
+			return false;
+		} 
+		else {
+			$("#input_startDate").parent().removeClass("has-error");
+			$("#span_result").text("");
+		}
+		
 		if($("#input_title").val().length == 0){
-			$("#input_title").parent().parent().addClass("has-error");
+			$("#input_title").parent().addClass("has-error");
 			$("#span_result").text("請輸入名稱");
 			return false;
 		} 
 		else {
-			$("#input_title").parent().parent().removeClass("has-error");
+			$("#input_title").parent().removeClass("has-error");
 			$("#span_result").text("");
 		}
+		
 		if($("#input_phone").val().length == 0){
-			$("#input_phone").parent().parent().addClass("has-error");
+			$("#input_phone").parent().addClass("has-error");
 			$("#span_result").text("請輸入電話");
 			return false;
 		} 
 		else {
-			$("#input_phone").parent().parent().removeClass("has-error");
+			$("#input_phone").parent().removeClass("has-error");
 			$("#span_result").text("");
 		}
+		
 		if($("#input_address").val().length == 0){
-			$("#input_address").parent().parent().addClass("has-error");
+			$("#input_address").parent().addClass("has-error");
 			$("#span_result").text("請輸入地址");
 			return false;
 		} 
 		else {
-			$("#input_address").parent().parent().removeClass("has-error");
+			$("#input_address").parent().removeClass("has-error");
 			$("#span_result").text("");
 		}
+		
 		if($("#textarea_dscr").val().length == 0){
-			$("#textarea_dscr").parent().parent().addClass("has-error");
+			$("#textarea_dscr").parent().addClass("has-error");
 			$("#span_result").text("請輸入簡介");
 			return false;
 		} 
 		else {
-			$("#textarea_dscr").parent().parent().removeClass("has-error");
+			$("#textarea_dscr").parent().removeClass("has-error");
 			$("#span_result").text("");
 		}
+		
 		return true;
 	},
 	
@@ -97,17 +111,21 @@ var createObj = {
 		
 		var body = {
 			userId: $("#input_create_userId").val(),
+			queueTypeId: $("#input_create_queueTypeId").val(), 
 			title: $("#input_title").val(),
 			phone: $("#input_phone").val(),
 			address: $("#input_address").val(),
 			dscr: $("#textarea_dscr").val(),
-			queueTypeId: $("#input_create_queueTypeId").val()
+			startDate: $("#input_startDate").val(),
+			endDate: $("#input_endDate").val()
 		};
 		
 		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/queues/add", JSON.stringify(body))
 		.done(function(httpResponse){
 			$("div .panel-body").empty();
 			$("div .panel-body").append("<h1>建立成功</h1>");
+			
+			commonObj.unblockUI();
 		});
 	}
 }

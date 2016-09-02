@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.ezqueue.model.Queue;
+import com.ezqueue.util.QueueStatus;
 
 public interface QueueService {
 	
@@ -27,11 +28,14 @@ public interface QueueService {
 	
 	public Queue getQueue(String queueId);
 	
-	public void addQueue(Queue queue);
+	public void addQueue(String userId, String queueTypeId, String startDate, String endDate, String title, String phone, String address, String dscr, int queueNum, QueueStatus queueStatus);
 	
-	public Queue edit(String queueId, String phone, String address, String dscr);
+	public void addQueue(Queue queue);
 	
 	public void removeQueue(String queueId);
 	
+	public Queue edit(String queueId, String phone, String address, String dscr);
+	
+	public void updateStatus(String queueId, QueueStatus queueStatus);
 	
 }

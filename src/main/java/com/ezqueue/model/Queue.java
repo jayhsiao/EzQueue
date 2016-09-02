@@ -3,7 +3,6 @@ package com.ezqueue.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -56,20 +55,16 @@ public class Queue extends ModelBase implements Serializable{
 	@Column(name = "end_date")
 	private String endDate;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "queue_id")
+	@OneToOne(mappedBy = "queue", orphanRemoval = true)
 	private Promotion promotion;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "queue_id")
+	@OneToMany(mappedBy = "queue", orphanRemoval = true)
 	private List<Favorite> favorites;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "queue_id")
+	@OneToMany(mappedBy = "queue", orphanRemoval = true)
 	private List<Star> stars;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "queue_id")
+	@OneToMany(mappedBy = "queue", orphanRemoval = true)
 	private List<Queuing> queuings;
 	
 	@Override

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,13 +23,13 @@ public class EzQueueController extends BaseController {
 	private EzQueueService ezQueueService;
 	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
-	public String home(Model model) throws Exception{
+	public String home(Model model) {
 		model.addAttribute("RESPONSE", ezQueueService.init());
         return EzQueueConstants.PAGE_MAIN;
 	}
 	
 	@RequestMapping(value = "/home/{queueId}", method = RequestMethod.GET)
-	public String queueDetailHome(Model model, @PathVariable String queueId) throws Exception{
+	public String queueDetailHome(Model model, @PathVariable String queueId) {
 		model.addAttribute("QUEUE_DETAIL_ID", queueId);
         return this.home(model);
 	}
@@ -118,6 +119,11 @@ public class EzQueueController extends BaseController {
 			@RequestParam(value = "queueId") String queueId) {
 		model.addAttribute("QUEUE_DETAIL", ezQueueService.getQueueDetail(userId, queueId));
         return EzQueueConstants.PAGE_QUEUE_DETAIL;
+	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public ResponseEntity<Object> logout(Model model) {
+        return this.getResponse();
 	}
 	
 }
