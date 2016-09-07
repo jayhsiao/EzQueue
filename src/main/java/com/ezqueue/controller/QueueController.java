@@ -58,11 +58,17 @@ public class QueueController extends BaseController {
 		return this.getResponse(queueService.edit(queueId, phone, address, dscr));
 	}
 	
-	@RequestMapping(value = "/updateStatus", method = RequestMethod.PATCH)
-	public ResponseEntity<Object> updateStatus(@RequestBody Map<String, Object> map){
+	@RequestMapping(value = "/open", method = RequestMethod.PATCH)
+	public ResponseEntity<Object> open(@RequestBody Map<String, Object> map){
 		String queueId = (String) map.get("queueId");
-		QueueStatus queueStatus = QueueStatus.valueOf((String) map.get("queueStatus"));
-		queueService.updateStatus(queueId, queueStatus);
+		queueService.updateStatus(queueId, QueueStatus.OPEN);
+		return this.getResponse();
+	}
+	
+	@RequestMapping(value = "/close", method = RequestMethod.PATCH)
+	public ResponseEntity<Object> close(@RequestBody Map<String, Object> map){
+		String queueId = (String) map.get("queueId");
+		queueService.updateStatus(queueId, QueueStatus.CLOSE);
 		return this.getResponse();
 	}
 	

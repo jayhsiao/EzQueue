@@ -4,9 +4,7 @@ package com.ezqueue.repository;
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
-import org.springframework.data.repository.query.Param;
 
 import com.ezqueue.model.User;
 import com.ezqueue.util.QueuingStatus;
@@ -23,7 +21,5 @@ public interface QueuingRepository extends PagingAndSortingRepository<Queuing, S
 	public List<Queuing> findByQueueAndStatusOrderByQueueNumAsc(Queue queue, QueuingStatus queuingStatus, Pageable pageable);
 	
 	public Queuing findByUserAndQueue(User user, Queue queue);
-	
-	public int countByQueueAndStatusIn(Queue queue, List<QueuingStatus> queuingStatuss);
 	
 }

@@ -13,6 +13,7 @@ import javax.persistence.Table;
 
 import com.ezqueue.util.QueuingStatus;
 import com.ezqueue.util.StringUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -29,6 +30,7 @@ public class Queuing extends ModelBase implements Serializable{
 	private User user;
 	@OneToOne
 	@JoinColumn(name = "queue_id")
+	@JsonIgnore
 	private Queue queue;
 	@Column(name = "queue_num")
 	private Integer queueNum;

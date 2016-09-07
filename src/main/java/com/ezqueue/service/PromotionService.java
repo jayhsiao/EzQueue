@@ -12,6 +12,6 @@ public interface PromotionService {
 	
 	public void addPromotion(List<String> queueIds);
 	
-	public void removePromotion(List<String> queueIds);
+	public void removePromotions(List<String> queueIds);
 	
 }

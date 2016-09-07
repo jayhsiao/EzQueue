@@ -13,6 +13,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Where;
 
 import com.ezqueue.util.StringUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -27,6 +28,7 @@ public class Promotion extends ModelBase implements Serializable{
 	private String promotionId;
 	@OneToOne
 	@JoinColumn(name = "queue_id")
+	@JsonIgnore
 	private Queue queue;
 	@Column(name = "start_date")
 	private Date startDate;

@@ -11,7 +11,7 @@
 		<file>c:/logs/EzQueue_LOG/ezQueue.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">        
 	        <!-- daily rollover -->
-	        <fileNamePattern>c:/logs/HelloCatchPlay_LOG/helloCatchPlay_%d{yyyy-MM-dd-HH-mm}.log</fileNamePattern>
+	        <fileNamePattern>c:/logs/EZQUEUE_LOG/ezqueue_%d{yyyy-MM-dd}.log</fileNamePattern>
 	        <maxHistory>30</maxHistory>
 	    </rollingPolicy>
 

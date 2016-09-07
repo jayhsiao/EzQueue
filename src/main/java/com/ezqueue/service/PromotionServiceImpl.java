@@ -49,7 +49,7 @@ public class PromotionServiceImpl implements PromotionService {
 	}
 	
 	@Override
-	public void removePromotion(List<String> promotionIds) {
+	public void removePromotions(List<String> promotionIds) {
 		for(String promotionId: promotionIds){
 			Promotion promotion = new Promotion();
 			promotion.setPromotionId(promotionId);

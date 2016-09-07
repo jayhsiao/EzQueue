@@ -1,9 +1,9 @@
 package com.ezqueue.service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -13,6 +13,7 @@ import com.ezqueue.model.User;
 import com.ezqueue.model.Queue;
 import com.ezqueue.model.Queuing;
 import com.ezqueue.repository.QueuingRepository;
+import com.ezqueue.util.EzQueueConstants;
 import com.ezqueue.util.QueuingStatus;
 import com.ezqueue.util.StringUtil;
 
@@ -44,27 +45,37 @@ public class QueuingServiceImpl implements QueuingService {
 	}
 	
 	@Override
-	public Map<String, Object> getNext(String queueId, QueuingStatus queuingStatus, int limit, int offset) {
+	public Map<String, Object> success(String queuingId, String queueId) {
+		Queuing queuing = queuingRepository.findOne(queuingId);
+		if(queuing != null){
+			this.removeQueuing(queuingId);
+		}
+		
+		return this.next(queueId);
+	}
+	
+	@Override
+	public Map<String, Object> pass(String queuingId, String queueId) {
+		this.updateStatus(queuingId, QueuingStatus.PASS);
+		return this.next(queueId);
+	}
+	
+	@Override
+	public Map<String, Object> next(String queueId) {
 		Map<String, Object> resultMap = new HashMap<>();
 		
-		Queue queue = new Queue();
-		queue.setQueueId(queueId);
+		Queue queue = queueService.getQueue(queueId);
+		List<Queuing> queuings = queue.getQueuings();
 		
-		List<QueuingStatus> queuingStatuss = new ArrayList<>();
-		queuingStatuss.add(QueuingStatus.WAITING);
-		int waitingCount = this.getQueuingCount(queue, queuingStatuss);
+		long queuingCount = queuings.stream().count();
+		List<Queuing> waitingQueuings = queuings.stream().filter(q -> QueuingStatus.WAITING.equals(q.getStatus())).limit(EzQueueConstants.INIT_QUEUING_LIMIT).collect(Collectors.toList());
+		List<Queuing> passQueuings = queuings.stream().filter(q -> QueuingStatus.PASS.equals(q.getStatus())).limit(EzQueueConstants.INIT_QUEUING_LIMIT).collect(Collectors.toList());
 		
-		queuingStatuss.clear();
-		queuingStatuss.add(QueuingStatus.PASS);
-		int passCount = this.getQueuingCount(queue, queuingStatuss);
-		
-		queuingStatuss.add(QueuingStatus.WAITING);
-		int queuingCount = this.getQueuingCount(queue, queuingStatuss);
-		
-		resultMap.put("queuings", this.getQueuingsByQueue(queueId, queuingStatus, limit, offset));
+		resultMap.put("waitingQueuings", waitingQueuings);
+		resultMap.put("passQueuings", passQueuings);
 		resultMap.put("queuingCount", queuingCount);
-		resultMap.put("waitingCount", waitingCount);
-		resultMap.put("passCount", passCount);
+		resultMap.put("waitingCount", waitingQueuings.stream().count());
+		resultMap.put("passCount", passQueuings.stream().count());
 		return resultMap;
 	}
 	
@@ -77,11 +88,6 @@ public class QueuingServiceImpl implements QueuingService {
 		queue.setQueueId(queueId);
 		
 		return queuingRepository.findByUserAndQueue(user, queue);
-	}
-	
-	@Override
-	public int getQueuingCount(Queue queue, List<QueuingStatus> queuingStatuss) {
-		return queuingRepository.countByQueueAndStatusIn(queue, queuingStatuss);
 	}
 	
 	@Override
@@ -121,7 +127,7 @@ public class QueuingServiceImpl implements QueuingService {
 	}
 	
 	@Override
-	public void removeQueuing(String queuingId, QueuingStatus queuingStatus) {
+	public void removeQueuing(String queuingId) {
 		queuingRepository.delete(queuingId);
 	}
 	

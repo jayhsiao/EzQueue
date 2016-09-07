@@ -48,7 +48,7 @@ public class AdminPromotionController extends BaseController {
 	@SuppressWarnings("unchecked")
 	public ResponseEntity<Object> removePromotion(@RequestBody Map<String, Object> map){
 		List<String> promotionIds = (List<String>) map.get("promotionIds");
-		promotionService.removePromotion(promotionIds);
+		promotionService.removePromotions(promotionIds);
 		return this.getResponse();
 	}
 	

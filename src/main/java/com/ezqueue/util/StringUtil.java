@@ -26,7 +26,7 @@ public class StringUtil {
 	    return passwordEncoder.encode(input);
 	}
 	
-	public static String formatNumber(int number) {
+	public static String formatNumber(Long number) {
 		return NF.format(number);
 	}
 	

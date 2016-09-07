@@ -24,8 +24,6 @@ public class EzQueueServiceImpl implements EzQueueService {
 		resultMap.put("queueTypes", queueTypeService.getQueueTypes());
 		resultMap.put("limit", EzQueueConstants.INIT_LIMIT);
 		resultMap.put("offset", EzQueueConstants.INIT_OFFSET);
-		resultMap.put("queuingLimit", EzQueueConstants.INIT_QUEUING_LIMIT);
-		resultMap.put("queuingOffset", EzQueueConstants.INIT_QUEUING_OFFSET);
 		return resultMap;
 	}
 	

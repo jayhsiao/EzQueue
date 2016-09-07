@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.ezqueue.util.StringUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -23,9 +24,11 @@ public class Star extends ModelBase implements Serializable{
 	private String starId;
 	@OneToOne
 	@JoinColumn(name = "user_id")
+	@JsonIgnore
 	private User user;
 	@OneToOne
 	@JoinColumn(name = "queue_id")
+	@JsonIgnore
 	private Queue queue;
 	@Column(name = "star_num")
 	private Integer starNum;
