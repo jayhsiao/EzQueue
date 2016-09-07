@@ -63,7 +63,7 @@
 		</div>
 	</div>
 	
-	<div class="col-md-4">
+	<div class="margin-top-20 col-md-4">
 		<table style="width: 100%">
 			<c:if test="${not QUEUE_DETAIL.canEdit}">
 			<tr id="tr_user_star" style="display: none;">
@@ -113,74 +113,49 @@
 	
 	<c:if test="${QUEUE_DETAIL.canEdit}">
 		<div class="col-md-6">
-			<h3>朕在排隊&nbsp;<span id="span_waiting_count"><c:out value="${QUEUE_DETAIL.waitingCount}"/></span></h3>
-			<div class="table">
-				<table id="table_WAITING" class="table table-hover">
-					<c:choose>
-						<c:when test="${not empty QUEUE_DETAIL.queuings_WAITING}">
-							<c:forEach items="${QUEUE_DETAIL.queuings_WAITING}" var="queuing">
-								<tr>
-									<td align="center" width="20%"><h1><span class="label label-default"><c:out value="${queuing.queueNum}"/></span></h1></td>
-									<td align="center" width="40%" style="word-break : break-all;">
-										<img src="http://graph.facebook.com/<c:out value="${queuing.user.facebookId}"/>/picture?width=50&height=50">
-										<br/>
-										<c:out value="${queuing.user.name}"/>
-									</td>
-									<td width="40%">
-										<button type="button" class="btn btn-success" name="btn_waiting_success"><h4><i class="fa fa-smile-o"></i></h4></button>
-										<button type="button" class="btn btn-warning" name="btn_pass"><h4><i class="fa fa-meh-o"></i></h4></button>
-										<input type="hidden" value="<c:out value="${queuing.queuingId}"/>">
-									</td>
-								</tr>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<tr>
-								<td align="center" colspan="3"><h1>無人排隊</h1></td>
-							</tr>
-						</c:otherwise>
-					</c:choose>
-				</table>
-			</div>
+			<h3>朕在排隊&nbsp;<span id="span_waiting_count" class="badge badge-default"><c:out value="${QUEUE_DETAIL.waitingCount}"/></span></h3>
+			<table id="table_waiting" class="table table-hover">
+				<c:forEach items="${QUEUE_DETAIL.waitingQueuings}" var="queuing">
+					<tr>
+						<td align="center" width="20%"><h1><span class="label label-default"><c:out value="${queuing.queueNum}"/></span></h1></td>
+						<td align="center" width="40%" style="word-break : break-all;">
+							<img src="http://graph.facebook.com/<c:out value="${queuing.user.facebookId}"/>/picture?width=50&height=50">
+							<br/>
+							<c:out value="${queuing.user.name}"/>
+						</td>
+						<td width="40%">
+							<button type="button" class="btn btn-success" name="btn_waiting_success"><h4><i class="fa fa-smile-o"></i></h4></button>
+							<button type="button" class="btn btn-warning" name="btn_pass"><h4><i class="fa fa-meh-o"></i></h4></button>
+							<input type="hidden" value="<c:out value="${queuing.queuingId}"/>">
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
 		</div>
 		<div class="col-md-6">
-			<h3>過客&nbsp;<span id="span_pass_count"><c:out value="${QUEUE_DETAIL.passCount}"/></span></h3>
-			<div class="table">
-				<table id="table_PASS" class="table table-hover">
-					<c:choose>
-						<c:when test="${not empty QUEUE_DETAIL.queuings_PASS}">
-							<c:forEach items="${QUEUE_DETAIL.queuings_PASS}" var="queuing">
-								<tr>
-									<td align="center" width="20%"><h1><span class="label label-default"><c:out value="${queuing.queueNum}"/></span></h1></td>
-									<td align="center" width="40%" style="word-break : break-all;">
-										<img src="http://graph.facebook.com/<c:out value="${queuing.user.facebookId}"/>/picture?width=50&height=50">
-										<br/>
-										<c:out value="${queuing.user.name}"/>
-									</td>
-									<td width="40%">
-										<button type="button" class="btn btn-success" name="btn_pass_success"><h4><i class="fa fa-smile-o"></i></h4></button>
-										<input type="hidden" value="<c:out value="${queuing.queuingId}"/>">
-									</td>
-								</tr>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<tr>
-								<td align="center" colspan="3"><h1>無人排隊</h1></td>
-							</tr>
-						</c:otherwise>
-					</c:choose>
-				</table>
-			</div>
+			<h3>過客&nbsp;<span id="span_pass_count" class="badge badge-default"><c:out value="${QUEUE_DETAIL.passCount}"/></span></h3>
+			<table id="table_pass" class="table table-hover">
+				<c:forEach items="${QUEUE_DETAIL.passQueuings}" var="queuing">
+					<tr>
+						<td align="center" width="20%"><h1><span class="label label-default"><c:out value="${queuing.queueNum}"/></span></h1></td>
+						<td align="center" width="40%" style="word-break : break-all;">
+							<img src="http://graph.facebook.com/<c:out value="${queuing.user.facebookId}"/>/picture?width=50&height=50">
+							<br/>
+							<c:out value="${queuing.user.name}"/>
+						</td>
+						<td width="40%">
+							<button type="button" class="btn btn-success" name="btn_pass_success"><h4><i class="fa fa-smile-o"></i></h4></button>
+							<input type="hidden" value="<c:out value="${queuing.queuingId}"/>">
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
 		</div>
 	</c:if>
 	
 	<hr>
-	<!-- 
-	<div class="fb-comments" data-width="100%" data-href="http://local.ezqueue.com:8080/ezqueue/home/<c:out value="${QUEUE_DETAIL.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
-	<div class="fb-comments" data-width="100%" data-href="http://ezqueue-dev.ap-northeast-1.elasticbeanstalk.com/ezqueue/home/<c:out value="${QUEUE_DETAIL.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
-	 -->
-	<div class="fb-comments" data-width="100%" data-href="http://local.ezqueue.com:8080/ezqueue/home/<c:out value="${QUEUE_DETAIL.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
+	
+	<div class="fb-comments" data-width="100%" data-href="<c:out value="${ENV_URL }"/><c:out value="${QUEUE_DETAIL.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
 	
 	<div id="div_delete_modal" class="modal fade bs-example-modal-sm" tabindex="-1"
 		role="dialog" aria-labelledby="mySmallModalLabel">

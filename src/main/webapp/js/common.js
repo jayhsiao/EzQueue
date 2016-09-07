@@ -28,7 +28,7 @@ var commonObj = {
 				textAlign:	'center',
 				cursor:		'wait'
 	        },
-	        message: '<h1><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></h1>' });
+	        message: '<h1><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></h1>' });
 	},
 	
 	unblockUI: function(){

@@ -49,4 +49,5 @@ public class FavoriteServiceImpl implements FavoriteService {
 	public void removeFavorite(String favoriteId) {
 		favoriteRepository.delete(favoriteId);
 	}
+	
 }

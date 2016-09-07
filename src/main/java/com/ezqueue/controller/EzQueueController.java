@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,9 @@ import com.ezqueue.util.EzQueueConstants;
 @Controller
 @RequestMapping(value = "/ezqueue")
 public class EzQueueController extends BaseController {
+	
+	@Value("${env.url}")
+	private String envUrl;
 	
 	@Autowired
 	private EzQueueService ezQueueService;
@@ -116,6 +120,7 @@ public class EzQueueController extends BaseController {
 	public String getQueueDetail(Model model, 
 			@RequestParam(value = "userId", required = false) String userId, 
 			@RequestParam(value = "queueId") String queueId) {
+		model.addAttribute("ENV_URL", envUrl + "/ezqueue/home/");
 		model.addAttribute("QUEUE_DETAIL", ezQueueService.getQueueDetail(userId, queueId));
         return EzQueueConstants.PAGE_QUEUE_DETAIL;
 	}

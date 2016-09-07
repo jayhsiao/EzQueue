@@ -92,7 +92,7 @@
 					<a class="dropdown-toggle"
 					data-toggle="dropdown" role="button" aria-haspopup="true"
 					aria-expanded="false">
-						<i id="i_facebook" class="fa fa-spinner fa-spin"></i>
+						<i id="i_facebook" class="fa fa-circle-o-notch fa-spin"></i>
 						<span id="span_user" style="display: none;">
 							<img id="img_header_facebook_user" class="img-circle">
 							<span id="span_header_facebook_user_name"></span>
@@ -150,8 +150,6 @@
 <input type="hidden" id="input_queueDetailId"       value="<c:out value="${QUEUE_DETAIL_ID }"/>">
 <input type="hidden" id="input_init_limit"          value="<c:out value="${RESPONSE.limit }"/>">
 <input type="hidden" id="input_init_offset"         value="<c:out value="${RESPONSE.offset }"/>">
-<input type="hidden" id="input_init_queuing_limit"  value="<c:out value="${RESPONSE.queuingLimit }"/>">
-<input type="hidden" id="input_init_queuing_offset" value="<c:out value="${RESPONSE.queuingOffset }"/>">
 <input type="hidden" id="input_offset"              value="">
 <input type="hidden" id="input_url"                 value="">
 </body>

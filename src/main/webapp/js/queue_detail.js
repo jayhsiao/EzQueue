@@ -26,8 +26,12 @@ var queueDetailObj = {
 			queueDetailObj.deleteQueue();
 		});
 		
-		$(document).on("click", "#btn_open, #btn_close", function(event){
-			queueDetailObj.updateStatus();
+		$(document).on("click", "#btn_open", function(event){
+			queueDetailObj.open();
+		});
+		
+		$(document).on("click", "#btn_close", function(event){
+			queueDetailObj.close();
 		});
 		
 		$(document).on("click", "#btn_save", function(event){
@@ -39,15 +43,15 @@ var queueDetailObj = {
 		});
 		
 		$(document).on("click", "button[name='btn_waiting_success']", function(event){
-			queueDetailObj.success($(this), "WAITING");
+			queueDetailObj.success($(this));
 		});
 		
 		$(document).on("click", "button[name='btn_pass_success']", function(event){
-			queueDetailObj.success($(this), "PASS");
+			queueDetailObj.success($(this));
 		});
 		
 		$(document).on("click", "button[name='btn_pass']", function(event){
-			queueDetailObj.waitingToPass($(this));
+			queueDetailObj.pass($(this));
 		});
 		
 	},
@@ -241,23 +245,32 @@ var queueDetailObj = {
 		});
 	},
 	
-	updateStatus: function(){
+	open: function(){
 		var body = {
-			queueId: $("#input_detail_queueId").val(), 
-			queueStatus: $("#input_detail_queueStatus").val()
+			queueId: $("#input_detail_queueId").val()
 		};
 		
-		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.PATCH, "/queues/updateStatus", JSON.stringify(body))
+		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.PATCH, "/queues/open", JSON.stringify(body))
 		.done(function(){
 			$("#span_message").text("");
-			if($("#input_detail_queueStatus").val() == "OPEN"){
-				$("#btn_open_confirm").show();
-				$("#btn_close_confirm").hide();
-			}
-			else{
-				$("#btn_close_confirm").show();
-				$("#btn_open_confirm").hide();
-			}
+			$("#btn_close_confirm").show();
+			$("#btn_open_confirm").hide();
+		})
+		.always(function(){
+			commonObj.unblockUI();
+		});
+	},
+	
+	close: function(){
+		var body = {
+			queueId: $("#input_detail_queueId").val()
+		};
+		
+		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.PATCH, "/queues/close", JSON.stringify(body))
+		.done(function(){
+			$("#span_message").text("");
+			$("#btn_open_confirm").show();
+			$("#btn_close_confirm").hide();
 		})
 		.always(function(){
 			commonObj.unblockUI();
@@ -293,83 +306,41 @@ var queueDetailObj = {
 		});
 	}, 
 	
-	success: function(btnObj, status){
+	success: function(btnObj){
 		var queuingId = $(btnObj).parent().find("input").val();
 		
-		var body = {
+		var param = {
 			queuingId: queuingId, 
-			status: status
+			queueId: $("#input_detail_queueId").val()
 		};
 		
-		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.DELETE, "/queuings/remove", JSON.stringify(body))
-		.done(function(){
-			queueDetailObj.getNext(btnObj, status);
-		})
-		.always(function(){
-			commonObj.unblockUI();
-		});
+		queueDetailObj.next("/queuings/success?"+$.param(param));
 	}, 
 	
-	waitingToPass: function(btnObj){
+	pass: function(btnObj){
 		var queuingId = $(btnObj).parent().find("input").val();
 		
-		var body = {
+		var param = {
 			queuingId: queuingId, 
-			status: "PASS"
+			queueId: $("#input_detail_queueId").val()
 		};
 		
-		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.PATCH, "/queuings/updateStatus", JSON.stringify(body))
-		.done(function(){
-			queueDetailObj.getNext(btnObj, "WAITING");
-			queueDetailObj.getNext(btnObj, "PASS");
-		})
-		.always(function(){
-			commonObj.unblockUI();
-		});
+		queueDetailObj.next("/queuings/pass?"+$.param(param));
 	}, 
 	
-	getNext: function(btnObj, status){
-		var queueId = $("#input_detail_queueId").val();
-		
-		var getBody = {
-			queuingStatus: status, 
-			limit: $("#input_init_queuing_limit").val(), 
-			offset: $("#input_init_queuing_offset").val()
-		};
-		
-		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.GET, "/queuings/next/"+queueId+"?"+$.param(getBody), null)
+	next: function(url){
+		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.GET, url, null)
 		.done(function(resultMap){
-			var queuings = resultMap.queuings;
+			var waitingQueuings = resultMap.waitingQueuings;
+			var passQueuings = resultMap.passQueuings;
+			
 			var waitingCount = resultMap.waitingCount;
 			var passCount = resultMap.passCount;
 			var queuingCount = resultMap.queuingCount;
-			var length = queuings.length;
 			
-			$("#table_"+status).empty();
-			var trHtml = "";
-			for(var i=0; i<length; i++){
-				var queuing = queuings[i];
-				trHtml += "<tr>";
-				trHtml += "<td align='center' width='20%'><h1><span class='label label-default'>"+queuing.queueNum+"</span></h1></td>";
-				trHtml += "<td align='center' width='40%' style='word-break : break-all;'>";
-				trHtml += 	"<img src='http://graph.facebook.com/"+queuing.user.facebookId+"/picture?width=50&height=50'><br/>"+queuing.user.name;
-				trHtml += "</td>";
-				trHtml += "<td width='40%'>";
-				
-				if(status == "WAITING"){
-					trHtml += 	"<button type='button' class='btn btn-success' name='btn_waiting_success'><h4><i class='fa fa-smile-o'></i></h4></button>&nbsp;";
-					trHtml += 	"<button type='button' class='btn btn-warning' name='btn_pass'><h4><i class='fa fa-meh-o'></i></h4></button>";
-				}
-				else if(status == "PASS"){
-					trHtml += 	"<button type='button' class='btn btn-success' name='btn_pass_success'><h4><i class='fa fa-smile-o'></i></h4></button>&nbsp;";
-				}
-				
-				trHtml += 	"<input type='hidden' value='"+queuing.queuingId+"'";
-				trHtml += "</td>";
-				trHtml += "</tr>";
-			}
+			queueDetailObj.getNextHtml(waitingQueuings, "#table_waiting");
+			queueDetailObj.getNextHtml(passQueuings, "#table_pass");
 			
-			$("#table_"+status).append(trHtml);
 			$("#span_waiting_count").text(waitingCount);
 			$("#span_pass_count").text(passCount);
 			$("#span_queuing_count").text(queuingCount);
@@ -377,6 +348,36 @@ var queueDetailObj = {
 		.always(function(){
 			commonObj.unblockUI();
 		});
+	}, 
+	
+	getNextHtml: function(queuings, tableId){
+		var length = queuings.length;
+		
+		var trHtml = "";
+		for(var i=0; i<length; i++){
+			var queuing = queuings[i];
+			trHtml += "<tr>";
+			trHtml += "<td align='center' width='20%'><h1><span class='label label-default'>"+queuing.queueNum+"</span></h1></td>";
+			trHtml += "<td align='center' width='40%' style='word-break : break-all;'>";
+			trHtml += 	"<img src='http://graph.facebook.com/"+queuing.user.facebookId+"/picture?width=50&height=50'><br/>"+queuing.user.name;
+			trHtml += "</td>";
+			trHtml += "<td width='40%'>";
+			
+			if(tableId == "#table_waiting"){
+				trHtml += 	"<button type='button' class='btn btn-success' name='btn_waiting_success'><h4><i class='fa fa-smile-o'></i></h4></button>&nbsp;";
+				trHtml += 	"<button type='button' class='btn btn-warning' name='btn_pass'><h4><i class='fa fa-meh-o'></i></h4></button>";
+			}
+			else if(tableId == "#table_pass"){
+				trHtml += 	"<button type='button' class='btn btn-success' name='btn_pass_success'><h4><i class='fa fa-smile-o'></i></h4></button>&nbsp;";
+			}
+			
+			trHtml += 	"<input type='hidden' value='"+queuing.queuingId+"'";
+			trHtml += "</td>";
+			trHtml += "</tr>";
+		}
+		
+		$(tableId).empty();
+		$(tableId).append(trHtml);
 	}
 	
 }

@@ -1,12 +1,6 @@
-my:
-    servers:
-        dev:dev.ezqueue.com:8080
-        sit:sit.ezqueue.com:8080
+env:
+    url: http://local.ezqueue.com:8080
 spring:
-    social:
-        facebook:
-            appId: 592070890950054
-            appSecret: 175168bcf89d3332eace778f8ecd5a39
     view:
         prefix: /jsp/
         suffix: .jsp

@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,7 +21,6 @@ import com.ezqueue.model.QueueType;
 import com.ezqueue.model.Queuing;
 import com.ezqueue.model.Star;
 import com.ezqueue.model.User;
-import com.ezqueue.model.UserAccountMap;
 import com.ezqueue.repository.QueueRepository;
 import com.ezqueue.util.EzQueueConstants;
 import com.ezqueue.util.QueueStatus;
@@ -59,6 +57,18 @@ public class QueueServiceImpl implements QueueService {
 	private UserAccountMapService userAccountMapService;
 	
 	@Override
+	public List<Map<String, Object>> getPromotionQueues(int limit, int offset) {
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		
+		promotionService.getPromotions(offset, limit)
+			.stream()
+			.filter(promotion -> QueueStatus.OPEN.equals(promotion.getQueue().getStatus()))
+			.forEach(promotion -> list.add(this.getQueueMap(promotion.getQueue())));
+		
+		return list;
+	}
+	
+	@Override
 	public List<Map<String, Object>> getTypeQueues(String queueTypeId, int limit, int offset) {
 		List<Map<String, Object>> list = new ArrayList<>();
 		
@@ -68,15 +78,16 @@ public class QueueServiceImpl implements QueueService {
 		PageRequest pageRequest = new PageRequest(offset, limit, Direction.DESC, "createDate");
 		List<Queue> queues = null;
 		if(queueTypeId.equals(QueueTypeStatus.ALL.name())){
-			queues = Lists.newArrayList(queueRepository.findAll(pageRequest)).stream().filter(queue -> QueueStatus.OPEN.equals(queue.getStatus())).collect(Collectors.toList());
+			queues = Lists.newArrayList(queueRepository.findAll(pageRequest));
 		}
 		else{
-			queues = queueRepository.findByQueueType(queueType, pageRequest).stream().filter(queue -> QueueStatus.OPEN.equals(queue.getStatus())).collect(Collectors.toList());
+			queues = queueRepository.findByQueueType(queueType, pageRequest);
 		}
 		
-		for(Queue queue: queues){
-			list.add(this.getQueueMap(queue));
-		}
+		queues
+			.stream()
+			.filter(queue -> QueueStatus.OPEN.equals(queue.getStatus()))
+			.forEach(queue -> list.add(this.getQueueMap(queue)));
 		
 		return list;
 	}
@@ -91,29 +102,14 @@ public class QueueServiceImpl implements QueueService {
 		List<User> users = new ArrayList<User>();
 		users.add(userService.getUser(userId));
 		
-		List<UserAccountMap> userAccountMaps= userAccountMapService.getUserAccountMaps(userId);
-		for(UserAccountMap userAccountMap: userAccountMaps){
-			users.add(userService.getUser(userAccountMap.getUserAccountId()));
-		}
+		userAccountMapService.getUserAccountMaps(userId)
+			.stream()
+			.forEach(userAccountMap -> users.add(userService.getUser(userAccountMap.getUserAccountId())));
 		
 		PageRequest pageRequest = new PageRequest(offset, limit, Direction.DESC, "createDate");
-		List<Queue> queues = queueRepository.findByUserIn(users, pageRequest);
-		
-		for(Queue queue: queues){
-			list.add(this.getQueueMap(queue));
-		}
-		
-		return list;
-	}
-	
-	@Override
-	public List<Map<String, Object>> getPromotionQueues(int limit, int offset) {
-		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		
-		List<Promotion> promotions = promotionService.getPromotions(offset, limit).stream().filter(promotion -> QueueStatus.OPEN.equals(promotion.getQueue().getStatus())).collect(Collectors.toList());
-		for(Promotion promotion: promotions){
-			list.add(this.getQueueMap(promotion.getQueue()));
-		}
+		queueRepository.findByUserIn(users, pageRequest)
+			.stream()
+			.forEach(queue -> list.add(this.getQueueMap(queue)));
 		
 		return list;
 	}
@@ -122,10 +118,10 @@ public class QueueServiceImpl implements QueueService {
 	public List<Map<String, Object>> getFavoriteQueues(String userId, int limit, int offset) {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
-		List<Favorite> favorites = favoriteService.getFavorites(userId).stream().filter(favorite -> QueueStatus.OPEN.equals(favorite.getQueue().getStatus())).collect(Collectors.toList());
-		for(Favorite favorite: favorites){
-			list.add(this.getQueueMap(favorite.getQueue()));
-		}
+		favoriteService.getFavorites(userId)
+			.stream()
+			.filter(favorite -> QueueStatus.OPEN.equals(favorite.getQueue().getStatus()))
+			.forEach(favorite -> list.add(this.getQueueMap(favorite.getQueue())));
 		
 		return list;
 	}
@@ -134,10 +130,10 @@ public class QueueServiceImpl implements QueueService {
 	public List<Map<String, Object>> getQueuingQueues(String userId, int limit, int offset) {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
-		List<Queuing> queuings = queuingService.getQueuingsByUser(userId, limit, offset).stream().filter(queuing -> QueueStatus.OPEN.equals(queuing.getQueue().getStatus())).collect(Collectors.toList());
-		for(Queuing queuing: queuings){
-			list.add(this.getQueueMap(queuing.getQueue()));
-		}
+		queuingService.getQueuingsByUser(userId, limit, offset)
+			.stream()
+			.filter(queuing -> QueueStatus.OPEN.equals(queuing.getQueue().getStatus()))
+			.forEach(queuing -> list.add(this.getQueueMap(queuing.getQueue())));
 		
 		return list;
 	}
@@ -147,10 +143,10 @@ public class QueueServiceImpl implements QueueService {
 		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		
 		PageRequest pageRequest = new PageRequest(offset, limit, Direction.DESC, "createDate");
-		List<Queue> queues = queueRepository.getQueueByText("%"+title+"%", pageRequest).stream().filter(queue -> QueueStatus.OPEN.equals(queue.getStatus())).collect(Collectors.toList());
-		for(Queue queue: queues){
-			list.add(this.getQueueMap(queue));
-		}
+		queueRepository.getQueueByText("%"+title+"%", pageRequest)
+			.stream()
+			.filter(queue -> QueueStatus.OPEN.equals(queue.getStatus()))
+			.forEach(queue -> list.add(this.getQueueMap(queue)));
 		
 		return list;
 	}
@@ -171,10 +167,10 @@ public class QueueServiceImpl implements QueueService {
 		user.setUserId(userId);
 		
 		PageRequest pageRequest = new PageRequest(offset, limit, Direction.DESC, "createDate");
-		List<Queue> queues = queueRepository.findByUser(user, pageRequest).stream().filter(queue -> QueueStatus.OPEN.equals(queue.getStatus())).collect(Collectors.toList());
-		for(Queue queue: queues){
-			list.add(this.getQueueMap(queue));
-		}
+		queueRepository.findByUser(user, pageRequest)
+			.stream()
+			.filter(queue -> QueueStatus.OPEN.equals(queue.getStatus()))
+			.forEach(queue -> list.add(this.getQueueMap(queue)));
 		
 		return list;
 	}
@@ -247,12 +243,7 @@ public class QueueServiceImpl implements QueueService {
 	@Override
 	public void updateStatus(String queueId, QueueStatus queueStatus) {
 		Queue queue = queueRepository.findOne(queueId);
-		if(QueueStatus.OPEN.equals(queueStatus)){
-			queue.setStatus(QueueStatus.CLOSE);
-		}
-		else{
-			queue.setStatus(QueueStatus.OPEN);
-		}
+		queue.setStatus(queueStatus);
 		queueRepository.save(queue);
 	}
 	
@@ -262,18 +253,13 @@ public class QueueServiceImpl implements QueueService {
 		
 		Promotion promotion = promotionService.getPromotion(queueId);
 		
-		List<QueuingStatus> queuingStatuss = new ArrayList<>();
-		queuingStatuss.add(QueuingStatus.WAITING);
-		queuingStatuss.add(QueuingStatus.PASS);
-		int queuingCount = queuingService.getQueuingCount(queue, queuingStatuss);
-		
 		queueMap.put("queue", queue);
 		queueMap.put("user", queue.getUser());
 		queueMap.put("promotion", promotion);
 		
-		queueMap.put("favoriteCount", StringUtil.formatNumber(favoriteService.getFavoriteCount(queue)));
-		queueMap.put("queuingCount", StringUtil.formatNumber(queuingCount));
-		queueMap.put("starsCount", StringUtil.formatNumber(starsService.getStarsCount(queue)));
+		queueMap.put("favoriteCount", StringUtil.formatNumber(queue.getFavorites().stream().count()));
+		queueMap.put("queuingCount", StringUtil.formatNumber(queue.getQueuings().stream().count()));
+		queueMap.put("starsCount", StringUtil.formatNumber(queue.getStars().stream().count()));
 		
 		queueMap.put("totalStar", EzQueueConstants.TOTAL_STAR);
 		queueMap.put("avgStar", starsService.getAvgStar(queueId));
@@ -286,6 +272,7 @@ public class QueueServiceImpl implements QueueService {
 		Map<String, Object> queueMap = new HashMap<String, Object>();
 		boolean canEdit = false;
 		String queueId = queue.getQueueId();
+		List<Queuing> queuings = queue.getQueuings();
 		
 		if(!StringUtils.isEmpty(userId)){
 			Favorite favorite = favoriteService.getFavorite(userId, queueId);
@@ -295,8 +282,8 @@ public class QueueServiceImpl implements QueueService {
 			List<User> accounts = userService.getUserList(userId);
 			if(!accounts.stream().filter(user -> user.getUserId().equals(queue.getUser().getUserId())).collect(Collectors.toList()).isEmpty()){
 				canEdit = true;
-				queueMap.put("queuings_WAITING", queuingService.getQueuingsByQueue(queueId, QueuingStatus.WAITING,EzQueueConstants.INIT_QUEUING_LIMIT, EzQueueConstants.INIT_QUEUING_OFFSET));
-				queueMap.put("queuings_PASS", queuingService.getQueuingsByQueue(queueId, QueuingStatus.PASS, EzQueueConstants.INIT_QUEUING_LIMIT, EzQueueConstants.INIT_QUEUING_OFFSET));
+				queueMap.put("waitingQueuings", queue.getQueuings().stream().filter(q -> QueuingStatus.WAITING.equals(q.getStatus())).limit(EzQueueConstants.INIT_QUEUING_LIMIT).collect(Collectors.toList()));
+				queueMap.put("passQueuings", queue.getQueuings().stream().filter(q -> QueuingStatus.PASS.equals(q.getStatus())).limit(EzQueueConstants.INIT_QUEUING_LIMIT).collect(Collectors.toList()));
 			}
 			
 			queueMap.put("favorite", favorite);
@@ -306,16 +293,9 @@ public class QueueServiceImpl implements QueueService {
 			queueMap.put("isOpen", QueueStatus.OPEN.name().equals(queue.getStatus().name()));
 		}
 		
-		List<QueuingStatus> queuingStatuss = new ArrayList<>();
-		queuingStatuss.add(QueuingStatus.WAITING);
-		int waitingCount = queuingService.getQueuingCount(queue, queuingStatuss);
-		
-		queuingStatuss.clear();
-		queuingStatuss.add(QueuingStatus.PASS);
-		int passCount = queuingService.getQueuingCount(queue, queuingStatuss);
-		
-		queuingStatuss.add(QueuingStatus.WAITING);
-		int queuingCount = queuingService.getQueuingCount(queue, queuingStatuss);
+		long queuingCount = queuings.stream().count();
+		long waitingCount = queuings.stream().filter(q -> QueuingStatus.WAITING.equals(q.getStatus())).count();
+		long passCount = queuings.stream().filter(q -> QueuingStatus.PASS.equals(q.getStatus())).count();
 		
 		queueMap.put("queue", queue);
 		queueMap.put("user", queue.getUser());
@@ -323,8 +303,8 @@ public class QueueServiceImpl implements QueueService {
 		queueMap.put("waitingCount", StringUtil.formatNumber(waitingCount));
 		queueMap.put("passCount", StringUtil.formatNumber(passCount));
 		queueMap.put("queuingCount", StringUtil.formatNumber(queuingCount));
-		queueMap.put("favoriteCount", StringUtil.formatNumber(favoriteService.getFavoriteCount(queue)));
-		queueMap.put("starsCount", StringUtil.formatNumber(starsService.getStarsCount(queue)));
+		queueMap.put("favoriteCount", StringUtil.formatNumber(queue.getFavorites().stream().count()));
+		queueMap.put("starsCount", StringUtil.formatNumber(queue.getStars().stream().count()));
 		
 		queueMap.put("totalStar", EzQueueConstants.TOTAL_STAR);
 		queueMap.put("avgStar", starsService.getAvgStar(queueId));

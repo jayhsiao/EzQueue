@@ -10,6 +10,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.ezqueue.util.StringUtil;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -23,9 +24,11 @@ public class Favorite extends ModelBase implements Serializable{
 	private String favoriteId;
 	@OneToOne
 	@JoinColumn(name = "user_id")
+	@JsonIgnore
 	private User user;
 	@OneToOne
 	@JoinColumn(name = "queue_id")
+	@JsonIgnore
 	private Queue queue;
 	
 	@Override
@@ -50,4 +53,5 @@ public class Favorite extends ModelBase implements Serializable{
 	public void setQueue(Queue queue) {
 		this.queue = queue;
 	}
+	
 }

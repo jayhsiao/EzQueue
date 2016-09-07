@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -22,12 +21,18 @@ public class QueuingController extends BaseController {
 	@Autowired
 	private QueuingService queuingService;
 	
-	@RequestMapping(value = "/next/{queueId}", method = RequestMethod.GET)
-	public ResponseEntity<Object> nextQueuing(@PathVariable String queueId, 
-			@RequestParam QueuingStatus queuingStatus, 
-			@RequestParam(value = "limit", required = false, defaultValue = "limit") int limit,
-			@RequestParam(value = "offset", required = false, defaultValue = "offset") int offset) {
-		return this.getResponse(queuingService.getNext(queueId, queuingStatus, limit, offset));
+	@RequestMapping(value = "/success", method = RequestMethod.GET)
+	public ResponseEntity<Object> successQueuing(
+		@RequestParam String queuingId, 
+		@RequestParam String queueId) {
+		return this.getResponse(queuingService.success(queuingId, queueId));
+	}
+	
+	@RequestMapping(value = "/pass", method = RequestMethod.GET)
+	public ResponseEntity<Object> passQueuing(
+		@RequestParam String queuingId, 
+		@RequestParam String queueId) {
+		return this.getResponse(queuingService.pass(queuingId, queueId));
 	}
 	
 	@RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -48,8 +53,7 @@ public class QueuingController extends BaseController {
 	@RequestMapping(value = "/remove", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> updateWaittingStatus(@RequestBody Map<String, Object> map) {
 		String queuingId = (String) map.get("queuingId");
-		QueuingStatus queuingStatus = QueuingStatus.valueOf((String) map.get("status"));
-		queuingService.removeQueuing(queuingId, queuingStatus);
+		queuingService.removeQueuing(queuingId);
 		return this.getResponse();
 	}
 	
