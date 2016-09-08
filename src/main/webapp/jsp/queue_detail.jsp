@@ -103,11 +103,13 @@
 					<input type="text" id="input_address" class="form-control" style="display: none;" maxlength="100" value="<c:out value="${QUEUE_DETAIL.queue.address}"/>">
 				</td>
 			</tr>
+			<c:if test="${not QUEUE_DETAIL.canEdit}">
 			<tr>
 				<td align="center" colspan="2" height="200">
 					<iframe id="iframe_map" width="90%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=<c:out value="${QUEUE_DETAIL.queue.address}"/>&z=16&output=embed&t="></iframe>
 				</td>
 			</tr>
+			</c:if>
 		</table>
 	</div>
 	
