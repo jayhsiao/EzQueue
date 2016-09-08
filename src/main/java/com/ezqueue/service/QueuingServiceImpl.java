@@ -67,13 +67,12 @@ public class QueuingServiceImpl implements QueuingService {
 		Queue queue = queueService.getQueue(queueId);
 		List<Queuing> queuings = queue.getQueuings();
 		
-		long queuingCount = queuings.stream().count();
-		List<Queuing> waitingQueuings = queuings.stream().filter(q -> QueuingStatus.WAITING.equals(q.getStatus())).limit(EzQueueConstants.INIT_QUEUING_LIMIT).collect(Collectors.toList());
-		List<Queuing> passQueuings = queuings.stream().filter(q -> QueuingStatus.PASS.equals(q.getStatus())).limit(EzQueueConstants.INIT_QUEUING_LIMIT).collect(Collectors.toList());
+		List<Queuing> waitingQueuings = queuings.stream().filter(q -> QueuingStatus.WAITING.equals(q.getStatus())).collect(Collectors.toList());
+		List<Queuing> passQueuings = queuings.stream().filter(q -> QueuingStatus.PASS.equals(q.getStatus())).collect(Collectors.toList());
 		
-		resultMap.put("waitingQueuings", waitingQueuings);
-		resultMap.put("passQueuings", passQueuings);
-		resultMap.put("queuingCount", queuingCount);
+		resultMap.put("waitingQueuings", waitingQueuings.stream().limit(EzQueueConstants.INIT_QUEUING_LIMIT).collect(Collectors.toList()));
+		resultMap.put("passQueuings", passQueuings.stream().limit(EzQueueConstants.INIT_QUEUING_LIMIT).collect(Collectors.toList()));
+		resultMap.put("queuingCount", queuings.stream().count());
 		resultMap.put("waitingCount", waitingQueuings.stream().count());
 		resultMap.put("passCount", passQueuings.stream().count());
 		return resultMap;
