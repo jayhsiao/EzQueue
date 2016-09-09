@@ -6,64 +6,60 @@
 		<div class="jumbotron">
 			<p><%@include file="/jsp/facebook_user.jsp" %></p>
 			<h1><c:out value="${QUEUE_DETAIL.queue.title}"/></h1>
-			<p><%@include file="/jsp/queue_star.jsp" %>&nbsp;<i class="fa <c:out value="${QUEUE_DETAIL.queue.queueType.iconClass}"/>"></i></p>
+			<p><%@include file="/jsp/queue_count.jsp" %></p>
 			<p>
 				<span id="span_dscr"><c:out value="${QUEUE_DETAIL.queue.dscr}" escapeXml="false"/></span>
 				<textarea id="textarea_dscr" class="form-control" style="display: none;" cols="10" rows="10" maxlength="500"><c:out value="${QUEUE_DETAIL.queue.dscr}" escapeXml="false"/></textarea>
 			</p>
 			<p>
-				<c:if test="${not empty QUEUE_DETAIL.promotion}">
-					<span class="label label-danger">Hot</span>
-				</c:if>
-			</p>
-			<p>
+				<a id="btn_back" class='btn btn-default btn-lg' href="#div_<c:out value="${QUEUE_DETAIL.queue.queueId}"/>"><i class="fa fa-arrow-left"></i></a>
 				<c:choose>
 					<c:when test="${QUEUE_DETAIL.canEdit}">
-						<button type="button" id="btn_revert" class='btn btn-default' style="display: none;"><i class="fa fa-undo"></i>&nbsp;復原</button>
-						<button type="button" id="btn_save"   class='btn btn-default' style="display: none;"><i class="fa fa-floppy-o"></i>&nbsp;儲存</button>
+						<button type="button" id="btn_revert"       class='btn btn-default btn-lg' style="display: none;"><i class="fa fa-undo"></i></button>
+						<button type="button" id="btn_save_confirm" class='btn btn-default btn-lg' style="display: none;" data-toggle="modal" data-target="#div_save_modal"><i class="fa fa-floppy-o"></i></button>
 						<span id="span_btn">
-							<button type="button" id="btn_edit"   class='btn btn-default'><i class="fa fa-pencil"></i>&nbsp;修改</button>
-							<button type="button" id="btn_delete_confirm" class="btn btn-default" data-toggle="modal" data-target="#div_delete_modal"><i class="fa fa-trash"></i>&nbsp;刪除</button>
-							<button type="button" id="btn_open_confirm" class="btn btn-default" data-toggle="modal" data-target="#div_open_modal" style="<c:if test="${QUEUE_DETAIL.isOpen}">display: none;</c:if>">
-								<i class="fa fa-play"></i>&nbsp;開啟
+							<button type="button" id="btn_edit"           class='btn btn-default btn-lg'><i class="fa fa-pencil"></i></button>
+							<button type="button" id="btn_delete_confirm" class="btn btn-default btn-lg" data-toggle="modal" data-target="#div_delete_modal"><i class="fa fa-trash"></i></button>
+							<button type="button" id="btn_open_confirm"   class="btn btn-default btn-lg" data-toggle="modal" data-target="#div_open_modal" style="<c:if test="${QUEUE_DETAIL.isOpen}">display: none;</c:if>">
+								<i class="fa fa-play"></i>
 							</button>
-							<button type="button" id="btn_close_confirm" class="btn btn-default" data-toggle="modal" data-target="#div_close_modal" style="<c:if test="${not QUEUE_DETAIL.isOpen}">display: none;</c:if>">
-								<i class="fa fa-pause"></i>&nbsp;暫停
+							<button type="button" id="btn_close_confirm"  class="btn btn-default btn-lg" data-toggle="modal" data-target="#div_close_modal" style="<c:if test="${not QUEUE_DETAIL.isOpen}">display: none;</c:if>">
+								<i class="fa fa-pause"></i>
 							</button>
 						</span>
 					</c:when>
 					<c:otherwise>
-						<button type="button" id="btn_favorite" class='btn btn-default' style="display: none;">
+						<button type="button" id="btn_favorite" class='btn btn-default btn-lg' style="display: none;">
 							<c:choose>
 								<c:when test="${not empty QUEUE_DETAIL.favorite}">
-									<i class="fa fa-heart"></i>&nbsp;<span id="span_favorite_dscr">不喜歡了</span>
+									<i class="fa fa-heart"></i>
 								</c:when>
 								<c:otherwise>
-									<i class="fa fa-heart-o"></i>&nbsp;<span id="span_favorite_dscr">加入最愛</span>
+									<i class="fa fa-heart-o"></i>
 								</c:otherwise>
 							</c:choose>
 						</button>
-						<button type="button" id="btn_queuing" class='btn btn-default' style="display: none;">
+						<button type="button" id="btn_queuing" class='btn btn-default btn-lg' style="display: none;">
 							<c:choose>
 								<c:when test="${not empty QUEUE_DETAIL.queuing}">
-									<i class="fa fa-user-times"></i>&nbsp;<span id="span_queuing_dscr">不想等了</span>
+									<i class="fa fa-user-times"></i>
 								</c:when>
 								<c:otherwise>
-									<i class="fa fa-user-plus"></i>&nbsp;<span id="span_queuing_dscr">抽號碼牌</span>
+									<i class="fa fa-user-plus"></i>
 								</c:otherwise>
 							</c:choose>
 						</button>
 					</c:otherwise>
 				</c:choose>
+				<i class="fa <c:out value="${QUEUE_DETAIL.queue.queueType.iconClass}"/>"></i>
 			</p>
 			<p>
-				<a id="btn_back" class='btn btn-default' href="#div_<c:out value="${QUEUE_DETAIL.queue.queueId}"/>"><i class="fa fa-arrow-left"></i>&nbsp;回上頁</a>
 				<span id="span_message" class="label label-danger"></span>
 			</p>
 		</div>
 	</div>
 	
-	<div class="margin-top-20 col-md-4">
+	<div class="margin-top-20 col-xs-12 col-md-4">
 		<table style="width: 100%">
 			<c:if test="${not QUEUE_DETAIL.canEdit}">
 			<tr id="tr_user_star" style="display: none;">
@@ -75,14 +71,6 @@
 				<td><h3>排隊號碼&nbsp;&nbsp;<span id="span_queueNum" class="label label-default"><c:out value="${QUEUE_DETAIL.queuing.queueNum}"/></span></h3></td>
 			</tr>
 			</c:if>
-			<tr>
-				<td align="center"><h3><i class="fa fa-heart"></i></h3></td>
-				<td><h3>最愛人數&nbsp;&nbsp;<c:out value="${QUEUE_DETAIL.favoriteCount}"/></h3></td>
-			</tr>
-			<tr>
-				<td align="center"><h3><i class="fa fa-users"></i></h3></td>
-				<td><h3>排隊人數&nbsp;&nbsp;<span id="span_queuing_count"><c:out value="${QUEUE_DETAIL.queuingCount}"/></span></h3></td>
-			</tr>
 			<!-- 
 			<tr>
 				<td align="center"><h3><i class="fa fa-clock-o"></i></h3></td>
@@ -114,8 +102,8 @@
 	</div>
 	
 	<c:if test="${QUEUE_DETAIL.canEdit}">
-		<div class="col-md-6">
-			<h3>朕在排隊&nbsp;<span id="span_waiting_count" class="badge badge-default"><c:out value="${QUEUE_DETAIL.waitingCount}"/></span></h3>
+		<div class="col-xs-12 col-md-6">
+			<h3><i class="fa fa-users"></i>&nbsp;正在排隊&nbsp;<span id="span_waiting_count" class="badge badge-default"><c:out value="${QUEUE_DETAIL.waitingCount}"/></span></h3>
 			<table id="table_waiting" class="table table-hover">
 				<c:forEach items="${QUEUE_DETAIL.waitingQueuings}" var="queuing">
 					<tr>
@@ -126,16 +114,16 @@
 							<c:out value="${queuing.user.name}"/>
 						</td>
 						<td width="40%">
-							<button type="button" class="btn btn-success" name="btn_waiting_success"><h4><i class="fa fa-smile-o"></i></h4></button>
-							<button type="button" class="btn btn-warning" name="btn_pass"><h4><i class="fa fa-meh-o"></i></h4></button>
+							<button type="button" class="btn btn-success" name="btn_waiting_success"><h4><i class="fa fa-check"></i></h4></button>
+							<button type="button" class="btn btn-warning" name="btn_pass"><h4><i class="fa fa-clock-o"></i></h4></button>
 							<input type="hidden" value="<c:out value="${queuing.queuingId}"/>">
 						</td>
 					</tr>
 				</c:forEach>
 			</table>
 		</div>
-		<div class="col-md-6">
-			<h3>過客&nbsp;<span id="span_pass_count" class="badge badge-default"><c:out value="${QUEUE_DETAIL.passCount}"/></span></h3>
+		<div class="col-xs-12 col-md-6">
+			<h3><i class="fa fa-clock-o"></i>&nbsp;過號&nbsp;<span id="span_pass_count" class="badge badge-default"><c:out value="${QUEUE_DETAIL.passCount}"/></span></h3>
 			<table id="table_pass" class="table table-hover">
 				<c:forEach items="${QUEUE_DETAIL.passQueuings}" var="queuing">
 					<tr>
@@ -146,7 +134,7 @@
 							<c:out value="${queuing.user.name}"/>
 						</td>
 						<td width="40%">
-							<button type="button" class="btn btn-success" name="btn_pass_success"><h4><i class="fa fa-smile-o"></i></h4></button>
+							<button type="button" class="btn btn-success" name="btn_pass_success"><h4><i class="fa fa-check"></i></h4></button>
 							<input type="hidden" value="<c:out value="${queuing.queuingId}"/>">
 						</td>
 					</tr>
@@ -159,6 +147,19 @@
 	
 	<div class="fb-comments" data-width="100%" data-href="<c:out value="${ENV_URL }"/><c:out value="${QUEUE_DETAIL.queue.queueId}"/>" data-numposts="5" data-order-by="reverse_time"></div>
 	
+	<div id="div_save_modal" class="modal fade bs-example-modal-sm" tabindex="-1"
+		role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal-dialog modal-sm" role="document">
+			<div class="modal-content">
+				<div class="modal-header"><h3>儲存修改</h3></div>
+				<div class="modal-body">確定儲存修改?</div>
+				<div class="modal-footer">
+					<span class="btn btn-default" data-dismiss="modal">關閉視窗</span>
+					<span id="btn_save" class="btn btn-primary" data-dismiss="modal"><i class="fa -floppy-o"></i>&nbsp;儲存</span>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div id="div_delete_modal" class="modal fade bs-example-modal-sm" tabindex="-1"
 		role="dialog" aria-labelledby="mySmallModalLabel">
 		<div class="modal-dialog modal-sm" role="document">

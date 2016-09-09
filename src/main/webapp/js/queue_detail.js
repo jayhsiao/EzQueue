@@ -212,8 +212,9 @@ var queueDetailObj = {
 		$("#span_address").hide();
 		$("#input_address").show();
 		
+		$("#btn_back").hide();
 		$("#btn_revert").show();
-		$("#btn_save").show();
+		$("#btn_save_confirm").show();
 		$("#span_btn").hide();
 	}, 
 	
@@ -225,8 +226,9 @@ var queueDetailObj = {
 		$("#span_address").show();
 		$("#input_address").hide().val($("#span_address").text());
 		
+		$("#btn_back").show();
 		$("#btn_revert").hide();
-		$("#btn_save").hide();
+		$("#btn_save_confirm").hide();
 		$("#span_btn").show();
 	}, 
 	
@@ -294,10 +296,10 @@ var queueDetailObj = {
 			$("#span_address").text(queue.address).show();
 			$("#input_address").hide();
 			
+			$("#btn_back").show();
 			$("#btn_revert").hide();
-			$("#btn_save").hide();
-			$("#btn_edit").show();
-			$("#btn_delete").show();
+			$("#btn_save_confirm").hide();
+			$("#span_btn").show();
 			
 			$("#iframe_map").attr("src", "http://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q="+queue.address+"&z=16&output=embed&t=");
 		})

@@ -74,9 +74,9 @@ var commonObj = {
 	getQueueDetail: function(url){
 		ajaxUtilObj.callHtmlAJAX(url)
 		.done(function(page){
-			$(document).scrollTop(0);
 			$("#div_list").hide();
 			$("#div_detail").empty();
+			$(document).scrollTop(0);
 			
 			$("#div_detail").append(page).promise()
 			.done(function(){
