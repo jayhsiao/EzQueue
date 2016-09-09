@@ -56,7 +56,11 @@ public class QueuingServiceImpl implements QueuingService {
 	
 	@Override
 	public Map<String, Object> pass(String queuingId, String queueId) {
-		this.updateStatus(queuingId, QueuingStatus.PASS);
+		Queuing queuing = queuingRepository.findOne(queuingId);
+		if(queuing != null){
+			this.updateStatus(queuingId, QueuingStatus.PASS);
+		}
+		
 		return this.next(queueId);
 	}
 	
