@@ -366,11 +366,11 @@ var queueDetailObj = {
 			trHtml += "<td width='40%'>";
 			
 			if(tableId == "#table_waiting"){
-				trHtml += 	"<button type='button' class='btn btn-success' name='btn_waiting_success'><h4><i class='fa fa-smile-o'></i></h4></button>&nbsp;";
-				trHtml += 	"<button type='button' class='btn btn-warning' name='btn_pass'><h4><i class='fa fa-meh-o'></i></h4></button>";
+				trHtml += 	"<button type='button' class='btn btn-success' name='btn_waiting_success'><h4><i class='fa fa-check'></i></h4></button>&nbsp;";
+				trHtml += 	"<button type='button' class='btn btn-warning' name='btn_pass'><h4><i class='fa fa-clock-o'></i></h4></button>";
 			}
 			else if(tableId == "#table_pass"){
-				trHtml += 	"<button type='button' class='btn btn-success' name='btn_pass_success'><h4><i class='fa fa-smile-o'></i></h4></button>&nbsp;";
+				trHtml += 	"<button type='button' class='btn btn-success' name='btn_pass_success'><h4><i class='fa fa-check'></i></h4></button>&nbsp;";
 			}
 			
 			trHtml += 	"<input type='hidden' value='"+queuing.queuingId+"'";
