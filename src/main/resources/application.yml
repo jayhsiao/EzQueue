@@ -1,5 +1,5 @@
 env:
-    url: http://local.ezqueue.com:8080
+    url: http://ezqueue-dev.ap-northeast-1.elasticbeanstalk.com/ezqueue/home
 spring:
     view:
         prefix: /jsp/
