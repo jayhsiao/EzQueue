@@ -59,7 +59,7 @@
 		</div>
 	</div>
 	
-	<div class="margin-top-20 col-xs-12 col-md-4">
+	<div class="col-xs-12 col-md-4">
 		<table style="width: 100%">
 			<c:if test="${not QUEUE_DETAIL.canEdit}">
 			<tr id="tr_user_star" style="display: none;">
@@ -109,13 +109,13 @@
 					<tr>
 						<td align="center" width="20%"><h1><span class="label label-default"><c:out value="${queuing.queueNum}"/></span></h1></td>
 						<td align="center" width="40%" style="word-break : break-all;">
-							<img src="http://graph.facebook.com/<c:out value="${queuing.user.facebookId}"/>/picture?width=50&height=50">
+							<img class="img-circle" src="http://graph.facebook.com/<c:out value="${queuing.user.facebookId}"/>/picture?width=50&height=50">
 							<br/>
 							<c:out value="${queuing.user.name}"/>
 						</td>
 						<td width="40%">
-							<button type="button" class="btn btn-success" name="btn_waiting_success"><h4><i class="fa fa-check"></i></h4></button>
-							<button type="button" class="btn btn-warning" name="btn_pass"><h4><i class="fa fa-clock-o"></i></h4></button>
+							<button type="button" class="btn btn-default" name="btn_waiting_success"><h4><i class="fa fa-check"></i></h4></button>
+							<button type="button" class="btn btn-default" name="btn_pass"><h4><i class="fa fa-clock-o"></i></h4></button>
 							<input type="hidden" value="<c:out value="${queuing.queuingId}"/>">
 						</td>
 					</tr>
@@ -129,12 +129,12 @@
 					<tr>
 						<td align="center" width="20%"><h1><span class="label label-default"><c:out value="${queuing.queueNum}"/></span></h1></td>
 						<td align="center" width="40%" style="word-break : break-all;">
-							<img src="http://graph.facebook.com/<c:out value="${queuing.user.facebookId}"/>/picture?width=50&height=50">
+							<img class="img-circle" src="http://graph.facebook.com/<c:out value="${queuing.user.facebookId}"/>/picture?width=50&height=50">
 							<br/>
 							<c:out value="${queuing.user.name}"/>
 						</td>
 						<td width="40%">
-							<button type="button" class="btn btn-success" name="btn_pass_success"><h4><i class="fa fa-check"></i></h4></button>
+							<button type="button" class="btn btn-default" name="btn_pass_success"><h4><i class="fa fa-check"></i></h4></button>
 							<input type="hidden" value="<c:out value="${queuing.queuingId}"/>">
 						</td>
 					</tr>
