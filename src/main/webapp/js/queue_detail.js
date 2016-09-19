@@ -18,7 +18,7 @@ var queueDetailObj = {
 			queueDetailObj.queuing($(this));
 		});
 		
-		$(document).on("click", "#btn_edit", function(event){
+		$(document).on("click", "#btn_edit_confirm", function(event){
 			queueDetailObj.edit();
 		});
 		
@@ -36,10 +36,6 @@ var queueDetailObj = {
 		
 		$(document).on("click", "#btn_save", function(event){
 			queueDetailObj.save();
-		});
-		
-		$(document).on("click", "#btn_revert", function(event){
-			queueDetailObj.revert();
 		});
 		
 		$(document).on("click", "button[name='btn_waiting_success']", function(event){
@@ -205,32 +201,10 @@ var queueDetailObj = {
 	}, 
 	
 	edit: function(){
-		$("#span_dscr").hide();
-		$("#textarea_dscr").show();
-		$("#span_phone").hide();
-		$("#input_phone").show();
-		$("#span_address").hide();
-		$("#input_address").show();
-		
-		$("#btn_back").hide();
-		$("#btn_revert").show();
-		$("#btn_save_confirm").show();
-		$("#span_btn").hide();
-	}, 
-	
-	revert: function(){
-		$("#span_dscr").show();
-		$("#textarea_dscr").hide().val($("#span_dscr").text());
-		$("#span_phone").show();
-		$("#input_phone").hide().val($("#span_phone").text());
-		$("#span_address").show();
-		$("#input_address").hide().val($("#span_address").text());
-		
-		$("#btn_back").show();
-		$("#btn_revert").hide();
-		$("#btn_save_confirm").hide();
-		$("#span_btn").show();
-	}, 
+		$("#textarea_dscr").val($("#span_dscr").text());
+		$("#input_phone").val($("#span_phone").text());
+		$("#input_address").val($("#span_address").text());
+	},
 	
 	deleteQueue: function(){
 		var body = {
@@ -289,18 +263,9 @@ var queueDetailObj = {
 		
 		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.PATCH, "/queues/edit", JSON.stringify(body))
 		.done(function(queue){
-			$("#span_dscr").text(queue.dscr).show();
-			$("#textarea_dscr").hide();
-			$("#span_phone").text(queue.phone).show();
-			$("#input_phone").hide();
-			$("#span_address").text(queue.address).show();
-			$("#input_address").hide();
-			
-			$("#btn_back").show();
-			$("#btn_revert").hide();
-			$("#btn_save_confirm").hide();
-			$("#span_btn").show();
-			
+			$("#span_dscr").text(queue.dscr);
+			$("#span_phone").text(queue.phone);
+			$("#span_address").text(queue.address);
 			$("#iframe_map").attr("src", "http://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q="+queue.address+"&z=16&output=embed&t=");
 		})
 		.always(function(){
@@ -339,6 +304,8 @@ var queueDetailObj = {
 			var waitingCount = resultMap.waitingCount;
 			var passCount = resultMap.passCount;
 			var queuingCount = resultMap.queuingCount;
+			var waitingLessCount = resultMap.waitingLessCount;
+			var passLessCount = resultMap.passLessCount;
 			
 			queueDetailObj.getNextHtml(waitingQueuings, "#table_waiting");
 			queueDetailObj.getNextHtml(passQueuings, "#table_pass");
@@ -346,6 +313,8 @@ var queueDetailObj = {
 			$("#span_waiting_count").text(waitingCount);
 			$("#span_pass_count").text(passCount);
 			$("#span_queuing_count").text(queuingCount);
+			$("#span_waiting_less_count").text(waitingLessCount);
+			$("#span_pass_less_count").text(passLessCount);
 		})
 		.always(function(){
 			commonObj.unblockUI();

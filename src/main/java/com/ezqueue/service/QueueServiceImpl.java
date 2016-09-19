@@ -282,8 +282,23 @@ public class QueueServiceImpl implements QueueService {
 			List<User> accounts = userService.getUserList(userId);
 			if(!accounts.stream().filter(user -> user.getUserId().equals(queue.getUser().getUserId())).collect(Collectors.toList()).isEmpty()){
 				canEdit = true;
-				queueMap.put("waitingQueuings", queue.getQueuings().stream().filter(q -> QueuingStatus.WAITING.equals(q.getStatus())).limit(EzQueueConstants.INIT_QUEUING_LIMIT).collect(Collectors.toList()));
-				queueMap.put("passQueuings", queue.getQueuings().stream().filter(q -> QueuingStatus.PASS.equals(q.getStatus())).limit(EzQueueConstants.INIT_QUEUING_LIMIT).collect(Collectors.toList()));
+				List<Queuing> waitingQueuings = queue.getQueuings().stream().filter(q -> QueuingStatus.WAITING.equals(q.getStatus())).collect(Collectors.toList());
+				List<Queuing> passQueuings = queue.getQueuings().stream().filter(q -> QueuingStatus.PASS.equals(q.getStatus())).collect(Collectors.toList());
+				queueMap.put("waitingQueuings", waitingQueuings.stream().limit(EzQueueConstants.INIT_QUEUING_LIMIT).collect(Collectors.toList()));
+				queueMap.put("passQueuings", passQueuings.stream().limit(EzQueueConstants.INIT_QUEUING_LIMIT).collect(Collectors.toList()));
+				
+				long waitingLessCount = waitingQueuings.stream().count() - EzQueueConstants.INIT_QUEUING_LIMIT;
+				if(waitingLessCount < 0){
+					waitingLessCount = 0;
+				}
+				
+				long passLessCount = passQueuings.stream().count() - EzQueueConstants.INIT_QUEUING_LIMIT;
+				if(passLessCount < 0){
+					passLessCount = 0;
+				}
+				
+				queueMap.put("waitingLessCount", waitingLessCount);
+				queueMap.put("passLessCount", passLessCount);
 			}
 			
 			queueMap.put("favorite", favorite);
