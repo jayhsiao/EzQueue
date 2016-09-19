@@ -2,7 +2,6 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core"      prefix="c"%>
 
 <span id="span_star">
-	您的評分
 	<c:choose>
 		<c:when test="${not empty QUEUE_DETAIL.star}">
 			<c:forEach begin="1" end="${QUEUE_DETAIL.star.starNum}" step="1">
