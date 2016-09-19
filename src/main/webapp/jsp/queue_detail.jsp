@@ -53,35 +53,31 @@
 	</div>
 	
 	<div class="col-xs-12 col-md-4">
-		<c:if test="${not QUEUE_DETAIL.canEdit}">
-		<div class="col-xs-12 col-md-12">
-			<h3>
-				<i class="fa fa-star"></i>&nbsp;
-				<%@include file="/jsp/user_star.jsp" %>
-			</h3>
-		</div>
-		<div class="col-xs-12 col-md-12">
-			<h3>
-				<i class="fa fa-list-ol"></i>&nbsp;
-				排隊號碼&nbsp;&nbsp;<span id="span_queueNum" class="label label-default"><c:out value="${QUEUE_DETAIL.queuing.queueNum}"/></span>
-			</h3>
-		</div>
-		</c:if>
-		<div class="col-xs-12 col-md-12">
-			<h3>
-				<i class="fa fa-phone"></i>&nbsp;
-				<span id="span_phone"><c:out value="${QUEUE_DETAIL.queue.phone}"/></span>
-			</h3>
-		</div>
-		<div class="col-xs-12 col-md-12">
-			<h3>
-				<i class="fa fa-map-marker"></i>&nbsp;
-				<span id="span_address"><c:out value="${QUEUE_DETAIL.queue.address}"/></span>
-			</h3>
-		</div>
-		<div class="col-xs-12 col-md-12">
-			<iframe id="iframe_map" width="100%" height="50%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=<c:out value="${QUEUE_DETAIL.queue.address}"/>&z=16&output=embed&t="></iframe>
-		</div>
+		<table style="width: 100%;">
+			<c:if test="${not QUEUE_DETAIL.canEdit}">
+			<tr>
+				<td style="text-align: center;"><h3><i class="fa fa-star"></i></h3></td>
+				<td><h3><%@include file="/jsp/user_star.jsp" %></h3></td>
+			</tr>
+			<tr>
+				<td style="text-align: center;"><h3><i class="fa fa-list-ol"></i></h3></td>
+				<td><h3><span id="span_queueNum" class="label label-default"><c:out value="${QUEUE_DETAIL.queuing.queueNum}"/></span></h3></td>
+			</tr>
+			</c:if>
+			<tr>
+				<td style="text-align: center;"><h3><i class="fa fa-phone"></i></h3></td>
+				<td><h3><span id="span_phone"><c:out value="${QUEUE_DETAIL.queue.phone}"/></span></h3></td>
+			</tr>
+			<tr>
+				<td style="text-align: center;"><h3><i class="fa fa-map-marker"></i></h3></td>
+				<td><h3><span id="span_address"><c:out value="${QUEUE_DETAIL.queue.address}"/></span></h3></td>
+			</tr>
+			<tr>
+				<td colspan="2" style="text-align: center;">
+					<iframe id="iframe_map" width="90%" height="230" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com.tw/maps?f=q&hl=zh-TW&geocode=&q=<c:out value="${QUEUE_DETAIL.queue.address}"/>&z=16&output=embed&t="></iframe>
+				</td>
+			</tr>
+		</table>
 	</div>
 	
 	<hr>
