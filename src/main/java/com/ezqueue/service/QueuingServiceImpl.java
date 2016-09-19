@@ -74,11 +74,23 @@ public class QueuingServiceImpl implements QueuingService {
 		List<Queuing> waitingQueuings = queuings.stream().filter(q -> QueuingStatus.WAITING.equals(q.getStatus())).collect(Collectors.toList());
 		List<Queuing> passQueuings = queuings.stream().filter(q -> QueuingStatus.PASS.equals(q.getStatus())).collect(Collectors.toList());
 		
+		long waitingLessCount = waitingQueuings.stream().count() - EzQueueConstants.INIT_QUEUING_LIMIT;
+		if(waitingLessCount < 0){
+			waitingLessCount = 0;
+		}
+		
+		long passLessCount = passQueuings.stream().count() - EzQueueConstants.INIT_QUEUING_LIMIT;
+		if(passLessCount < 0){
+			passLessCount = 0;
+		}
+		
 		resultMap.put("waitingQueuings", waitingQueuings.stream().limit(EzQueueConstants.INIT_QUEUING_LIMIT).collect(Collectors.toList()));
 		resultMap.put("passQueuings", passQueuings.stream().limit(EzQueueConstants.INIT_QUEUING_LIMIT).collect(Collectors.toList()));
 		resultMap.put("queuingCount", queuings.stream().count());
 		resultMap.put("waitingCount", waitingQueuings.stream().count());
 		resultMap.put("passCount", passQueuings.stream().count());
+		resultMap.put("waitingLessCount", waitingLessCount);
+		resultMap.put("passLessCount", passLessCount);
 		return resultMap;
 	}
 	
