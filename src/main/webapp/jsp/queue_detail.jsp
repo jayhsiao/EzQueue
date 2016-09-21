@@ -66,11 +66,11 @@
 			</c:if>
 			<tr>
 				<td style="text-align: center;"><h3><i class="fa fa-phone"></i></h3></td>
-				<td><h3><span id="span_phone"><c:out value="${QUEUE_DETAIL.queue.phone}"/></span></h3></td>
+				<td class="info-color"><h3><span id="span_phone"><c:out value="${QUEUE_DETAIL.queue.phone}"/></span></h3></td>
 			</tr>
 			<tr>
 				<td style="text-align: center;"><h3><i class="fa fa-map-marker"></i></h3></td>
-				<td><h3><span id="span_address"><c:out value="${QUEUE_DETAIL.queue.address}"/></span></h3></td>
+				<td class="info-color"><h3><span id="span_address"><c:out value="${QUEUE_DETAIL.queue.address}"/></span></h3></td>
 			</tr>
 			<tr>
 				<td colspan="2" style="text-align: center;">

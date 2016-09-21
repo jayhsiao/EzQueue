@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	@SuppressWarnings("unchecked")
-	public User check(String id, String name, String email, Map<String, Object> accounts) {
+	public User registration(String id, String name, String email, Map<String, Object> accounts) {
 		
 		User user = userRepository.findByFacebookId(id);
 		if(user == null){

@@ -11,7 +11,7 @@ public interface UserService {
 	
 	public List<User> getUserList(String userId);
 	
-	public User check(String id, String name, String email, Map<String, Object> accounts);
+	public User registration(String id, String name, String email, Map<String, Object> accounts);
 	
 	public User getUserByFacebookId(String facebookId);
 	
