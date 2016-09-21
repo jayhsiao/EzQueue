@@ -124,17 +124,18 @@ var queueDetailObj = {
 	
 	favorite: function(btnObj){
 		var iObj = $(btnObj).find("i");
-		var spanDscrObj = $(btnObj).find("#span_favorite_dscr");
 		
 		if($(iObj).hasClass("fa-heart")){
 			var body = {
-				favoriteId: $("#input_detail_favoriteId").val()
+				favoriteId: $("#input_detail_favoriteId").val(), 
+				queueId: $("#input_detail_queueId").val()
 			};
 			
 			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.DELETE, "/favorites/remove", JSON.stringify(body))
-			.done(function(){
+			.done(function(favoriteCount){
 				$(iObj).removeClass().addClass("fa").addClass("fa-heart-o");
-				$(spanDscrObj).text("加入最愛");
+				$(".favorite_count").text(favoriteCount);
+				favoriteCount
 				$("#input_detail_favoriteId").val("");
 			})
 			.always(function(){
@@ -148,10 +149,10 @@ var queueDetailObj = {
 			};
 			
 			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/favorites/add", JSON.stringify(body))
-			.done(function(favoriteId){
+			.done(function(response){
 				$(iObj).removeClass().addClass("fa").addClass("fa-heart");
-				$(spanDscrObj).text("不喜歡了");
-				$("#input_detail_favoriteId").val(favoriteId);
+				$(".favorite_count").text(response.favoriteCount);
+				$("#input_detail_favoriteId").val(response.favoriteId);
 			})
 			.always(function(){
 				commonObj.unblockUI();
@@ -161,18 +162,17 @@ var queueDetailObj = {
 	
 	queuing: function(btnObj){
 		var iObj = $(btnObj).find("i");
-		var spanDscrObj = $(btnObj).find("#span_queuing_dscr");
 		
 		if($(iObj).hasClass("fa-user-times")){
 			var body = {
 				queuingId: $("#input_detail_queuingId").val(), 
-				status: "WAITING"
+				queueId: $("#input_detail_queueId").val()
 			};
 			
 			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.DELETE, "/queuings/remove", JSON.stringify(body))
-			.done(function(){
+			.done(function(queuingCount){
 				$(iObj).removeClass().addClass("fa").addClass("fa-user-plus");
-				$(spanDscrObj).text("抽號碼牌");
+				$(".queuing_count").text(queuingCount);
 				$("#input_detail_queuingId").val("");
 				$("#span_queueNum").text("");
 			})
@@ -187,12 +187,11 @@ var queueDetailObj = {
 			};
 			
 			ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/queuings/add", JSON.stringify(body))
-			.done(function(queuing){
+			.done(function(response){
 				$(iObj).removeClass().addClass("fa").addClass("fa-user-times");
-				$(spanDscrObj).text("不想等了");
-				$("#input_detail_queuingId").val(queuing.queuingId);
-				
-				$("#span_queueNum").text(queuing.queueNum);
+				$(".queuing_count").text(response.queuingCount);
+				$("#input_detail_queuingId").val(response.queuingId);
+				$("#span_queueNum").text(response.queueNum);
 			})
 			.always(function(){
 				commonObj.unblockUI();
@@ -298,6 +297,7 @@ var queueDetailObj = {
 	next: function(url){
 		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.GET, url, null)
 		.done(function(resultMap){
+			console.log(resultMap);
 			var waitingQueuings = resultMap.waitingQueuings;
 			var passQueuings = resultMap.passQueuings;
 			
@@ -310,9 +310,10 @@ var queueDetailObj = {
 			queueDetailObj.getNextHtml(waitingQueuings, "#table_waiting");
 			queueDetailObj.getNextHtml(passQueuings, "#table_pass");
 			
+			$("#span_queuing_count").text(queuingCount);
 			$("#span_waiting_count").text(waitingCount);
 			$("#span_pass_count").text(passCount);
-			$("#span_queuing_count").text(queuingCount);
+			$(".queuing_count").text(queuingCount);
 			$("#span_waiting_less_count").text(waitingLessCount);
 			$("#span_pass_less_count").text(passLessCount);
 		})
@@ -329,7 +330,7 @@ var queueDetailObj = {
 			var queuing = queuings[i];
 			trHtml += "<tr>";
 			trHtml += "<td align='center' width='20%'><h1><span class='label label-default'>"+queuing.queueNum+"</span></h1></td>";
-			trHtml += "<td align='center' width='40%' style='word-break : break-all;'>";
+			trHtml += "<td align='center' width='40%'>";
 			trHtml += 	"<img src='http://graph.facebook.com/"+queuing.user.facebookId+"/picture?width=50&height=50'><br/>"+queuing.user.name;
 			trHtml += "</td>";
 			trHtml += "<td width='40%'>";

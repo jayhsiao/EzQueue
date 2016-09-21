@@ -53,8 +53,8 @@ public class QueuingController extends BaseController {
 	@RequestMapping(value = "/remove", method = RequestMethod.DELETE)
 	public ResponseEntity<Object> updateWaittingStatus(@RequestBody Map<String, Object> map) {
 		String queuingId = (String) map.get("queuingId");
-		queuingService.removeQueuing(queuingId);
-		return this.getResponse();
+		String queueId = (String) map.get("queueId");
+		return this.getResponse(queuingService.removeQueuing(queuingId, queueId));
 	}
 	
 }

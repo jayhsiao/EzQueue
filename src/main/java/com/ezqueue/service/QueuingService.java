@@ -20,12 +20,12 @@ public interface QueuingService {
 	
 	public Queuing getQueuing(String userId, String queueId);
 	
-	public Queuing queuing(String userId, String queueId);
+	public Map<String, Object> queuing(String userId, String queueId);
 	
 	public void updateStatus(String queuingId, QueuingStatus queuingStatus);
 	
 	public void addQueuing(Queuing queuing);
 	
-	public void removeQueuing(String queuingId);
+	public long removeQueuing(String queuingId, String queueId);
 	
 }

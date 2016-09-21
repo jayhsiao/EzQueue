@@ -86,28 +86,21 @@
 		<div class="col-xs-12 col-md-6">
 			<h3><i class="fa fa-users"></i>&nbsp;正在排隊&nbsp;<span id="span_waiting_count" class="badge badge-default"><c:out value="${QUEUE_DETAIL.waitingCount}"/></span></h3>
 			<table id="table_waiting" class="table table-hover">
-				<c:choose>
-					<c:when test="${not empty QUEUE_DETAIL.waitingQueuings}">
-						<c:forEach items="${QUEUE_DETAIL.waitingQueuings}" var="queuing">
-							<tr>
-								<td align="center" width="20%"><h1><span class="label label-default"><c:out value="${queuing.queueNum}"/></span></h1></td>
-								<td align="center" width="40%" style="word-break : break-all;">
-									<img class="img-circle" src="http://graph.facebook.com/<c:out value="${queuing.user.facebookId}"/>/picture?width=50&height=50">
-									<br/>
-									<c:out value="${queuing.user.name}"/>
-								</td>
-								<td width="40%">
-									<button type="button" class="btn btn-default" name="btn_waiting_success"><h4><i class="fa fa-check"></i></h4></button>
-									<button type="button" class="btn btn-default" name="btn_pass"><h4><i class="fa fa-clock-o"></i></h4></button>
-									<input type="hidden" value="<c:out value="${queuing.queuingId}"/>">
-								</td>
-							</tr>
-						</c:forEach>
-					</c:when>
-					<c:otherwise>
-						<tr><td style="text-align: center;"><h1>無人排隊</h1></td></tr>
-					</c:otherwise>
-				</c:choose>
+				<c:forEach items="${QUEUE_DETAIL.waitingQueuings}" var="queuing">
+					<tr>
+						<td align="center" width="20%"><h1><span class="label label-default"><c:out value="${queuing.queueNum}"/></span></h1></td>
+						<td align="center" width="40%">
+							<img class="img-circle" src="http://graph.facebook.com/<c:out value="${queuing.user.facebookId}"/>/picture?width=50&height=50">
+							<br/>
+							<c:out value="${queuing.user.name}"/>
+						</td>
+						<td width="40%">
+							<button type="button" class="btn btn-default" name="btn_waiting_success"><h4><i class="fa fa-check"></i></h4></button>
+							<button type="button" class="btn btn-default" name="btn_pass"><h4><i class="fa fa-clock-o"></i></h4></button>
+							<input type="hidden" value="<c:out value="${queuing.queuingId}"/>">
+						</td>
+					</tr>
+				</c:forEach>
 			</table>
 			<h3 style="text-align: center;">
 				尚有<span id="span_waiting_less_count"><c:out value="${QUEUE_DETAIL.waitingLessCount }"/></span>位
@@ -116,27 +109,20 @@
 		<div class="col-xs-12 col-md-6">
 			<h3><i class="fa fa-clock-o"></i>&nbsp;過號&nbsp;<span id="span_pass_count" class="badge badge-default"><c:out value="${QUEUE_DETAIL.passCount}"/></span></h3>
 			<table id="table_pass" class="table table-hover">
-				<c:choose>
-					<c:when test="${not empty QUEUE_DETAIL.passQueuings}">
-						<c:forEach items="${QUEUE_DETAIL.passQueuings}" var="queuing">
-							<tr>
-								<td align="center" width="20%"><h1><span class="label label-default"><c:out value="${queuing.queueNum}"/></span></h1></td>
-								<td align="center" width="40%" style="word-break : break-all;">
-									<img class="img-circle" src="http://graph.facebook.com/<c:out value="${queuing.user.facebookId}"/>/picture?width=50&height=50">
-									<br/>
-									<c:out value="${queuing.user.name}"/>
-								</td>
-								<td width="40%">
-									<button type="button" class="btn btn-default" name="btn_pass_success"><h4><i class="fa fa-check"></i></h4></button>
-									<input type="hidden" value="<c:out value="${queuing.queuingId}"/>">
-								</td>
-							</tr>
-						</c:forEach>
-					</c:when>
-					<c:otherwise>
-						<tr><td style="text-align: center;"><h1>無人過號</h1></td></tr>
-					</c:otherwise>
-				</c:choose>
+				<c:forEach items="${QUEUE_DETAIL.passQueuings}" var="queuing">
+					<tr>
+						<td align="center" width="20%"><h1><span class="label label-default"><c:out value="${queuing.queueNum}"/></span></h1></td>
+						<td align="center" width="40%">
+							<img class="img-circle" src="http://graph.facebook.com/<c:out value="${queuing.user.facebookId}"/>/picture?width=50&height=50">
+							<br/>
+							<c:out value="${queuing.user.name}"/>
+						</td>
+						<td width="40%">
+							<button type="button" class="btn btn-default" name="btn_pass_success"><h4><i class="fa fa-check"></i></h4></button>
+							<input type="hidden" value="<c:out value="${queuing.queuingId}"/>">
+						</td>
+					</tr>
+				</c:forEach>
 			</table>
 			<h3 style="text-align: center;">
 				尚有<span id="span_pass_less_count"><c:out value="${QUEUE_DETAIL.passLessCount }"/></span>位
