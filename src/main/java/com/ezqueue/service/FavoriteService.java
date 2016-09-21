@@ -1,6 +1,7 @@
 package com.ezqueue.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ezqueue.model.Favorite;
 import com.ezqueue.model.Queue;
@@ -13,8 +14,8 @@ public interface FavoriteService {
 	
 	public int getFavoriteCount(Queue queue);
 
-	public void addFavorite(Favorite favorite);
+	public Map<String, Object> addFavorite(String userId, String queueId);
 	
-	public void removeFavorite(String favoriteId);
+	public long removeFavorite(String favoriteId, String queueId);
 	
 }

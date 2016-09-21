@@ -48,7 +48,7 @@ public class QueuingServiceImpl implements QueuingService {
 	public Map<String, Object> success(String queuingId, String queueId) {
 		Queuing queuing = queuingRepository.findOne(queuingId);
 		if(queuing != null){
-			this.removeQueuing(queuingId);
+			queuingRepository.delete(queuingId);
 		}
 		
 		return this.next(queueId);
@@ -106,7 +106,8 @@ public class QueuingServiceImpl implements QueuingService {
 	}
 	
 	@Override
-	synchronized public Queuing queuing(String userId, String queueId) {
+	synchronized public Map<String, Object> queuing(String userId, String queueId) {
+		Map<String, Object> resultMap = new HashMap<>();
 		
 		Queue updateQueue = queueService.getQueue(queueId);
 		Integer queueNum = updateQueue.getQueueNum() + 1;
@@ -126,7 +127,12 @@ public class QueuingServiceImpl implements QueuingService {
 		queuing.setStatus(QueuingStatus.WAITING);
 		
 		this.addQueuing(queuing);
-		return queuing;
+		
+		resultMap.put("queuingId", queuing.getQueuingId());
+		resultMap.put("queueNum", queuing.getQueueNum());
+		resultMap.put("queuingCount", queuingRepository.countByQueue(queue));
+		
+		return resultMap;
 	}
 	
 	@Override
@@ -142,8 +148,11 @@ public class QueuingServiceImpl implements QueuingService {
 	}
 	
 	@Override
-	public void removeQueuing(String queuingId) {
+	public long removeQueuing(String queuingId, String queueId) {
 		queuingRepository.delete(queuingId);
+		Queue queue = new Queue();
+		queue.setQueueId(queueId);
+		return queuingRepository.countByQueue(queue);
 	}
 	
 }

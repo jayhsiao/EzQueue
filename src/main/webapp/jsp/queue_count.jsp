@@ -7,8 +7,8 @@
 	<span class="badge"><c:out value="${QUEUE_DETAIL.starsCount}"/></span>
 	&nbsp;
 	<i class="fa fa-heart"></i>
-	<c:out value="${QUEUE_DETAIL.favoriteCount}"/>
+	<span class="favorite_count"><c:out value="${QUEUE_DETAIL.favoriteCount}"/></span>
 	&nbsp;
 	<i class="fa fa-users"></i>
-	<span id="span_queuing_count"><c:out value="${QUEUE_DETAIL.queuingCount}"/></span>
+	<span class="queuing_count"><c:out value="${QUEUE_DETAIL.queuingCount}"/></span>
 </span>

@@ -89,7 +89,7 @@
 				<c:forEach items="${QUEUE_DETAIL.waitingQueuings}" var="queuing">
 					<tr>
 						<td align="center" width="20%"><h1><span class="label label-default"><c:out value="${queuing.queueNum}"/></span></h1></td>
-						<td align="center" width="40%" style="word-break : break-all;">
+						<td align="center" width="40%">
 							<img class="img-circle" src="http://graph.facebook.com/<c:out value="${queuing.user.facebookId}"/>/picture?width=50&height=50">
 							<br/>
 							<c:out value="${queuing.user.name}"/>
@@ -112,7 +112,7 @@
 				<c:forEach items="${QUEUE_DETAIL.passQueuings}" var="queuing">
 					<tr>
 						<td align="center" width="20%"><h1><span class="label label-default"><c:out value="${queuing.queueNum}"/></span></h1></td>
-						<td align="center" width="40%" style="word-break : break-all;">
+						<td align="center" width="40%">
 							<img class="img-circle" src="http://graph.facebook.com/<c:out value="${queuing.user.facebookId}"/>/picture?width=50&height=50">
 							<br/>
 							<c:out value="${queuing.user.name}"/>

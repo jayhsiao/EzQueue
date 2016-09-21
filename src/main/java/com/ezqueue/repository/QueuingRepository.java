@@ -22,4 +22,6 @@ public interface QueuingRepository extends PagingAndSortingRepository<Queuing, S
 	
 	public Queuing findByUserAndQueue(User user, Queue queue);
 	
+	public int countByQueue(Queue queue);
+	
 }
