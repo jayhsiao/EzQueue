@@ -83,7 +83,7 @@ var facebookObj = {
 	    				accounts: response.accounts
 	    			};
 		    		
-		    		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/users/check", JSON.stringify(body))
+		    		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/users/registration", JSON.stringify(body))
 		    		.done(function(user){
 		    			$("#img_header_facebook_user").attr("src", "http://graph.facebook.com/"+user.facebookId+"/picture?width=12&height=12");
 		    			$("#span_header_facebook_user_name").text(user.name);
