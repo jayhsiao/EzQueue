@@ -76,10 +76,10 @@ var commonObj = {
 		.done(function(page){
 			$("#div_list").hide();
 			$("#div_detail").empty();
-			$(document).scrollTop(0);
 			
 			$("#div_detail").append(page).promise()
 			.done(function(){
+				$(document).scrollTop(0);
 				FB.XFBML.parse();
 				queueDetailObj.init();
 			})
