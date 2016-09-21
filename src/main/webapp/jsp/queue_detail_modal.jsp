@@ -27,6 +27,7 @@
 			<div class="modal-footer">
 				<span class="btn btn-default" data-dismiss="modal">關閉視窗</span>
 				<span id="btn_save" class="btn btn-primary" data-dismiss="modal"><i class="fa fa-floppy-o"></i>&nbsp;儲存</span>
+				<br/><br/>
 			</div>
 		</div>
 	</div>

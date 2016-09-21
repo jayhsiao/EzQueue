@@ -34,6 +34,14 @@ public class Store extends ModelBase implements Serializable{
 	private String district;
 	@Column(name = "address")
 	private String address;
+	@Column(name = "start_time")
+	private String startTime;
+	@Column(name = "end_time")
+	private String endTime;
+	@Column(name = "star")
+	private String star;
+	@Column(name = "img_url")
+	private String imgUrl;
 	
 	@Override
 	public String toString() {
@@ -110,6 +118,38 @@ public class Store extends ModelBase implements Serializable{
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(String startTime) {
+		this.startTime = startTime;
+	}
+
+	public String getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(String endTime) {
+		this.endTime = endTime;
+	}
+
+	public String getStar() {
+		return star;
+	}
+
+	public void setStar(String star) {
+		this.star = star;
+	}
+
+	public String getImgUrl() {
+		return imgUrl;
+	}
+
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
 	}
 
 }
