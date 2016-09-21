@@ -21,17 +21,18 @@ public class UserController extends BaseController {
 	private UserService userService;
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/check", method = RequestMethod.POST)
+	@RequestMapping(value = "/registration", method = RequestMethod.POST)
 	public ResponseEntity<Object> check(@RequestBody Map<String, Object> map) throws Exception{
 		String id = (String) map.get("id");
 		String name = (String) map.get("name");
 		String email = (String) map.get("email");
 		Map<String, Object> accounts = (Map<String, Object>) map.get("accounts");
-        return this.getResponse(userService.check(id, name, email, accounts));
+        return this.getResponse(userService.registration(id, name, email, accounts));
 	}
 	
 	@RequestMapping(value = "/{userId}", method = RequestMethod.GET)
 	public ResponseEntity<Object> getUser(@PathVariable String userId) throws Exception{
         return this.getResponse(userService.getUser(userId));
 	}
+	
 }

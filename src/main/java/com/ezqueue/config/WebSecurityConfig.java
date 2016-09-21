@@ -24,16 +24,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.httpBasic();
 		http
 			.csrf().disable()
 			.authorizeRequests()
-			.antMatchers("/version", "/favicon.ico").permitAll()
-			.antMatchers("/ezqueue/**", "/users/add").permitAll()
-			.anyRequest().authenticated()
+				.antMatchers("/version", "/favicon.ico", "/ezqueue/**", "/users/check").permitAll()
+				.anyRequest().authenticated()
 			.and()
 				.logout()
-                .deleteCookies("JSESSIONID");
+				.deleteCookies("remember-me")
+                .deleteCookies("JSESSIONID")
+			.and()
+				.rememberMe()
+			.and()
+				.httpBasic();
 	}
 	
 	@Override

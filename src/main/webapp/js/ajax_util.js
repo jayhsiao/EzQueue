@@ -6,11 +6,10 @@ var ajaxUtilObj = {
 	PUT:    "PUT",
 	PATCH:  "PATCH",
 	
-	userCheck: function(url, body){
+	login: function(url){
 		return $.ajax({
 			type : ajaxUtilObj.POST,
 			url : url,
-			data: body,
 			contentType: "application/json",
 			async : true,
 			beforeSend: function(xhr){
