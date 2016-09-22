@@ -130,7 +130,7 @@ var mainObj = {
 		$("#input_userId").val(user.userId);
 		
 		$("#span_user").show();
-		$("#i_facebook").removeClass();
+		$("#i_facebook").hide();
 		$("#li_facebook_login").hide();
 		$("#li_facebook_user").show();
 		
@@ -141,7 +141,7 @@ var mainObj = {
 		$("#input_userId").val("");
 		
 		$("#span_user").hide();
-		$("#i_facebook").removeClass();
+		$("#i_facebook").hide();
 		$("#li_facebook_login").show();
 		$("#li_facebook_user").hide();
 		
