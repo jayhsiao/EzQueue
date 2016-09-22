@@ -6,14 +6,24 @@ var ajaxUtilObj = {
 	PUT:    "PUT",
 	PATCH:  "PATCH",
 	
-	login: function(url){
+	registration: function(data){
 		return $.ajax({
 			type : ajaxUtilObj.POST,
-			url : url,
+			url : "/users/registration",
+			data: data,
+			contentType: "application/json",
+			async : true
+		});
+	},
+	
+	login: function(id, password){
+		return $.ajax({
+			type : ajaxUtilObj.POST,
+			url : "/login",
 			contentType: "application/json",
 			async : true,
 			beforeSend: function(xhr){
-				var basic = btoa(facebookObj.id + ":" + facebookObj.password);
+				var basic = btoa(id + ":" + password);
 				xhr.setRequestHeader("Authorization", "Basic " + basic);
 			}
 		});

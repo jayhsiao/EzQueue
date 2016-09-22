@@ -83,14 +83,14 @@ var facebookObj = {
 	    				accounts: response.accounts
 	    			};
 		    		
-		    		ajaxUtilObj.callJsonAJAX(ajaxUtilObj.POST, "/users/registration", JSON.stringify(body))
+		    		ajaxUtilObj.registration(JSON.stringify(body))
 		    		.done(function(user){
 		    			$("#img_header_facebook_user").attr("src", "http://graph.facebook.com/"+user.facebookId+"/picture?width=12&height=12");
 		    			$("#span_header_facebook_user_name").text(user.name);
 		    			mainObj.showLogin(user);
-		    			
-		    			ajaxUtilObj.login("/login");
 		    		});
+		    		
+		    		ajaxUtilObj.login(facebookObj.id, facebookObj.password);
 		    	}
 		    }
 	    );
