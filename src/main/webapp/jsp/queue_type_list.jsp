@@ -3,7 +3,15 @@
 
 <div class="row">
 <c:forEach items="${QUEUE_TYPES}" var="QUEUE_TYPE" varStatus="status">
-	<div id="<c:out value="${QUEUE_TYPE.queueTypeId }"/>" class="queue-type col-xs-6 col-md-2" style="cursor: pointer; text-align: center;">
+	<div id="<c:out value="${QUEUE_TYPE.queueTypeId }"/>" class="queue-type 
+		<c:choose>
+			<c:when test="${status.index eq 0}">
+				col-xs-12 col-md-12
+			</c:when>
+			<c:otherwise>
+				col-xs-6 col-md-2
+			</c:otherwise>
+		</c:choose>" style="cursor: pointer; text-align: center;">
 		<h1><i class="fa <c:out value="${QUEUE_TYPE.iconClass }"/>"></i><c:out value="${QUEUE_TYPE.dscr }"/></h1>
 	</div>
 </c:forEach>
