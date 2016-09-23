@@ -15,13 +15,9 @@ public class EzQueueServiceImpl implements EzQueueService {
 	@Autowired
 	private QueueService queueService;
 	
-	@Autowired
-	private QueueTypeService queueTypeService;
-	
 	@Override
 	public Map<String, Object> init() {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("queueTypes", queueTypeService.getQueueTypes());
 		resultMap.put("limit", EzQueueConstants.INIT_LIMIT);
 		resultMap.put("offset", EzQueueConstants.INIT_OFFSET);
 		return resultMap;

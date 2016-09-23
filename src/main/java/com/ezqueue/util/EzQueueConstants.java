@@ -3,6 +3,7 @@ package com.ezqueue.util;
 public class EzQueueConstants {
 	
 	public static final String PAGE_MAIN = "main";
+	public static final String PAGE_QUEUE_TYPE_LIST = "queue_type_list";
 	public static final String PAGE_QUEUE_LIST = "queue_list";
 	public static final String PAGE_QUEUE_DETAIL = "queue_detail";
 	public static final String PAGE_CREATE = "create";

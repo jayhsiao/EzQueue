@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.ezqueue.service.EzQueueService;
+import com.ezqueue.service.QueueTypeService;
 import com.ezqueue.util.EzQueueConstants;
 
 @Controller
@@ -25,6 +26,9 @@ public class EzQueueController extends BaseController {
 	@Autowired
 	private EzQueueService ezQueueService;
 	
+	@Autowired
+	private QueueTypeService queueTypeService;
+	
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String home(Model model) {
 		model.addAttribute("RESPONSE", ezQueueService.init());
@@ -35,6 +39,12 @@ public class EzQueueController extends BaseController {
 	public String queueDetailHome(Model model, @PathVariable String queueId) {
 		model.addAttribute("QUEUE_DETAIL_ID", queueId);
         return this.home(model);
+	}
+	
+	@RequestMapping(value = "/types", method = RequestMethod.GET)
+	public String getQueueTypes(Model model) {
+		model.addAttribute("QUEUE_TYPES", queueTypeService.getQueueTypes());
+        return EzQueueConstants.PAGE_QUEUE_TYPE_LIST;
 	}
 	
 	@RequestMapping(value = "/type/{queueTypeId}", method = RequestMethod.GET)
