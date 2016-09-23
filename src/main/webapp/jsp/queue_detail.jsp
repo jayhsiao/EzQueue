@@ -55,22 +55,22 @@
 	<div class="col-xs-12 col-md-4">
 		<table style="width: 100%;">
 			<c:if test="${not QUEUE_DETAIL.canEdit}">
-			<tr>
-				<td style="text-align: center;"><h3><i class="fa fa-star"></i></h3></td>
-				<td><h3><%@include file="/jsp/user_star.jsp" %></h3></td>
+			<tr id="tr_user_star" style="display: none;">
+				<td width="15%" style="text-align: center;"><h3><i class="fa fa-star"></i></h3></td>
+				<td width="90%"><h3><%@include file="/jsp/user_star.jsp" %></h3></td>
 			</tr>
-			<tr>
-				<td style="text-align: center;"><h3><i class="fa fa-list-ol"></i></h3></td>
-				<td><h3><span id="span_queueNum" class="label label-default"><c:out value="${QUEUE_DETAIL.queuing.queueNum}"/></span></h3></td>
+			<tr id="tr_queuing_num" style="display: none;">
+				<td width="15%" style="text-align: center;"><h3><i class="fa fa-list-ol"></i></h3></td>
+				<td width="90%"><h3><span id="span_queueNum" class="label label-default"><c:out value="${QUEUE_DETAIL.queuing.queueNum}"/></span></h3></td>
 			</tr>
 			</c:if>
 			<tr>
-				<td style="text-align: center;"><h3><i class="fa fa-phone"></i></h3></td>
-				<td class="info-color"><h3><span id="span_phone"><c:out value="${QUEUE_DETAIL.queue.phone}"/></span></h3></td>
+				<td width="15%" style="text-align: center;"><h3><i class="fa fa-phone"></i></h3></td>
+				<td width="90%" class="info-color"><h3><span id="span_phone"><c:out value="${QUEUE_DETAIL.queue.phone}"/></span></h3></td>
 			</tr>
 			<tr>
-				<td style="text-align: center;"><h3><i class="fa fa-map-marker"></i></h3></td>
-				<td class="info-color"><h3><span id="span_address"><c:out value="${QUEUE_DETAIL.queue.address}"/></span></h3></td>
+				<td width="15%" style="text-align: center;"><h3><i class="fa fa-map-marker"></i></h3></td>
+				<td width="90%" class="info-color"><h3><span id="span_address"><c:out value="${QUEUE_DETAIL.queue.address}"/></span></h3></td>
 			</tr>
 			<tr>
 				<td colspan="2" style="text-align: center;">

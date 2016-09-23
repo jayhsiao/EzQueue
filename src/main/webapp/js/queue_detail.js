@@ -53,6 +53,8 @@ var queueDetailObj = {
 	},
 	
 	init: function(){
+		console.log($("#input_userId").val());
+		console.log($("#input_userId").val().length);
 		if($("#input_userId").val().length > 0){
 			$("#tr_user_star").show();
 			$("#tr_queuing_num").show();
