@@ -21,6 +21,7 @@
 <script type="text/javascript" src="<c:url value="/js/ajax_util.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/common.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/main.js"/>"></script>
+<script type="text/javascript" src="<c:url value="/js/queue_type_list.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/queue_list.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/queue_detail.js"/>"></script>
 <script type="text/javascript" src="<c:url value="/js/create.js"/>"></script>
@@ -29,77 +30,46 @@
 <form id="submitForm" class="form-horizontal">
 <nav class="navbar navbar-default navbar-fixed-top">
 	<div class="container">
-		<div class="navbar-header">
-			<button id="btn_navbar" type="button" class="navbar-toggle collapsed"
-				data-toggle="collapse" data-target="#navbar" aria-expanded="false"
-				aria-controls="navbar">
-				<i class="fa fa-bars"></i>
-			</button>
-			<a class="navbar-brand" href="/ezqueue/home">
-				<span><img src="<c:url value="/img/ezqueue.png"/>" width="28" height="28"></span>&nbsp;排排
-			</a>
-		</div>
-		<div id="navbar" class="navbar-collapse collapse"
-			aria-expanded="false" style="height: 1px;">
-			<ul class="nav navbar-nav">
-				<li id="li_promotion">
+		<div id="div_option" class="navbar-header pull-left">
+			<div class="navbar-brand">
+				<span style="padding-right: 10px;"><img src="<c:url value="/img/ezqueue.png"/>" width="26" height="26"></span><span class="hidden-xs">排排</span>
+			</div>
+			<ul class="nav navbar-nav pull-left">
+				<li class="pull-left title-font-size">
 					<a id="a_promotion" style="cursor: pointer;">
-						<i class="fa fa-thumbs-up"></i>&nbsp;精選推薦
+						<i class="fa fa-thumbs-up"></i><span class="hidden-xs">精選推薦</span>
 					</a>
 				</li>
-				<li id="li_type" class="dropdown">
-					<a class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false">
-						<i id="i_type" class="fa fa-list"></i>&nbsp;<span id="span_type">分類</span>&nbsp;
-						<span class="caret"></span>
+				<li class="pull-left title-font-size">
+					<a id="a_type" style="cursor: pointer;">
+						<i class="fa fa-list-ul"></i><span class="hidden-xs">分類</span>
 					</a>
-					<ul class="dropdown-menu" id="ul_type_all">
-						<li>
-							<a id="ALL">
-								<i class="fa fa-th"></i>&nbsp;<span>全部</span>
-							</a>
-						</li>
-						<c:forEach items="${RESPONSE.queueTypes}" var="queueType">
-							<li>
-								<a id="<c:out value="${queueType.queueTypeId }"/>">
-									<i class="fa <c:out value="${queueType.iconClass }"/>"></i>&nbsp;<span><c:out value="${queueType.dscr }"/></span>
-								</a>
-							</li>
-						</c:forEach>
-					</ul>
 				</li>
-				<li id="li_search" style="display: none;">
-					<div class="navbar-form navbar-right">
-						<div class="input-group">
-							<input type="text" id="input_search" class="form-control" placeholder="搜尋...">
-							<span class="input-group-btn">
-								<button type="button" id="btn_search" class="btn btn-default">
-									<i class="fa fa-search"></i>&nbsp;
-								</button>
-							</span>
-						</div>
-					</div>
+				<li class="pull-left title-font-size">
+					<a id="a_search" style="cursor: pointer;" data-toggle="modal" data-target="#div_search_modal">
+						<i class="fa fa-search"></i><span class="hidden-xs">搜尋</span>
+					</a>
 				</li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li id="li_facebook_login" style="display: none;">
+		</div>
+		<div class="navbar-header pull-right">
+			<ul class="nav pull-left">
+				<li id="li_facebook_login" style="display: none; margin-top: 5px;">
 					<a id="a_fbLogin" style="cursor: pointer;">
 						<fb:login-button scope="public_profile,email,manage_pages" onlogin="checkLoginState();"></fb:login-button>
 					</a>
 				</li>
-				<li id="li_facebook_user" class="dropdown">
-					<a class="dropdown-toggle"
-					data-toggle="dropdown" role="button" aria-haspopup="true"
-					aria-expanded="false">
-						<i id="i_facebook" class="fa fa-circle-o-notch fa-spin"></i>
+				<li id="li_facebook_user" class="dropdown pull-right">
+					<a	data-toggle="dropdown" style="color: #777; margin-top: 6px;"
+						class="dropdown-toggle">
+						<i id="i_facebook" class="fa fa-circle-o-notch fa-spin" style="font-size: 20px;"></i>
 						<span id="span_user" style="display: none;">
 							<img id="img_header_facebook_user" class="img-circle">
-							<span id="span_header_facebook_user_name"></span>
+							<span id="span_header_facebook_user_name" class="hidden-xs"></span>
 							<span class="caret"></span>
 						</span>
 					</a>
-					<ul class="dropdown-menu" id="ul_all">
+					<ul class="dropdown-menu">
 						<li class="dropdown-header">排隊</li>
 						<li>
 							<a id="a_me" style="cursor: pointer;">
@@ -145,6 +115,8 @@
 </div>
 
 </form>
+
+<%@include file="/jsp/queue_detail_modal.jsp" %>
 
 <input type="hidden" id="input_userId"              value="">
 <input type="hidden" id="input_queueDetailId"       value="<c:out value="${QUEUE_DETAIL_ID }"/>">

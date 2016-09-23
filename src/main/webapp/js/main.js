@@ -1,6 +1,7 @@
 $(document).ready(function(){
 	commonObj.registerEvent();
 	mainObj.registerEvent();
+	queueTypeObj.registerEvent();
 	queueObj.registerEvent();
 	queueDetailObj.registerEvent();
 	createObj.registerEvent();
@@ -14,8 +15,8 @@ var mainObj = {
 		    $('body').css({"padding-top": $(".navbar").height() + "px"});
 		});
 		
-		$(document).on("click", "#navbar li", function(event){
-			$("#navbar li").removeClass("active");
+		$(document).on("click", "#div_option li", function(event){
+			$("#div_option li").removeClass("active");
 			$(this).addClass("active");
 			$("#input_search").val("");
 		});
@@ -24,11 +25,13 @@ var mainObj = {
 			var url = "/ezqueue/type/"+$(this).attr("id")+"?";
 			commonObj.getInitQueueList(url + mainObj.initParam($("#input_init_limit").val(), $("#input_init_offset").val()));
 			
-			$("#i_type").attr("class", $(this).find("i").attr("class"));
-			$("#span_type").text($(this).find("span").text());
-			
 			$("#input_url").val(url);
 			$("#input_offset").val(parseInt($("#input_init_offset").val()) + 1);
+		});
+		
+		$(document).on("click", "#a_type", function(event){
+			var url = "/ezqueue/types";
+			commonObj.getInitQueueList(url);
 		});
 		
 		$(document).on("click", "#a_promotion", function(event){
@@ -113,7 +116,7 @@ var mainObj = {
 			return;
 		}
 		
-		$("#a_promotion").click();
+//		$("#a_promotion").click();
 	}, 
 	
 	login: function(){

@@ -41,6 +41,8 @@
 		<input type="hidden" id="input_list_size" value="<c:out value="${QUEUES_SIZE}"/>">
 	</c:when>
 	<c:otherwise>
-		<h1>無資料</h1>
+		<div style="text-align: center;">
+			<h1>無資料</h1>
+		</div>
 	</c:otherwise>
 </c:choose>

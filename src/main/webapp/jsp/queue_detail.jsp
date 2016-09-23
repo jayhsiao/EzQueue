@@ -145,6 +145,4 @@
 	<input type="hidden" id="input_detail_queueStatus"   value="<c:out value="${QUEUE_DETAIL.queue.status}"/>">
 </div>
 
-<%@include file="/jsp/queue_detail_modal.jsp" %>
-
 <div id="fb-root"></div>
