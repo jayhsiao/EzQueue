@@ -99,6 +99,7 @@ var facebookObj = {
 	logout: function(){
 		FB.logout(function(response) {
 			facebookObj.id = "";
+			$("#input_userId").val("");
 			window.location = "/ezqueue/home";
 		});
 	}
