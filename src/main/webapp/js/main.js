@@ -116,7 +116,7 @@ var mainObj = {
 			return;
 		}
 		
-//		$("#a_promotion").click();
+		$("#a_promotion").click();
 	}, 
 	
 	login: function(){
