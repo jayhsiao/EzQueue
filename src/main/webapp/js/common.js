@@ -38,8 +38,8 @@ var commonObj = {
 	getInitQueueList: function(url){
 		ajaxUtilObj.callHtmlAJAX(url)
 		.done(function(page){
-			$("#div_detail").empty();
-			$("#div_list_queue").empty();
+			$("#div_detail").html("");
+			$("#div_list_queue").html("");
 			$("#div_list").show();
 			commonObj.initPage(page);
 		})
@@ -61,8 +61,8 @@ var commonObj = {
 	getCreate: function(url){
 		ajaxUtilObj.callHtmlAJAX(url)
 		.done(function(page){
-			$("#div_detail").empty();
-			$("#div_list_queue").empty();
+			$("#div_detail").html("");
+			$("#div_list_queue").html("");
 			$("btn_more").hide();
 			$("#div_list").show();
 			$("#div_list_queue").append(page).promise().always(function(){
@@ -75,7 +75,7 @@ var commonObj = {
 		ajaxUtilObj.callHtmlAJAX(url)
 		.done(function(page){
 			$("#div_list").hide();
-			$("#div_detail").empty();
+			$("#div_detail").html("");
 			
 			$("#div_detail").append(page).promise()
 			.done(function(){
